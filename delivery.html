@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PTIT-Shop</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/trangchu.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/product.css">
+    <link rel="stylesheet" href="./css/cart.css">
+    <link rel="stylesheet" href="./css/delivery.css">
+</head>
+
+<body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <header class="myHeader">
+        <label id="check" class="checkbtn"><i class="fa fa-bars" style="position: absolute; left: 12px;"></i></label>
+        <div class="logo">
+            <img src="./img/logo_shop.png" alt="">
+        </div>
+        <div class="menu">
+            <li class="main-menu-item"><a href="">NỮ</a>
+                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+                <ul class="sub-menu sub-menu-1">
+                    <li><a href="">ÁO</a>
+                        <ul class="empty-item-1">
+                            <li><a href="">Áo Sơ Mi</a></li>
+                            <li><a href="">Áo Croptop</a></li>
+                            <li><a href="">Áo Thun</a></li>
+                            <li><a href="">Áo Khoác</a></li>
+                            <li><a href="">Áo Len</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="">QUẦN</a>
+                        <ul>
+                            <li><a href="">Quần jean</a></li>
+                            <li><a href="">Quần lửng</a></li>
+                            <li><a href="">Quầy dài</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="main-menu-item"><a href="">NAM</a>
+                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+                <ul class="sub-menu sub-menu-2">
+                    <li><a href="">ÁO</a>
+                        <ul class="empty-item-2">
+                            <li><a href="">Áo Sơ Mi</a></li>
+                            <li><a href="">Áo Vest</a></li>
+                            <li><a href="">Áo Thun</a></li>
+                            <li><a href="">Áo Khoác</a></li>
+                            <li><a href="">Áo Len</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="">QUẦN</a>
+                        <ul>
+                            <li><a href="">Quần jean</a></li>
+                            <li><a href="">Quần Khaki</a></li>
+                            <li><a href="">Quầy Tây</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="main-menu-item"><a href="">TRẺ EM</a>
+                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+                <ul class="sub-menu sub-menu-3">
+                    <li><a href="">BÉ GÁI</a>
+                        <ul class="empty-item-3">
+                            <li><a href="">Áo bé gái</a></li>
+                            <li><a href="">Quần bé gái</a></li>
+                            <li><a href="">Váy bé gái</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="">BÉ TRAI</a>
+                        <ul>
+                            <li><a href="">Áo bé trai</a></li>
+                            <li><a href="">Quần bé trai</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="main-menu-item"><a href="">SALE</a>
+                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+                <ul class="sub-menu sub-menu-4" class="empty-item-4">
+                    <li><a href="" style="color: red;">Đồng giá chỉ từ 99K</a>
+                    </li>
+                    <li><a href="" class="lowercase">199k</a></li>
+                    <li><a href="" class="lowercase">299k</a></li>
+                    <li><a href="" class="lowercase">399k</a></li>
+                </ul>
+            </li>
+            <li><a href="">THÔNG TIN</a></li>
+        </div>
+
+        <div class="orthers">
+            <li>
+                <input placeholder="Search..." type="text">
+                <i class="fa fa-search"></i>
+            </li>
+            <li><i class="fa fa-paw"></i></li>
+            <li><i class="fa fa-user"></i></li>
+            <li><i class="fa fa-shopping-bag"></i></li>
+        </div>
+    </header>
+
+    <!--************* Delivery ***************-->
+    <section class="delivery">
+        <div class="lifcycle-delivery">
+            <p>Giỏ hàng</p>
+            <p>Địa chỉ giao hàng</p>
+            <p>Thanh toán</p>
+        </div>
+        <div class="container-delivery">
+            <div class="delivery-top-wrap">
+                <div class="cart-top">
+                    <div class="delivery-top-delivery delivery-top-item">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <div class="delivery-top-address delivery-top-item">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="delivery-top-payment delivery-top-item">
+                        <i class="fas fa-money-check-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-delivery">
+            <div class="delivery-content row">
+                <div class="delivery-content-left">
+                    <p>Địa chỉ giao hàng</p>
+                    <div class="delivery-content-user row">
+                        <div class="delivery-content-left-login">
+                            <button class="btn-login">ĐĂNG NHẬP</button>
+                        </div>
+                        <div class="delivery-content-left-register">
+                            <button class="btn-register">ĐĂNG KÝ</button>
+                        </div>
+                    </div>
+                    <p style="font-weight: normal; margin-top: 10px;">Đăng nhập/ Đăng ký tài khoản để được tích điểm và nhận thêm nhiều ưu đãi từ PTIT-Shop.</p>
+
+                    <div class="delivery-content-left-input-top row">
+                        <div class="delivery-content-left-input-top-item">
+                            <input class="form-control" type="text" value="" name="name" placeholder="Họ tên">
+                        </div>
+                        <div class="delivery-content-left-input-top-item">
+                            <input class="form-control" type="text" value="" name="number-phone" placeholder="Số điện thoại">
+                        </div>
+                        <div class="delivery-content-left-input-top-item">
+                            <input class="form-control" type="text" value="" name="city" placeholder="Tỉnh/Thành phố">
+                        </div>
+                        <div class="delivery-content-left-input-top-item">
+                            <input class="form-control" type="text" value="" name="district" placeholder="Quận/Huyện">
+                        </div>
+                    </div>
+                    <div class="delivery-content-left-input-bottom">
+                        <div class="delivery-content-left-input-bottom-item">
+                            <input class="form-control" type="text" value="" name="commune" placeholder="Phường xã">
+                        </div>
+                        <div class="delivery-content-left-input-bottom-item">
+                            <input class="form-control" type="text" value="" name="address" placeholder="Địa chỉ">
+                        </div>
+                    </div>
+                    <div class="delivery-content-left-button row">
+                        <a href="cart.html"><span>&#171;</span><p>Quay lại giỏ hàng</p></a>
+                        <a href="payment.html">
+                            <button><p>THANH TOÁN VÀ GIAO HÀNG</p></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="delivery-content-right">
+                    <table>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Giảm giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                        <tr>
+                            <td>Áo thun baby tee SKU 57B9489</td>
+                            <td>-25%</td>
+                            <td>1</td>
+                            <td>
+                                <p>590.000 đ</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Áo cổ viền đen SKU 54B8352</td>
+                            <td>-15%</td>
+                            <td>1</td>
+                            <td>
+                                <p>790.000 đ</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;" colspan="3">Tạm tính</td>
+                            <td style="font-weight: bold;">
+                                <p>1.380.000 đ</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;" colspan="3">Thuế VAT</td>
+                            <td style="font-weight: bold;">
+                                <p>50.000 đ</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;" colspan="3">Tổng tiền</td>
+                            <td style="font-weight: bold;">
+                                <p>1.430.000 đ</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--************* Register ****************-->
+    <section class=" register-container ">
+        <h2>ĐĂNG KÝ BẢN TIN</h2>
+        <p>Đăng ký nhận bản tin PTIT để được cập nhật những mẫu thiết kế mới nhất</p>
+        <form class="contact-form ">
+            <input type="text " placeholder="Nhập email của bạn... ">
+            <button class="subscribe " type="submit ">ĐĂNG KÝ</button>
+        </form>
+        <div class="social-icons ">
+            <a href=" " class="rounded-icon facebook " style="background-color: #007bff; "><i class="fa fa-facebook "></i></a>
+            <a href=" " class="rounded-icon instagram " style="background-color: #e11f69; "><i class="fa fa-instagram "></i></a>
+            <a href=" " class="rounded-icon youtube " style="background-color: #dd0e18; "><i class="fa fa-youtube "></i></a>
+        </div>
+    </section>
+
+    <!--************* Footer ****************-->
+    <footer>
+        <div class="footer-top ">
+            <li>
+                <a href=" "><img src="./img/notification.png "></a>
+            </li>
+            <li><a href=" ">Liên hệ</a></li>
+            <li><a href=" ">Tuyển dụng</a></li>
+            <li><a href=" ">Giới thiệu</a></li>
+            <li>
+                <div class="icon-group-1 ">
+                    <a href=" " class="fa fa-facebook "></a>
+                    <a href=" " class="fa fa-twitter "></a>
+                </div>
+                <div class="icon-group-2 ">
+                    <a href=" " class="fa fa-instagram "></a>
+                    <a href=" " class="fa fa-youtube "></a>
+                </div>
+            </li>
+        </div>
+
+        <p>Công ty Cổ PTIT với số đăng ký kinh doanh: 01010101234<br> Địa chỉ đăng ký: Đường Man Thiện, Phường Hiệp Phú, Quận 9, TP. Hồ Chí Minh - 0203 041 9999 <br> Đặt hàng online: <span style="font-weight: bold; ">0707 427 559</span> .
+        </p>
+
+        <div class="footer-bottom ">
+            @PTIT All rights reserved
+        </div>
+    </footer>
+</body>
+
+</html>
+<script src="./js/sroll.js "></script>
+<script src="./js/responsiveMenu.js "></script>
