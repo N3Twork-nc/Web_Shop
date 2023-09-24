@@ -11,9 +11,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/trangchu.css">
-    <link rel="stylesheet" href="./css/responsive.css">
-    <link rel="stylesheet" href="./css/product.css">
+    <link rel="stylesheet" href="./view/shopping/css/trangchu.css">
+    <link rel="stylesheet" href="./view/shopping/css/responsive.css">
+    <link rel="stylesheet" href="./view/shopping/css/product.css">
 </head>
 
 <body>
@@ -24,95 +24,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
-    <header class="myHeader">
-        <label id="check" class="checkbtn"><i class="fa fa-bars" style="position: absolute; left: 12px;"></i></label>
-        <div class="logo">
-            <img src="./img/logo_shop.png" alt="">
-        </div>
-        <div class="menu">
-            <li class="main-menu-item"><a href="">NỮ</a>
-                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-                <ul class="sub-menu sub-menu-1">
-                    <li><a href="">ÁO</a>
-                        <ul class="empty-item-1">
-                            <li><a href="">Áo Sơ Mi</a></li>
-                            <li><a href="">Áo Croptop</a></li>
-                            <li><a href="">Áo Thun</a></li>
-                            <li><a href="">Áo Khoác</a></li>
-                            <li><a href="">Áo Len</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">QUẦN</a>
-                        <ul>
-                            <li><a href="">Quần jean</a></li>
-                            <li><a href="">Quần lửng</a></li>
-                            <li><a href="">Quầy dài</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-menu-item"><a href="">NAM</a>
-                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-                <ul class="sub-menu sub-menu-2">
-                    <li><a href="">ÁO</a>
-                        <ul class="empty-item-2">
-                            <li><a href="">Áo Sơ Mi</a></li>
-                            <li><a href="">Áo Vest</a></li>
-                            <li><a href="">Áo Thun</a></li>
-                            <li><a href="">Áo Khoác</a></li>
-                            <li><a href="">Áo Len</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">QUẦN</a>
-                        <ul>
-                            <li><a href="">Quần jean</a></li>
-                            <li><a href="">Quần Khaki</a></li>
-                            <li><a href="">Quầy Tây</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-menu-item"><a href="">TRẺ EM</a>
-                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-                <ul class="sub-menu sub-menu-3">
-                    <li><a href="">BÉ GÁI</a>
-                        <ul class="empty-item-3">
-                            <li><a href="">Áo bé gái</a></li>
-                            <li><a href="">Quần bé gái</a></li>
-                            <li><a href="">Váy bé gái</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">BÉ TRAI</a>
-                        <ul>
-                            <li><a href="">Áo bé trai</a></li>
-                            <li><a href="">Quần bé trai</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-menu-item"><a href="">SALE</a>
-                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-                <ul class="sub-menu sub-menu-4" class="empty-item-4">
-                    <li><a href="" style="color: red;">Đồng giá chỉ từ 99K</a>
-                    </li>
-                    <li><a href="" class="lowercase">199k</a></li>
-                    <li><a href="" class="lowercase">299k</a></li>
-                    <li><a href="" class="lowercase">399k</a></li>
-                </ul>
-            </li>
-            <li><a href="">THÔNG TIN</a></li>
-        </div>
-
-        <div class="orthers">
-            <li>
-                <input placeholder="Search..." type="text">
-                <i class="fa fa-search"></i>
-            </li>
-            <li><i class="fa fa-paw"></i></li>
-            <li><i class="fa fa-user"></i></li>
-            <li><i class="fa fa-shopping-bag"></i></li>
-        </div>
-    </header>
+    <?php require_once 'header.php'; ?>
 
     <!--************* Product  ****************  -->
     <section class="product">
@@ -127,13 +39,13 @@
             <div class="product-content row">
                 <div class="product-content-left row">
                     <div class="product-content-left-big-img">
-                        <img src="./img/aothun_babytee.jpg" alt="">
+                        <img src="./view/shopping/img/aothun_babytee.jpg" alt="">
                     </div>
                     <div class="product-content-left-small-img">
-                        <img src="./img/aothun_babytee.jpg" alt="">
-                        <img src="./img/aothun_babytee_2.jpg" alt="">
-                        <img src="./img/aothun_babytee_3.jpg" alt="">
-                        <img src="./img/aothun_babytee_4.jpg" alt="">
+                        <img src="./view/shopping/img/aothun_babytee.jpg" alt="">
+                        <img src="./view/shopping/img/aothun_babytee_2.jpg" alt="">
+                        <img src="./view/shopping/img/aothun_babytee_3.jpg" alt="">
+                        <img src="./view/shopping/img/aothun_babytee_4.jpg" alt="">
 
                     </div>
                 </div>
@@ -148,7 +60,7 @@
                     <div class="product-content-right-product-color">
                         <p style="font-weight: bold; font-size: 24px;"><span>Màu sắc</span>: Trắng ngà</p>
                         <div class="product-content-right-product-color-img">
-                            <img src="./img/color_trang_nga.png" alt="">
+                            <img src="./view/shopping/img/color_trang_nga.png" alt="">
                         </div>
                     </div>
                     <div class="product-content-right-product-size" style="margin-top: 10px;">
@@ -167,7 +79,7 @@
                     <p style=" color: red; display: none;">Vui lòng chọn size</p>
                     <div class="product-content-right-product-button">
                         <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
-                        <a href="cart.html">
+                        <a href="/?page=cart">
                             <button><i class="fa fa-shopping-cart"></i><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
                         </a>
                     </div>
@@ -239,72 +151,31 @@
         </div>
         <div class="product-content row">
             <div class="product-related-item">
-                <img src="./img/aothun_co_vien_den.jpg" alt="">
-                <img src="./img/color_black.png" alt="">
+                <img src="./view/shopping/img/aothun_co_vien_den.jpg" alt="">
+                <img src="./view/shopping/img/color_black.png" alt="">
                 <a href="">Áo thun cổ viền đen</a>
                 <p>690.000đ</p>
             </div>
             <div class="product-related-item">
-                <img src="./img/aothun_co_vien_den.jpg" alt="">
-                <img src="./img/color_black.png" alt="">
+                <img src="./view/shopping/img/aothun_co_vien_den.jpg" alt="">
+                <img src="./view/shopping/img/color_black.png" alt="">
                 <a href="">Áo thun cổ viền đen</a>
                 <p>690.000đ</p>
             </div>
             <div class="product-related-item">
-                <img src="./img/aothun_co_vien_den.jpg" alt="">
-                <img src="./img/color_black.png" alt="">
+                <img src="./view/shopping/img/aothun_co_vien_den.jpg" alt="">
+                <img src="./view/shopping/img/color_black.png" alt="">
                 <a href="">Áo thun cổ viền đen</a>
                 <p>690.000đ</p>
             </div>
         </div>
     </section>
 
-    <!--************* Register ****************  -->
-    <section class=" register-container ">
-        <h2>ĐĂNG KÝ BẢN TIN</h2>
-        <p>Đăng ký nhận bản tin PTIT để được cập nhật những mẫu thiết kế mới nhất</p>
-        <form class="contact-form ">
-            <input type="text " placeholder="Nhập email của bạn... ">
-            <button class="subscribe " type="submit ">ĐĂNG KÝ</button>
-        </form>
-        <div class="social-icons ">
-            <a href=" " class="rounded-icon facebook " style="background-color: #007bff; "><i class="fa fa-facebook "></i></a>
-            <a href=" " class="rounded-icon instagram " style="background-color: #e11f69; "><i class="fa fa-instagram "></i></a>
-            <a href=" " class="rounded-icon youtube " style="background-color: #dd0e18; "><i class="fa fa-youtube "></i></a>
-        </div>
-    </section>
-
-    <!--************* Footer ****************-->
-    <footer>
-        <div class="footer-top ">
-            <li>
-                <a href=" "><img src="./img/notification.png "></a>
-            </li>
-            <li><a href=" ">Liên hệ</a></li>
-            <li><a href=" ">Tuyển dụng</a></li>
-            <li><a href=" ">Giới thiệu</a></li>
-            <li>
-                <div class="icon-group-1 ">
-                    <a href=" " class="fa fa-facebook "></a>
-                    <a href=" " class="fa fa-twitter "></a>
-                </div>
-                <div class="icon-group-2 ">
-                    <a href=" " class="fa fa-instagram "></a>
-                    <a href=" " class="fa fa-youtube "></a>
-                </div>
-            </li>
-        </div>
-
-        <p>Công ty Cổ PTIT với số đăng ký kinh doanh: 01010101234<br> Địa chỉ đăng ký: Đường Man Thiện, Phường Hiệp Phú, Quận 9, TP. Hồ Chí Minh - 0203 041 9999 <br> Đặt hàng online: <span style="font-weight: bold; ">0707 427 559</span> .
-        </p>
-
-        <div class="footer-bottom ">
-            @PTIT All rights reserved
-        </div>
-    </footer>
+    <?php require_once 'footer.php'; ?>
+    
 </body>
 
 </html>
-<script src="./js/sroll.js "></script>
-<script src="./js/responsiveMenu.js "></script>
-<script src="./js/product.js "></script>
+<script src="./view/shopping/js/sroll.js "></script>
+<script src="./view/shopping/js/responsiveMenu.js "></script>
+<script src="./view/shopping/js/product.js "></script>
