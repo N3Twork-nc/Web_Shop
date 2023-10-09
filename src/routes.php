@@ -10,6 +10,7 @@
     route('/?page=product', 'Product');
     route('/?page=cart', 'Cart');
     route('/?page=login', 'Login');
+    route('/?page=dashboard_home', 'Dashboard_home');
     route('/?page=dashboard_product', 'Dasboard_product');
     route('/?page=dashboard_order', 'Dashboard_order');
     route('/?page=dashboard_details', 'Dashboard_details');
@@ -37,6 +38,9 @@
         require_once 'view/shopping/cart.php';
     }
 
+    function Dashboard_home(){
+        require_once 'view/admin/dashboard_home.php';
+    }
     function Dasboard_product(){
         require_once 'view/admin/dashboard_product.php';
     }
