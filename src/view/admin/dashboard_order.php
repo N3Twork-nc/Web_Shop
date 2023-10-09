@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/src/view/admin/css/dashboard.css">
-    <link rel="stylesheet" href="/src/view/admin/css/dashboard_information.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <?php require_once 'libHeader.php'; ?>
     <title>PTITShop</title>
 </head>
 
@@ -20,11 +17,11 @@
             <div class="logo-name"><span>PTIT</span>Shop</div>
         </a>
         <ul class="side-menu">
-            <li class="slide-menu-product"><a href="/src/view/admin/dashboard_product.html"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
-            <li class="slide-menu-category"><a href="/src/view/admin/dashboard_category.html"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+            <li class="slide-menu-product"><a href="/?page=dashboard_product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
+            <li class="slide-menu-category"><a href="/?page=dashboard_category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
             <li class="slide-menu-order"><a href="#"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
-            <li class="slide-menu-details"><a href="/src/view/admin/dashboard_details.html"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
-            <li class="slide-menu-customer"><a href="/src/view/admin/dashboard_customer.html"><i class='bx bx-group'></i>Khách hàng</a></li>
+            <li class="slide-menu-details"><a href="?page=dashboard_details"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
+            <li class="slide-menu-customer"><a href="/?page=dashboard_customer"><i class='bx bx-group'></i>Khách hàng</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
@@ -51,7 +48,7 @@
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="profile">
-                <img src="/src/view/admin/img/user.jpg">
+                <img src="./view/admin/img/user.jpg">
             </a>
         </nav>
 
@@ -150,7 +147,7 @@
 
     </div>
 
-    <script src="/src/view/admin/js/dashboard.js"></script>
+    <script src="./view/admin/js/dashboard.js"></script>
 </body>
 
 </html>

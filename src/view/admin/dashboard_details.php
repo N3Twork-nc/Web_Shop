@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/src/view/admin/css/dashboard.css">
-    <link rel="stylesheet" href="/src/view/admin/css/dashboard_information.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <<?php require_once 'libHeader.php'; ?>
     <title>PTITShop</title>
 </head>
 
@@ -20,16 +17,16 @@
             <div class="logo-name"><span>PTIT</span>Shop</div>
         </a>
         <ul class="side-menu">
-            <li class="slide-menu-product"><a href="/src/view/admin/dashboard_product.html"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
-            <li class="slide-menu-category"><a href="/src/view/admin/dashboard_category.html"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
-            <li class="slide-menu-order"><a href="/src/view/admin/dashboard_order.html"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
-            <li class="slide-menu-details"><a href="/src/view/admin/dashboard_details.html"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
-            <li class="slide-menu-customer"><a href="#"><i class='bx bx-group'></i>Khách hàng</a></li>
+            <li class="slide-menu-product"><a href="/?page=dashboard_product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
+            <li class="slide-menu-category"><a href="/?page=dashboard_category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+            <li class="slide-menu-order"><a href="/?page=dashboard_order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
+            <li class="slide-menu-details"><a href="#"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
+            <li class="slide-menu-customer"><a href="/?page=dashboard_customer"><i class='bx bx-group'></i>Khách hàng</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="/src/view/admin/login.html" class="logout">
+                <a href="./view/admin/login.html" class="logout">
                     <i class='bx bx-log-out-circle'></i> Logout
                 </a>
             </li>
@@ -51,7 +48,7 @@
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="profile">
-                <img src="/src/view/admin/img/user.jpg">
+                <img src="./view/admin/img/user.jpg">
             </a>
         </nav>
 
@@ -60,54 +57,49 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Khách hàng</h1>
+                    <h1>Chi tiết đơn hàng</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Customer
+                                Details
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
                         <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
-                            Thêm khách hàng
+                            Thêm chi tiết đơn hàng
                         </button>
                     </ul>
                 </div>
             </div>
 
-            <!--********************* Customer ***********************-->
+            <!--********************* Details ***********************-->
             <div style="background: var(--light);color: var(--dark);">
                 <table width="100%">
                     <thead>
                         <tr>
-                            <th><span class="las la-sort"></span> MÃ KH</th>
-                            <th><span class="las la-sort"></span> TÊN KH</th>
-                            <th><span class="las la-sort"></span> EMAIL</th>
-                            <th><span class="las la-sort"></span> SĐT</th>
-                            <th><span class="las la-sort"></span> ĐỊA CHỈ</th>
+                            <th><span class="las la-sort"></span> MÃ CHI TIẾT ĐƠN HÀNG</th>
+                            <th><span class="las la-sort"></span> MÃ ĐƠN HÀNG</th>
+                            <th><span class="las la-sort"></span> MÃ SẢN PHẨM</th>
+                            <th><span class="las la-sort"></span> TỔNG TIỀN SẢN PHẨM</th>
                             <th><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                    </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="CustomerForm">
-                        <label for="CustomerCode">Mã Khách hàng:</label>
-                        <input style="color: black" type="text" id="MaKhachHang" name="MaKhachHang" required>
+                    <form id="DetailForm">
+                        <label for="DetailsCode">Mã chi tiết đơn hàng:</label>
+                        <input style="color: black" type="text" id="MaChiTietDonHang" name="MaChiTietDonHang" required>
 
-                        <label for="NameCustomer">Tên khách hàng:</label>
-                        <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" required>
+                        <label for="OrderCode">Mã đơn hàng:</label>
+                        <input style="color: black" type="text" id="MaDonHang" name="MaDonHang" required>
 
-                        <label for="Email">Email:</label>
-                        <input style="color: black" type="text" id="Email" name="Email" required>
+                        <label for="ProductCode">Mã sản phẩm:</label>
+                        <input style="color: black" type="text" id="MaSanPham" name="MaSanPham" required>
 
-                        <label for="NumberPhoneCustomer">SĐT:</label>
-                        <input style="color: black" type="text" id="SDT" name="SDT" required>
-
-                        <label for="Address">Địa chỉ:</label>
-                        <input style="color: black" type="text" id="DiaChi" name="DiaChi" required>
+                        <label for="TotalMoney" style="margin-top: 8px;">Tổng tiền sản phẩm:</label>
+                        <input style="color: black" type="text" id="TongTien" name="TongTien" required>
                         <br>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
@@ -118,7 +110,7 @@
             <!-- Confirmation Modal -->
             <div id="confirmationModal">
                 <p>Bạn có chắc chắn muốn xóa dữ liệu này?</p>
-                <button id="confirmDelete" onclick="deleteData()" style="background: var(--primary); border: none;padding: 10px 15px; color: white; border-radius: 8px; width: 60px;">Xóa</button>
+                <button id="confirmDelete" style="background: var(--primary); border: none;padding: 10px 15px; color: white; border-radius: 8px; width: 60px;">Có</button>
                 <button id="cancelDelete" onclick="closeConfirmationModal()" style="background: var(--dark-grey); border: none;padding: 10px 10px; color: white; border-radius: 8px; width: 60px;">Không</button>
             </div>
         </main>
@@ -128,49 +120,48 @@
 
     </div>
 
-    <script src="/src/view/admin/js/dashboard.js"></script>
+    <script src="./view/admin/js/dashboard.js"></script>
 </body>
 
 </html>
 
 <script>
     // Khai báo biến
-    const link = document.querySelector(".slide-menu-customer");
+    const link = document.querySelector(".slide-menu-details");
     const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
-    const btnEdit = document.getElementById("submitBtn");
     const cancelBtn = document.getElementById("cancelBtn");
+    const btnEdit = document.getElementById("submitBtn");
     const tbody = document.getElementById("tbody");
 
-    let isEditing = false
+    // Biến xác định cho biết đang thêm hay đang sửa
+    let isEditing = false;
 
     // ************************************ THÊM DỮ LIỆU ************************************ //
     //Thêm đơn hàng
     addBtn.addEventListener('click', function() {
-        modal.style.display = "block";
         isEditing = false;
-        btnEdit.innerText = "Thêm";
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
+        modal.style.display = "block";
+        document.getElementById("MaChiTietDonHang").value = "";
+        document.getElementById("MaDonHang").value = "";
+        document.getElementById("MaSanPham").value = "";
+        document.getElementById("TongTien").value = "";
+        btnEdit.innerText = "Thêm"
     })
 
     //Xử lý button add
     let productList = [];
 
-    // Sắp xếp theo mảng lại theo mã khách hàng
     function sortProductList() {
         productList.sort((a, b) => {
             // Sử dụng toLowerCase để so sánh không phân biệt chữ hoa, chữ thường
-            const maKhachHangA = a.maKhachHang.toLowerCase();
-            const maKhachHangB = b.maKhachHang.toLowerCase();
+            const maChiTietDonHangA = a.maChiTietDonHang.toLowerCase();
+            const maChiTietDonHangB = b.maChiTietDonHang.toLowerCase();
 
-            if (maKhachHangA < maKhachHangB) {
+            if (maChiTietDonHangA < maChiTietDonHangB) {
                 return -1;
             }
-            if (maKhachHangA > maKhachHangB) {
+            if (maChiTietDonHangA > maChiTietDonHangB) {
                 return 1;
             }
             return 0;
@@ -178,53 +169,48 @@
     }
 
     // Xử lý sự kiện submit của form
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
+    document.getElementById("DetailForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const maKhachHang = document.getElementById("MaKhachHang").value;
-        const tenKhachHang = document.getElementById("TenKhachHang").value;
-        const email = document.getElementById("Email").value;
-        const sdt = document.getElementById("SDT").value;
-        const diaChi = document.getElementById("DiaChi").value;
+        if (isEditing == false) {
+            const maChiTietDonHang = document.getElementById("MaChiTietDonHang").value;
+            const maDonHang = document.getElementById("MaDonHang").value;
+            const maSanPham = document.getElementById("MaSanPham").value;
+            const tongTien = document.getElementById("TongTien").value;
 
-        const newProduct = {
-            maKhachHang: maKhachHang,
-            tenKhachHang: tenKhachHang,
-            email: email,
-            sdt: sdt,
-            diaChi: diaChi,
-        };
+            const newProduct = {
+                maChiTietDonHang: maChiTietDonHang,
+                maDonHang: maDonHang,
+                maSanPham: maSanPham,
+                tongTien: tongTien,
+            };
 
-        // Thêm sản phẩm mới vào đầu danh sách (kiểu stack)
-        productList.unshift(newProduct);
+            // Thêm sản phẩm mới vào đầu danh sách (kiểu stack)
+            productList.unshift(newProduct);
+        }
         renderTable();
-        // Xóa dữ liệu trong form
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
         modal.style.display = "none";
     });
+
 
     //**************************** XÓA DỮ LIỆU ************************************//
     tbody.addEventListener("click", function(event) {
         if (event.target.classList.contains("fa-trash")) {
             const row = event.target.closest("tr");
-            const maKhachHang = row.querySelector("h4").textContent; // Lấy mã danh mục từ HTML
-            showConfirmationModal(maKhachHang);
+            const maChiTietDonHang = row.querySelector("h4").textContent; // Lấy mã danh mục từ HTML
+            showConfirmationModal(maChiTietDonHang);
         }
     });
 
     // Hiển thị modal xác nhận xóa
-    function showConfirmationModal(maKhachHang) {
+    function showConfirmationModal(maChiTietDonHang) {
         const confirmationModal = document.getElementById("confirmationModal");
         confirmationModal.style.display = "block";
 
         // Xác nhận xóa
         document.getElementById("confirmDelete").onclick = function() {
             // Tìm index của sản phẩm cần xóa
-            const index = productList.findIndex((product) => product.maKhachHang === maKhachHang);
+            const index = productList.findIndex((product) => product.maChiTietDonHang === maChiTietDonHang);
 
             if (index !== -1) {
                 productList.splice(index, 1);
@@ -245,33 +231,32 @@
         confirmationModal.style.display = "none";
     }
 
-    // ********************************** SỬA DỮ LIỆU ************************************
+    // // ********************************** SỬA DỮ LIỆU **********************************
     function handleEditClick(event) {
         isEditing = true;
         const row = event.target.closest("tr");
-        const maKhachHang = row.querySelector("h4").textContent;
-        BtnEdit.innerText = "Sửa";
-        editProduct(maKhachHang);
+        const maChiTietDonHang = row.querySelector("h4").textContent;
+        editProduct(maChiTietDonHang);
+        btnEdit.innerText = "Sửa"
     }
 
-    // Render lại bảng đã cập nhật code mới nhất    
+    // Render lại bảng
     function renderTable() {
         tbody.innerHTML = "";
-        sortProductList();
+        sortProductList()
         productList.forEach(function(product) {
             const newRowHTML = `
         <tr>
             <td>
                 <div class="client">
                     <div class="client-info">
-                        <h4>${product.maKhachHang}</h4>
+                        <h4>${product.maChiTietDonHang}</h4>
                     </div>
                 </div>
             </td>
-            <td>${product.tenKhachHang}</td>
-            <td>${product.email}</td>
-            <td>${product.sdt}</td>
-            <td>${product.diaChi}</td>
+            <td>${product.maDonHang}</td>
+            <td>${product.maSanPham}</td>
+            <td>${product.tongTien}</td>
             <td>
                 <i class="fa fa-trash" onclick="handleDeleteClick(event)"></i>
                 <i class="fa fa-pencil" onclick="handleEditClick(event)"></i>
@@ -283,38 +268,35 @@
         });
     }
 
-    function editProduct(maDanhMuc) {
-        const productToEditIndex = productList.findIndex((product) => product.maDanhMuc === maDanhMuc);
+    function editProduct(maChiTietDonHang) {
+        const productToEditIndex = productList.findIndex((product) => product.maChiTietDonHang === maChiTietDonHang);
 
         if (productToEditIndex !== -1) {
             const productToEdit = productList[productToEditIndex];
             modal.style.display = "block";
-            document.getElementById("MaKhachHang").value = productToEdit.maKhachHang;
-            document.getElementById("TenKhachHang").value = productToEdit.tenKhachHang;
-            document.getElementById("Email").value = productToEdit.email;
-            document.getElementById("SDT").value = productToEdit.sdt;
-            document.getElementById("DiaChi").value = productToEdit.diaChi;
+            document.getElementById("MaChiTietDonHang").value = productToEdit.maChiTietDonHang;
+            document.getElementById("MaDonHang").value = productToEdit.maDonHang;
+            document.getElementById("MaSanPham").value = productToEdit.maSanPham;
+            document.getElementById("TongTien").value = productToEdit.tongTien;
         }
     }
 
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
+    document.getElementById("DetailForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
         if (isEditing == true) {
 
-            const maKhachHang = document.getElementById("MaKhachHang").value;
-            const tenKhachHang = document.getElementById("TenKhachHang").value;
-            const email = document.getElementById("Email").value;
-            const sdt = document.getElementById("SDT").value;
-            const diaChi = document.getElementById("DiaChi").value;
+            const maChiTietDonHang = document.getElementById("MaChiTietDonHang").value;
+            const maDonHang = document.getElementById("MaDonHang").value;
+            const maSanPham = document.getElementById("MaSanPham").value;
+            const tongTien = document.getElementById("TongTien").value;
 
             for (let i = 0; i < productList.length; i++) {
-                if (productList[i].maKhachHang === maKhachHang) {
+                if (productList[i].maChiTietDonHang === maChiTietDonHang) {
                     // Cập nhật thông tin của chi tiết đơn hàng
-                    productList[i].tenKhachHang = tenKhachHang;
-                    productList[i].email = email;
-                    productList[i].sdt = sdt;
-                    productList[i].diaChi = diaChi;
+                    productList[i].maDonHang = maDonHang;
+                    productList[i].maSanPham = maSanPham;
+                    productList[i].tongTien = tongTien;
                     break; // Dừng vòng lặp khi tìm thấy và cập nhật
                 }
             }

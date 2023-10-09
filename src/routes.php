@@ -9,6 +9,12 @@
     route('/?page=payment', 'Payment');
     route('/?page=product', 'Product');
     route('/?page=cart', 'Cart');
+    route('/?page=login', 'Login');
+    route('/?page=dashboard_product', 'Dasboard_product');
+    route('/?page=dashboard_order', 'Dashboard_order');
+    route('/?page=dashboard_details', 'Dashboard_details');
+    route('/?page=dashboard_customer', 'Dashboard_customer');
+    route('/?page=dashboard_category', 'Dashboard_category');
     route('/404', 'PageNotFound');
 
     // func call file
@@ -29,6 +35,25 @@
     }
     function Cart(){
         require_once 'view/shopping/cart.php';
+    }
+
+    function Dasboard_product(){
+        require_once 'view/admin/dashboard_product.php';
+    }
+    function Dashboard_order(){
+        require_once 'view/admin/dashboard_order.php';
+    }
+    function Dashboard_details(){
+        require_once 'view/admin/dashboard_details.php';
+    }
+    function Dashboard_customer(){
+        require_once 'view/admin/dashboard_customer.php';
+    }
+    function Dashboard_category(){
+        require_once 'view/admin/dashboard_category.php';
+    }
+    function Login(){
+        require_once 'view/admin/login.php';
     }
     function PageNotFound(){
         require_once 'view/shopping/404.html';
