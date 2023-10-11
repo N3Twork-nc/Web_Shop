@@ -23,7 +23,7 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Danh mục sản phẩm</h1>
+                    <h1>Danh mục sản phẩm1</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
                                 Category

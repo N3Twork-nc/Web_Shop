@@ -9,7 +9,6 @@ COPY ./ .
 RUN chown -R root:www-data /var/www/html
 RUN chmod 750 /var/www/html
 
-<<<<<<< HEAD
 # allow rewrite
 RUN a2enmod rewrite
 # Cho phép override cấu hình Apache từ .htaccess
@@ -22,9 +21,3 @@ RUN find . -type d -exec chmod 750 {} \;
 RUN chmod +t -R /var/www/html/
 
 RUN service apache2 restart
-=======
-RUN find . -type f -exec chmod 640 {} \;
-RUN find . -type d -exec chmod 750 {} \;
-
-RUN chmod +t -R /var/www/html/
->>>>>>> 570c3e4007f8a0734407c30f944e90156950a55d
