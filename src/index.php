@@ -1,3 +1,3 @@
 <?php
-    require 'routes.php';
+    require './mvc/Bridge.php';
 ?>
