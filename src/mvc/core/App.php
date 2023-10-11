@@ -39,11 +39,7 @@
            // print_r($this->action);
            // print_r($this->controller);
            // die($this->controller);
-<<<<<<< HEAD
-
-=======
            
->>>>>>> 570c3e4007f8a0734407c30f944e90156950a55d
             // gọi method trong class với params
             call_user_func([$this->controller, $this->action], $this->params);
         }
