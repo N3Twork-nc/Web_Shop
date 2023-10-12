@@ -5,6 +5,7 @@
             <div class="logo-name"><span>PTIT</span>Shop</div>
         </a>
         <ul class="side-menu">
+            <li class="slide-menu-home"><a href="/Dashboard_home"><i class='bx bxs-home'></i>Trang chủ</a></li>
             <li class="slide-menu-product"><a href="/Dashboard_product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
             <li class="slide-menu-category"><a href="/Dashboard_category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
             <li class="slide-menu-order"><a href="/Dashboard_order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
