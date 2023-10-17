@@ -23,15 +23,15 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Danh mục sản phẩm1</h1>
+                    <h1>Trang chủ</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Category
+                                Home
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
-                            Thêm danh mục sản phẩm
+                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 120px; height: 40px;border-radius: 8px;">
+                            Thêm dữ liệu
                         </button>
                     </ul>
                 </div>
@@ -43,9 +43,9 @@
                     <thead>
                         <tr>
                             <!-- <th>ID</th> -->
-                            <th><span class="las la-sort"></span> MÃ DANH MỤC</th>
-                            <th><span class="las la-sort"></span> TÊN DANH MỤC</th>
-                            <th><span class="las la-sort"></span> ACTION</th>
+                            <th><span class="las la-sort"></span> Dữ liệu test</th>
+                            <th><span class="las la-sort"></span> Dữ liệu test</th>
+                            <th><span class="las la-sort"></span> Dữ liệu test</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -55,10 +55,10 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CategoryForm">
-                        <label for="CategoryCode">Mã danh mục:</label>
+                        <label for="CategoryCode">Dữ liệu để test:</label>
                         <input style="color: black" type="text" id="MaDanhMuc" name="MaDanhMuc" required>
 
-                        <label for="OrderName">Tên danh mục:</label>
+                        <label for="OrderName">Dữ liệu để test:</label>
                         <input style="color: black" type="text" id="TenDanhMuc" name="TenDanhMuc" required>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
@@ -84,7 +84,8 @@
 <script src="/public/js/dashboard.js"></script>
 <script>
     // Khai báo biến
-    const link = document.querySelector(".slide-menu-category");
+    const link = document.querySelector(".slide-menu-home");
+
     const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
     const cancelBtn = document.getElementById("cancelBtn");
@@ -281,7 +282,6 @@
     cancelBtn.addEventListener('click', function() {
         modal.style.display = "none";
     })
-
     // Active
     link.classList.add('active');
 </script>
