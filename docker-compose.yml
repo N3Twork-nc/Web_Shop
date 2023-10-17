@@ -33,8 +33,8 @@ services:
     restart: always
     ports:
       - 8091:80
-  web:
-    build: ./src
+  webadmin:
+    build: ./src/webadmin
     restart: 'always'
     ports:
       - "8090:80"
@@ -46,4 +46,18 @@ services:
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
     volumes:
-      - "./src:/var/www/html/"
+      - "./src/webadmin:/var/www/html/"
+  webshopping:
+    build: ./src/webshopping
+    restart: 'always'
+    ports:
+      - "8092:80"
+    environment:
+      # These password and stuff is not neccesarry too secret
+      - MYSQL_HOSTNAME=db
+      - MYSQL_ROOT_PASSWORD=45299417d86f231f6a584d1488edb763
+      - MYSQL_DATABASE=ptit_shop
+      - MYSQL_USER=db_user
+      - MYSQL_PASSWORD=db_password
+    volumes:
+      - "./src/webshopping:/var/www/html/"    
