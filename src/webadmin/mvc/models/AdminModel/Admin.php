@@ -1,7 +1,6 @@
 <?php 
 include_once "./mvc/models/AdminModel/AdminObj.php";
     class Admin extends DB{
-        private $table = "AdminAccounts";
         function checkAccount($data){
                 try {
                     $arr = [];

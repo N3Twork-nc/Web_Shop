@@ -44,19 +44,20 @@
            // print_r($this->controller);
            // die($this->controller);
            // có session chưa
-           if(isset($_SESSION['usr']) && isset($_SESSION['role'])){
-            // gọi method trong class với params
-            call_user_func([$this->controller, $this->action], $this->params);
-           }
-           else{
-                if($this->controllerStr == "AuthController" && ($this->action == "Show" || $this->action == "Login")){
-                    call_user_func([$this->controller, $this->action], $this->params);
-                }
-                else{
-                    header("Location: /Auth");
-                    exit();
-                }
+
+            if(isset($_SESSION['usr']) && isset($_SESSION['role'])){
+                // gọi method trong class với params
+                call_user_func([$this->controller, $this->action], $this->params);
             }
+            else{
+                    if($this->controllerStr == "AuthController" && ($this->action == "Show" || $this->action == "Login")){
+                        call_user_func([$this->controller, $this->action], $this->params);
+                    }
+                    else{
+                        header("Location: /Auth");
+                        exit();
+                    }
+                }
         }
 
         function UrlProcess(){
