@@ -400,6 +400,7 @@ $(document).ready(function () {
     });
 
     $('#save').on('click', function () {
+        event.preventDefault();
         if (selectedColors.length !== "" && selectedSize !== "") {
             var quantity = $('#SoLuongSP').val();
             var nameFile = []
