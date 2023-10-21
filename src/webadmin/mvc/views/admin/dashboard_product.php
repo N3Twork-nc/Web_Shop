@@ -130,61 +130,61 @@
                         <label>
                             <input type="checkbox" name="red">
                                 <span>
-                                    <img src="./public/img/red.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/red.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="pink" >
                                 <span>
-                                    <img src="./public/img/pink.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/pink.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="yellow" >
                                 <span>                        
-                                    <img src="./public/img/yellow.png" style="border-radius: 50%;"/>
+                                    <img src="/public/img/yellow.png" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="green" >
                                 <span>                        
-                                    <img src="./public/img/green.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/green.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="blue" >
                                 <span>                        
-                                    <img src="./public/img/blue.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/blue.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="beige" >
                                 <span>                        
-                                    <img src="./public/img/beige.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/beige.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="white" >
                                 <span>                        
-                                    <img src="./public/img/white.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/white.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="black" >
                                 <span>                        
-                                    <img src="./public/img/black.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/black.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="brown" >
                                 <span>                        
-                                    <img src="./public/img/brown.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/brown.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="gray" >
                                 <span>                        
-                                    <img src="./public/img/gray.jpg" style="border-radius: 50%;"/>
+                                    <img src="/public/img/gray.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                     </div>
