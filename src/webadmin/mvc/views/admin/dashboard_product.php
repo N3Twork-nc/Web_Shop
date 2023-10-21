@@ -64,7 +64,7 @@
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="ProductForm">
+                    <form id="ProductForm" action="/Dashboard_product/AddProduct" method="post" enctype="multipart/form-data">
                         <label for="ProductCode">Mã Sản phẩm:</label>
                         <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
                         <label for="ProductName">Tên Sản phẩm:</label>
@@ -95,9 +95,7 @@
                         <label for="ProductColor">Mô tả sản phẩm:</label>
                         <textarea name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;" placeholder="Mô tả sản phẩm"></textarea>
                         <label for="ProductValue" style="margin-top: 20px;">Chọn hình ảnh:</label>
-                        <input type="file">
-                        <label for="ProductManyValue" style="margin-top: 20px;">Chọn ảnh liên quan (có thể chọn nhiều ảnh):</label>
-                        <input multiple type="file" style="margin-bottom: 20px;">
+                        <input multiple type="file" name="fileToUpload[]" id="fileToUpload">
                         <label for="ProductCategory">Danh mục sản phẩm:</label>
                         <select name="" id="" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
                             <!-- Mẫu test -->

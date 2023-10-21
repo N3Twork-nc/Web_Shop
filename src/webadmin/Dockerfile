@@ -9,6 +9,16 @@ COPY ./ .
 RUN chown -R root:www-data /var/www/html
 RUN chmod 750 /var/www/html
 
+# Tạo thư mục /tmp/uploads
+# RUN mkdir -p /tmp/uploads
+
+# Cấu hình upload_tmp_dir cho PHP
+# RUN echo "upload_tmp_dir = /tmp/uploads" > /usr/local/etc/php/php.ini
+
+# Cấu hình quyền truy cập cho thư mục
+# RUN chown www-data:www-data /tmp/uploads
+# RUN chmod 755 /tmp/uploads
+
 # allow rewrite
 RUN a2enmod rewrite
 # Cho phép override cấu hình Apache từ .htaccess
