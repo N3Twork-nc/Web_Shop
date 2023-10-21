@@ -65,9 +65,7 @@
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="ProductForm" action="/Dashboard_product/AddProduct" method="post" enctype="multipart/form-data">
-                        <label for="ProductCode">Mã Sản phẩm:</label>
-                        <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
+                    <form id="ProductForm" enctype="multipart/form-data">
                         <label for="ProductName">Tên Sản phẩm:</label>
                         <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
                         <label for="ProductValue">Giá Sản phẩm:</label>
