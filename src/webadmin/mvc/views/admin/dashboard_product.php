@@ -65,14 +65,14 @@
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="ProductForm" action="/Dashboard_product/AddProduct" method="post" enctype="multipart/form-data">
+                    <form id="ProductForm">
                         <label for="ProductCode">Mã Sản phẩm:</label>
                         <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
                         <label for="ProductName">Tên Sản phẩm:</label>
                         <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
                         <label for="ProductValue">Giá Sản phẩm:</label>
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
-                        <label for="ProductValue">Giá khuyến mãi(%):</label>
+                        <label for="ProductValuePromotion">Giá khuyến mãi(%):</label>
                         <input style="color: black; margin-bottom: 20px;" type="text" id="GiaKhuyenMai" name="GiaKhuyenMai" required>
                         <label for="ProductColor">Chọn màu sản phẩm:</label>
                         <div class="product-detail__color">
@@ -81,7 +81,7 @@
                         <!-- Thêm nút button -->
                         <button id="colorPickerButton">Chọn Màu</button>
 
-                        <label for="ProductValue" style="margin-top: 20px;">Chọn hình ảnh:</label>
+                        <label for="SelectImg" style="margin-top: 20px;">Chọn hình ảnh:</label>
                         <input multiple type="file" id="ProductValue">
                         <label for="ProductSize" style="margin-top: 20px">Chọn size sản phẩm:</label>
                         <div class="product-detail__size" style="margin-top: 10px;">
@@ -130,61 +130,61 @@
                         <label>
                             <input type="checkbox" name="red">
                                 <span>
-                                    <img src="/public/img/red.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/red.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="pink" >
                                 <span>
-                                    <img src="/public/img/pink.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/pink.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="yellow" >
                                 <span>                        
-                                    <img src="/public/img/yellow.png" style="border-radius: 50%;"/>
+                                    <img src="./public/img/yellow.png" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="green" >
                                 <span>                        
-                                    <img src="/public/img/green.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/green.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="blue" >
                                 <span>                        
-                                    <img src="/public/img/blue.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/blue.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="beige" >
                                 <span>                        
-                                    <img src="/public/img/beige.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/beige.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="white" >
                                 <span>                        
-                                    <img src="/public/img/white.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/white.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="black" >
                                 <span>                        
-                                    <img src="/public/img/black.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/black.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="brown" >
                                 <span>                        
-                                    <img src="/public/img/brown.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/brown.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                         <label>
                             <input type="checkbox" name="gray" >
                                 <span>                        
-                                    <img src="/public/img/gray.jpg" style="border-radius: 50%;"/>
+                                    <img src="./public/img/gray.jpg" style="border-radius: 50%;"/>
                                 </span>
                         </label>
                     </div>
@@ -208,6 +208,7 @@
     const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
     const cancelBtn = document.getElementById("cancelBtn");
+    const submitBtn = document.getElementById("submitBtn");
     link.classList.add('active');
 
     //Thêm đơn hàng
@@ -327,12 +328,6 @@ $(document).ready(function () {
 //******************* */ Xử lý số lượng của size và màu
 var data = {};
 
-// function addData(color, "Size", size, quantity) {
-//     if (!data[color]) {
-//         data[color] = color
-//     }
-// } 
-
 $(document).ready(function () {
     var selectedColors = "";
     var selectedSize = "";
@@ -341,91 +336,96 @@ $(document).ready(function () {
     var data = {}
 
     function addData(color, size, nameFile, quantity){
-        // if (!data[color]) {
-        //     data[color] = {};
-        // }
 
-        // // Kiểm tra xem size đã tồn tại chưa
-        // if (!data[color].size) {
-        //     data[color].size = {};
-        // }
-
-        // // Thêm hoặc cập nhật số lượng cho size
-        // data[color].size[size] = quantity;
         if (!data[color]) {
             data[color] = {};
         }
-
-    // Kiểm tra xem size đã tồn tại chưa
         if (!data[color].size) {
             data[color].size = {};
         }
-
-    // Thêm hoặc cập nhật số lượng cho size
         data[color].size[size] = quantity;
-
-    // Kiểm tra xem "Img" đã tồn tại chưa
         if (!data[color].Img) {
             data[color].Img = {};
         }
-
-    // Thêm tên file vào dữ liệu "Img"
         data[color].Img = {
             "img": nameFile
         };
     }
 
     $(document).on('change', '.product-detail__color__input input[type="radio"]', function () {
-        // var colorName = $(this).data('color-name');
-        // var colorValue = $(this).closest('label').find('img').attr('src');
-
-        // if ($(this).prop('checked') && selectedColors.findIndex(color => color.name === colorName) === -1) {
-        //     selectedColors.push({
-        //         name: colorName,
-        //         value: colorValue
-        //     });
-        // } else {
-        //     selectedColors = selectedColors.filter(function (color) {
-        //         return color.name !== colorName;
-        //     });
-        // }
-        // console.log("Selected Colors:", selectedColors);
         selectedColors = $(this).data('color-name');
-        // console.log("color: ", selectedColors);  
     });
 
     $('input[name="size"]').on('change', function () {
         selectedSize = $(this).val();
-        // console.log("Selected Size:", selectedSize);
     });
 
-    $('#save').on('click', function () {
-        event.preventDefault();
-        if (selectedColors.length !== "" && selectedSize !== "") {
-            var quantity = $('#SoLuongSP').val();
-            var nameFile = []
-            for(var i = 0; i < 4; i++) {
-                nameFile.push(fileName.files[i].name)
-            }
+    // $('#save').on('click', function () {
+    //     event.preventDefault();
+    //     if (selectedColors.length !== "" && selectedSize !== "") {
+    //         var quantity = $('#SoLuongSP').val();
+    //         var nameFile = []
+    //         for(var i = 0; i < 4; i++) {
+    //             nameFile.push(fileName.files[i].name);
+    //         }
 
-            if (quantity !== "" && !isNaN(quantity) && parseInt(quantity) > 0) {
-                // for (var i = 0; i < selectedColors.length; i++) {
-                //     console.log("Color: " + selectedColors[i].name);
-                    
-                // }
-                console.log("Color: " + selectedColors);
-                console.log("Size: " + selectedSize);
-                console.log("Quantity: " + quantity);
-                console.log("Name FIle: " + nameFile);
+    //         if (quantity !== "" && !isNaN(quantity) && parseInt(quantity) > 0) {
+    //             console.log("Color: " + selectedColors);
+    //             console.log("Size: " + selectedSize);
+    //             console.log("Quantity: " + quantity);
+    //             console.log("Name FIle: " + nameFile);
 
-                addData(selectedColors, selectedSize, nameFile, quantity);
-            } else {
-                alert("Vui lòng nhập số lượng hợp lệ.");
-            }
-            console.log(data);
-        } else {
-            alert("Vui lòng chọn ít nhất một màu và một size.");
+    //             addData(selectedColors, selectedSize, nameFile, quantity);
+    //         } else {
+    //             alert("Vui lòng nhập số lượng hợp lệ.");
+    //         }
+    //         console.log(data);
+    //     } else {
+    //         alert("Vui lòng chọn ít nhất một màu và một size.");
+    //     }
+    // });
+    // ...
+
+    // in hết form ra 
+$('#submitBtn').on('click', function () {
+    event.preventDefault();
+    if (selectedColors.length !== "" && selectedSize !== "") {
+        var quantity = $('#SoLuongSP').val();
+        var nameFile = [];
+        for(var i = 0; i < 4; i++) {
+            nameFile.push(fileName.files[i].name);
         }
-    });
+
+        var maSanPham = $('#MaSanPham').val();
+        var tenSanPham = $('#TenSanPham').val();
+        var giaSanPham = $('#GiaSanPham').val();
+        var giaKhuyenMai = $('#GiaKhuyenMai').val();
+        var moTaValue = CKEDITOR.instances.MoTa.getData();
+        // Chuyển mota -> dạng dữ liệu khi html đưa lên web
+        // var parser = new DOMParser();
+        // var doc = parser.parseFromString(moTaValue, 'text/html');
+        // var moTaText = doc.body.textContent || "";
+
+        if (quantity !== "" && !isNaN(quantity) && parseInt(quantity) > 0) {
+            console.log("Mã sản phẩm: " + maSanPham);
+            console.log("Tên sản phẩm: " + tenSanPham);
+            console.log("Giá sản phẩm: " + giaSanPham);
+            console.log("Giá khuyến mãi: " + giaKhuyenMai);
+            console.log("Color: " + selectedColors);
+            console.log("Size: " + selectedSize);
+            console.log("Quantity: " + quantity);
+            console.log("Name File: " + nameFile);
+            console.log("Mô tả: " + moTaValue);
+            console.log("Danh mục: " + $('select').val());
+            console.log("Tổng số lượng: " + $('#TongSP').val());
+
+        } else {
+            alert("Vui lòng nhập số lượng hợp lệ.");
+        }
+    } else {
+        alert("Vui lòng chọn ít nhất một màu và một size.");
+    }
+});
+
 });
 </script>
