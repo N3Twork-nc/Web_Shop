@@ -74,7 +74,7 @@
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
                         <label for="ProductValuePromotion">Giá khuyến mãi(%):</label>
                         <input style="color: black; margin-bottom: 20px;" type="text" id="GiaKhuyenMai" name="GiaKhuyenMai" required>
-                        <label for="ProductColor">Chọn màu sản phẩm:</label>
+                        <!-- <label for="ProductColor">Chọn màu sản phẩm:</label>
                         <div class="product-detail__color">
                             <div class="product-detail__color__input">
                                 <label>
@@ -137,8 +137,8 @@
                                             <img src="/public/img/gray.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <!-- Thêm nút button -->
                         <!-- <button id="colorPickerButton">Chọn Màu</button> -->
 
@@ -300,18 +300,18 @@
 //     });
 // });
 
-        function handleColorChange(colorName) {
-            // Get all radio buttons with the specified name
-            var radios = document.getElementsByName('color');
+        // function handleColorChange(colorName) {
+        //     // Get all radio buttons with the specified name
+        //     var radios = document.getElementsByName('color');
 
-            // Loop through all radio buttons
-            for (var i = 0; i < radios.length; i++) {
-                // Uncheck all radio buttons except the selected one
-                if (radios[i].value !== colorName) {
-                    radios[i].checked = false;
-                }
-            }
-        }
+        //     // Loop through all radio buttons
+        //     for (var i = 0; i < radios.length; i++) {
+        //         // Uncheck all radio buttons except the selected one
+        //         if (radios[i].value !== colorName) {
+        //             radios[i].checked = false;
+        //         }
+        //     }
+        // }
 
 
 
@@ -330,13 +330,17 @@ document.addEventListener("DOMContentLoaded", function () {
         var tenSanPham = document.getElementById("TenSanPham").value;
         var giaSanPham = document.getElementById("GiaSanPham").value;
         var giaKhuyenMai = document.getElementById("GiaKhuyenMai").value;
-        var selectedColor = document.querySelector('input[name="color"]:checked').value;
+        // var selectedColor = document.querySelector('input[name="color"]:checked').value;
         var selectedSizeS = document.getElementById("SoLuongSP_S").value;
         var selectedSizeM = document.getElementById("SoLuongSP_M").value;
         var selectedSizeL = document.getElementById("SoLuongSP_L").value;
         var selectedSizeXL = document.getElementById("SoLuongSP_XL").value;
         var selectedSizeXXL = document.getElementById("SoLuongSP_XXL").value;
+        //Lấy giá trị của ckeditor
         var moTaValue = CKEDITOR.instances.MoTa.getData();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(moTaValue, 'text/html');
+        var moTaText = doc.body.textContent || "";
         var danhMuc = document.querySelector("#ProductForm select").value;
         var tongSP = document.getElementById("TongSP").value;
         var selectedFiles = document.getElementById("Img").files;
@@ -350,7 +354,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Tên Sản phẩm:", tenSanPham);
         console.log("Giá Sản phẩm:", giaSanPham);
         console.log("Giá khuyến mãi(%):", giaKhuyenMai);
-        console.log("Màu sản phẩm:", selectedColor);
         for (var i = 0; i < selectedFiles.length; i++) {
             console.log("Hình ảnh " + (i + 1) + ": " + selectedFiles[i].name);
         }
@@ -359,9 +362,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Số lượng SP L:", selectedSizeL);
         console.log("Số lượng SP XL:", selectedSizeXL);
         console.log("Số lượng SP XXL:", selectedSizeXXL);
-        console.log("Mô tả sản phẩm:", moTaValue);
+        console.log("Mô tả sản phẩm:", moTaText);
         console.log("Danh mục sản phẩm:", danhMuc);
         console.log("Tổng số lượng:", tongSP);
+        modal.style.display = "none";
     });
 });
 
@@ -469,4 +473,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 
 // });
+
+
 </script>
