@@ -66,91 +66,103 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="ProductForm">
-                        <label for="ProductCode">Mã Sản phẩm:</label>
+                        <label for="ProductCode">Mã sản phẩm:</label>
                         <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
-                        <label for="ProductName">Tên Sản phẩm:</label>
+                        <label for="ProductName">Tên sản phẩm:</label>
                         <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
-                        <label for="ProductValue">Giá Sản phẩm:</label>
+                        <label for="ProductValue">Giá sản phẩm:</label>
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
-                        <label for="ProductValuePromotion">Giá khuyến mãi(%):</label>
-                        <input style="color: black; margin-bottom: 20px;" type="text" id="GiaKhuyenMai" name="GiaKhuyenMai" required>
-                        <!-- <label for="ProductColor">Chọn màu sản phẩm:</label>
+                        <label for="ProductValue">Giá khuyến mãi:</label>
+                        <select style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px; background-color: #f8f8f8; width: 100%;height: 46px;margin-bottom: 18px;padding-left: 20px;padding-top: 11px;font-size: 15px;border-radius: 4px;border: 2px solid #ccc;" id="ProductValuePromotion" name="ProductValuePromotion">
+                            <option value="10">10%</option>
+                            <option value="20">20%</option>
+                            <option value="30">30%</option>
+                            <option value="40">40%</option>
+                            <option value="50">50%</option>
+                            <option value="60">60%</option>
+                            <option value="70">70%</option>
+                            <option value="80">80%</option>
+                            <option value="90">90%</option>
+                            <option value="100">100%</option>
+                        </select>
+                        <label for="ProductColor">Chọn màu sản phẩm:</label>
                         <div class="product-detail__color">
                             <div class="product-detail__color__input">
                                 <label>
-                                    <input type="radio" name="color" value="red" onclick="handleColorChange('red')">
+                                    <input type="radio" name="color" value="red">
                                         <span>
                                             <img src="./public/img/red.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="pink" onclick="handleColorChange('pink')">
+                                    <input type="radio" name="color" value="pink">
                                         <span>
                                             <img src="./public/img/pink.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="yellow" onclick="handleColorChange('yellow')">
+                                    <input type="radio" name="color" value="yellow">
                                         <span>                        
                                             <img src="/public/img/yellow.png" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="green" onclick="handleColorChange('green')">
+                                    <input type="radio" name="color" value="green">
                                         <span>                        
                                             <img src="/public/img/green.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="blue" onclick="handleColorChange('blue')">
+                                    <input type="radio" name="color" value="blue">
                                         <span>                        
                                             <img src="/public/img/blue.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="beige" onclick="handleColorChange('beige')">
+                                    <input type="radio" name="color" value="beige">
                                         <span>                        
                                             <img src="/public/img/beige.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="white" onclick="handleColorChange('white')">
+                                    <input type="radio" name="color" value="white">
                                         <span>                        
                                             <img src="/public/img/white.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="black" onclick="handleColorChange('black')">
+                                    <input type="radio" name="color" value="black">
                                         <span>                        
                                             <img src="/public/img/black.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="brown" onclick="handleColorChange('brown')">
+                                    <input type="radio" name="color" value="brown">
                                         <span>                        
                                             <img src="/public/img/brown.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="color" value="gray" onclick="handleColorChange('gray')">
+                                    <input type="radio" name="color" value="gray">
                                         <span>                        
                                             <img src="/public/img/gray.jpg" style="border-radius: 50%; height:25px"/>
                                         </span>
                                 </label>
-                            </div> -->
+                            </div>
                         <!-- </div> -->
                         <!-- Thêm nút button -->
                         <!-- <button id="colorPickerButton">Chọn Màu</button> -->
 
                         <label for="SelectImg" style="margin-top: 20px;">Chọn hình ảnh:</label>
                         <input multiple type="file" id="Img">
+                        <br>
                         <label for="ProductSize" style="margin-top: 20px">Chọn size sản phẩm:</label>
                         <div class="product-detail__size" style="margin-top: 10px;">
                             <div class="product-detail__size__input">       
                                 <label style="display: inline-block;">                                                                                                                                         
                                     <!-- <input type="radio" name="size" value="s"/> -->
                                     <span class="text-uppercase" style="display: inline-block;">s</span>
-                                    <input style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;" type="number" id="SoLuongSP_S" name="SoLuongSP_S" placeholder="Số lượng" required>
+                                    <input style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px; margin-left: -4px;" type="number" id="SoLuongSP_S" name="SoLuongSP_S" placeholder="Số lượng" required>
                                 </label>         
                                 <br>                                                                                                                                                                                                               
                                 <label>                                                                                                                                         
@@ -228,6 +240,21 @@
     //Thêm đơn hàng
     addBtn.addEventListener('click', function() {
         modal.style.display = "block";
+         // Reset giá trị của các trường input
+        document.getElementById("MaSanPham").value = "";
+        document.getElementById("TenSanPham").value = "";
+        document.getElementById("GiaSanPham").value = "";
+        document.getElementById("ProductValuePromotion").value = "";
+        document.querySelector('input[name="color"]:checked').checked = false;
+        document.getElementById("SoLuongSP_S").value = "";
+        document.getElementById("SoLuongSP_M").value = "";
+        document.getElementById("SoLuongSP_L").value = "";
+        document.getElementById("SoLuongSP_XL").value = "";
+        document.getElementById("SoLuongSP_XXL").value = "";
+        CKEDITOR.instances.MoTa.setData(""); // Reset CKEditor
+        document.querySelector("#ProductForm select").value = "";
+        document.getElementById("TongSP").value = "";
+        document.getElementById("Img").value = ""; // Reset input file
     })
 
 
@@ -329,8 +356,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var maSanPham = document.getElementById("MaSanPham").value;
         var tenSanPham = document.getElementById("TenSanPham").value;
         var giaSanPham = document.getElementById("GiaSanPham").value;
-        var giaKhuyenMai = document.getElementById("GiaKhuyenMai").value;
-        // var selectedColor = document.querySelector('input[name="color"]:checked').value;
+        var selectedValue = document.getElementById("ProductValuePromotion").value;
+        var selectedColor = document.querySelector('input[name="color"]:checked').value;
         var selectedSizeS = document.getElementById("SoLuongSP_S").value;
         var selectedSizeM = document.getElementById("SoLuongSP_M").value;
         var selectedSizeL = document.getElementById("SoLuongSP_L").value;
@@ -350,13 +377,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // In giá trị ra console
-        console.log("Mã Sản phẩm:", maSanPham);
-        console.log("Tên Sản phẩm:", tenSanPham);
-        console.log("Giá Sản phẩm:", giaSanPham);
-        console.log("Giá khuyến mãi(%):", giaKhuyenMai);
+        console.log("Mã sản phẩm:", maSanPham);
+        console.log("Tên sản phẩm:", tenSanPham);
+        console.log("Giá sản phẩm:", giaSanPham);
+        console.log("Giá khuyến mãi: " + selectedValue);
         for (var i = 0; i < selectedFiles.length; i++) {
             console.log("Hình ảnh " + (i + 1) + ": " + selectedFiles[i].name);
         }
+        console.log("Màu sản phẩm:", selectedColor);
         console.log("Số lượng SP S:", selectedSizeS);
         console.log("Số lượng SP M:", selectedSizeM);
         console.log("Số lượng SP L:", selectedSizeL);
