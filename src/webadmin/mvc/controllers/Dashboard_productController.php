@@ -5,7 +5,8 @@
         function Show(){
             $model = $this->model("Product");
             $data = $model->LoadProducts();
-            $page = $this->view("dashboard_product", $data);
+            var_dump($data);
+            //$page = $this->view("dashboard_product", $data);
         }
 
         function IsValidFile($file){

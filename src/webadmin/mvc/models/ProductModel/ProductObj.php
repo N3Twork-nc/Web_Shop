@@ -4,14 +4,12 @@
         private $name;
         private $description;
         private $price;
-        private $discount_percent;
-        private $type;
-        private $categories;
-        private $colors;
+        private $category_id;
+        private $category_name;
+        private $color;
         private $sizes;
         private $images;
         private $quantity;
-        private $detail_quantity;
         private $update_latest;
 
         public function __construct($row)
@@ -20,10 +18,18 @@
             $this->name = $row['name'];
             $this->description = $row['description'];
             $this->price = $row['price'];
-            $this->discount_percent = $row['discount_percent'];
-            $this->type = $row['type'];
-            $this->categories = $row['categories'];
+            $this->category_id = $row['category_id'];
+            $this->category_name = $row['category_name'];
+            $this->color = $row['color'];
             $this->update_latest = $row['update_latest'];
+        }
+
+        public function calculateQuantity(){
+                $total = 0;
+                foreach($this->sizes as $size => $quantity){
+                        $total += $quantity;
+                }
+                return $total;
         }
 
         public function getProduct_code()
@@ -68,45 +74,14 @@
 
         }
 
-        public function getDiscount_percent()
+        public function getColor()
         {
-                return $this->discount_percent;
+                return $this->color;
         }
 
-        public function setDiscount_percent($discount_percent)
+        public function setColor($color)
         {
-                $this->discount_percent = $discount_percent;
-        }
-
-
-        public function getType()
-        {
-                return $this->type;
-        }
-
-        public function setType($type)
-        {
-                $this->type = $type;
-        }
-
-        public function getCategories()
-        {
-                return $this->categories;
-        }
-
-        public function setCategories($categories)
-        {
-                $this->categories = $categories;
-        }
-
-        public function getColors()
-        {
-                return $this->colors;
-        }
-
-        public function setColors($colors)
-        {
-                $this->colors = $colors;
+                $this->color = $color;
         }
 
         public function getSizes()
@@ -151,16 +126,25 @@
                 $this->update_latest = $update_latest;
 
         }
-        
-        public function getDetail_quantity()
+
+        public function getCategory_id()
         {
-                return $this->detail_quantity;
+                return $this->category_id;
         }
 
-        public function setDetail_quantity($detail_quantity)
+        public function setCategory_id($category_id)
         {
-                $this->detail_quantity = $detail_quantity;
+                $this->category_id = $category_id;
+        }
 
+        public function getCategory_name()
+        {
+                return $this->category_name;
+        }
+
+        public function setCategory_name($category_name)
+        {
+                $this->category_name = $category_name;
         }
     }
 ?>
