@@ -1,21 +1,6 @@
 <?php 
 include_once "./mvc/models/ProductModel/ProductObj.php";
     class Product extends DB{
-        function LoadProductColors($product_code){
-            try {
-                    $db = new DB();
-                    $sql = "CALL GetColorsProduct(?)";
-                    $params = array($product_code);
-                    $sth = $db->select($sql, $params);
-                    $colors = [];
-                    while($row = $sth->fetch()) {
-                        $colors[$row['product_colors_id']] = $row['color'];
-                    }
-                return $colors;
-            } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
-            }
-        }
 
         function LoadProductSizes($product_code){
             try {
@@ -24,16 +9,11 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     $params = array($product_code);
                     $sth = $db->select($sql, $params);
                     $sizes = [];
-                    $detail_quantity = [];
                     while($row = $sth->fetch()) {
-                        $sizes[$row['product_colors_id']][] = $row['size'];
-                        $detail_quantity[$row['product_colors_id']][$row['size']] = $row['quantity'];
+                        $sizes[$row['size']] = $row['quantity'];
                     }
-                    $res = [];
-                    $res['size'] = $sizes;
-                    $res['detail_quantity'] = $detail_quantity;
 
-                return $res;
+                return $sizes;
             } catch (PDOException $e) {
                 return  $sql . "<br>" . $e->getMessage();
             }
@@ -47,7 +27,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     $sth = $db->select($sql, $params);
                     $images = [];
                     while($row2 = $sth->fetch()) {
-                        $images[$row2['product_colors_id']][] = $row2['image'];
+                        $images[] = $row2['image'];
                     }
                 return $images;
             } catch (PDOException $e) {
@@ -68,18 +48,16 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                         // tạo sản phẩm
                         $obj = new ProductObj($row);
 
-                        // lấy màu của sản phẩm
-                        $colors = $this->LoadProductColors($obj->getProduct_code());
-                        $obj->setColors($colors);
-
                         // lấy size và số lượng
-                        $res = $this->LoadProductSizes($obj->getProduct_code());
-                        $obj->setSizes($res['size']);
-                        $obj->setDetail_quantity($res['detail_quantity']);
+                        $sizes = $this->LoadProductSizes($obj->getProduct_code());
+                        $obj->setSizes($sizes);
 
                         // lấy hình
                         $images = $this->LoadProductImages($obj->getProduct_code());
                         $obj->setImages($images);
+
+                        // set số lượng
+                        $obj->setQuantity($obj->calculateQuantity());
                         
                         // thêm obj vào mảng
                         $arr[] = $obj;

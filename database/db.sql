@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `Discounts`;
 CREATE TABLE Discounts (
   discount_code VARCHAR(30) PRIMARY KEY,
   percent INT NOT NULL,
-  state ENUM('active', 'inactive', 'expire')
+  state_discount_code ENUM('active', 'inactive', 'expire')
 );
 DROP TABLE IF EXISTS `Products`;
 
@@ -23,37 +23,28 @@ CREATE TABLE Products (
   name VARCHAR(100) NOT NULL,
   description NVARCHAR(400) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
-  discount_code VARCHAR(30),
   category_id INT,
-  quantity INT DEFAULT 0,
+  color ENUM('Đỏ', 'Hồng', 'Vàng', 'Xanh lá', 'Xanh lam', 'Be', 'Trắng', 'Đen', 'Nâu', 'Xám'),
   update_latest DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`discount_code`) REFERENCES `Discounts`(`discount_code`),
   FOREIGN KEY (`category_id`) REFERENCES `Categories`(`category_id`)
-);
-DROP TABLE IF EXISTS `ProductColors`;
-
-CREATE TABLE ProductColors(
-  product_colors_id INT PRIMARY KEY AUTO_INCREMENT,
-  product_code VARCHAR(50),
-  color ENUM('Đỏ', 'Hồng', 'Vàng', 'Xanh lá', 'Xanh lam', 'Be', 'Trắng', 'Đen', 'Nâu', 'Xám'), 
-  FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`)
 );
 DROP TABLE IF EXISTS `ProductImages`;
 
 CREATE TABLE ProductImages(
   product_image_id INT PRIMARY KEY AUTO_INCREMENT,
-  product_colors_id INT,
+  product_code VARCHAR(50),
   image VARCHAR(200),
-  FOREIGN KEY (`product_colors_id`) REFERENCES `ProductColors`(`product_colors_id`)
+  FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`)
 );
+
 DROP TABLE IF EXISTS `ProductSizes`;
 
 CREATE TABLE ProductSizes(
   product_size_id INT PRIMARY KEY AUTO_INCREMENT,
-  product_colors_id INT,
+  product_code VARCHAR(50),
   size ENUM('S', 'M', 'L', 'XL', 'XXL'), 
   quantity INT DEFAULT 0,
-  FOREIGN KEY (`product_colors_id`) REFERENCES `ProductColors`(`product_colors_id`)
+  FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`)
 );
 DROP TABLE IF EXISTS `Customers`;
 
@@ -159,43 +150,44 @@ INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nữ', 1
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nữ', 12);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nữ', 12);
 
-INSERT INTO `Discounts`(discount_code, percent, state) VALUES('DCODE', 0, 'active');
+INSERT INTO `Discounts`(discount_code, percent, state_discount_code) VALUES('DCODE', 0, 'active');
 
-INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `discount_code`,`category_id`, `quantity`) VALUES ('P001','Áo Sơ Mi Cổ Trái Tim','như shit',100,'DCODE',13,105);
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P001','Áo Sơ Mi Cổ Trái Tim','như shit', 100, 13, 'Xanh lá');
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P002','Áo Sơ Mi Lụa Cổ V','như shit', 100, 13, 'Be');
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P003','Áo Sơ Mi Dây Rút Eo','như shit', 100, 13, 'Xanh lam');
 
-INSERT INTO `ProductColors`(`product_code`, `color`) VALUES ('P001','Xanh lá');
-INSERT INTO `ProductColors`(`product_code`, `color`) VALUES ('P001','Xanh lam');
-INSERT INTO `ProductColors`(`product_code`, `color`) VALUES ('P001','Be');
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','S',5);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','M',6);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','L',7);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','XL',8);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','XXL',9);
 
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (1,'S',5);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (1,'M',6);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (1,'L',7);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (1,'XL',8);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (1,'XXL',9);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P002','S',5);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P002','M',6);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P002','L',7);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P002','XL',8);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P002','XXL',9);
 
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (2,'S',5);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (2,'M',6);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (2,'L',7);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (2,'XL',8);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (2,'XXL',9);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','S',5);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','M',6);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','L',7);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','XL',8);
+INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','XXL',9);
 
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (3,'S',5);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (3,'M',6);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (3,'L',7);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (3,'XL',8);
-INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (3,'XXL',9);
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img1.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img3.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img4.jpg');
 
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (1,'img.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (1,'img1.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (1,'img3.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img1.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img3.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img4.jpg');
 
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (2,'img.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (2,'img1.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (2,'img3.jpg');
-
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (3,'img.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (3,'img1.jpg');
-INSERT INTO `ProductImages`(`product_colors_id`, `image`) VALUES (3,'img3.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img1.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img3.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img4.jpg');
 
 -- SP LOAD PRODUCT
 DROP PROCEDURE IF EXISTS `GetProducts`;
@@ -203,58 +195,34 @@ DROP PROCEDURE IF EXISTS `GetProducts`;
 DELIMITER //
 CREATE PROCEDURE GetProducts()
 BEGIN
-    SELECT P.*, D.percent AS discount_percent, D.state
-    FROM Products AS P, Discounts AS D
-    WHERE P.discount_code = D.discount_code;
+  SELECT P.*, C.name AS 'category_name' FROM Products AS P, Categories AS C 
+  WHERE P.category_id = C.category_id;
 END;
 //
 DELIMITER ;
 
---CALL GetProducts();
-DROP PROCEDURE IF EXISTS `GetColorsProduct`;
-
-DELIMITER //
-CREATE PROCEDURE GetColorsProduct(IN product_code VARCHAR(50))
-BEGIN
-  SELECT P.product_code, PC.product_colors_id, PC.color 
-  FROM Products AS P, ProductColors AS PC 
-  WHERE P.product_code = PC.product_code AND P.product_code = product_code;
-END;
-//
-DELIMITER ;
-
---CALL GetColorsProduct('P001');
+-- CALL GetProducts();
 DROP PROCEDURE IF EXISTS `GetSizesProduct`;
 
 DELIMITER //
 CREATE PROCEDURE GetSizesProduct(IN product_code VARCHAR(50))
 BEGIN
-  SELECT TMP.*, PS.size, PS.quantity 
-  FROM (
-    SELECT P.product_code, PC.product_colors_id, PC.color 
-    FROM Products AS P, ProductColors AS PC 
-    WHERE P.product_code = PC.product_code AND P.product_code = product_code
-  ) AS TMP,  ProductSizes AS PS
-  WHERE TMP.product_colors_id = PS.product_colors_id;
+  SELECT PS.* FROM Products AS P, ProductSizes AS PS
+  WHERE P.product_code = PS.product_code AND P.product_code = product_code;
 END;
 //
 DELIMITER ;
 
---CALL GetSizesProduct('P001');
+-- CALL GetSizesProduct('P001');
 DROP PROCEDURE IF EXISTS `GetImagesProduct`;
 
 DELIMITER //
 CREATE PROCEDURE GetImagesProduct(IN product_code VARCHAR(50))
 BEGIN
-  SELECT TMP.*, PI.image 
-  FROM (
-    SELECT P.product_code, PC.product_colors_id, PC.color 
-    FROM Products AS P, ProductColors AS PC 
-    WHERE P.product_code = PC.product_code AND P.product_code = product_code
-  ) AS TMP,  ProductImages AS PI
-  WHERE TMP.product_colors_id = PI.product_colors_id;
+  SELECT PI.* FROM Products AS P, ProductImages AS PI 
+  WHERE P.product_code = PI.product_code AND P.product_code = product_code;
 END;
 //
 DELIMITER ;
 
---CALL GetImagesProduct('P001');
+-- CALL GetImagesProduct('P001');
