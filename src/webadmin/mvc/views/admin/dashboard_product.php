@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chọn Màu và Hình Ảnh</title>
+
+    <?php require_once './mvc/views/admin/libHeader.php'; ?>
+
+    <script src="/public/ckeditor/ckeditor.js"></script>
+    <script src="/public/ckfinder/ckfinder.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>PTITShop</title>
 </head>
+
 <body>
-    <form id="colorImageForm">
-        <label for="colors">Chọn màu:</label>
-        <div id="colorSelection">
-            <label>
-                <input type="checkbox" name="colors" value="red"> Đỏ
-            </label>
-            <label>
-                <input type="checkbox" name="colors" value="blue"> Xanh
-            </label>
-            <!-- Thêm checkboxes cho các màu khác ở đây -->
-        </div>
 
-        <div id="sizeAndQuantity">
-            <!-- Chổ để hiển thị size và nhập số lượng sẽ được thêm vào đây -->
-        </div>
+    <?php require_once './mvc/views/admin/sideBar.php'; ?>
 
-        <div id="imageUploads">
-            <!-- Các nút "Chọn File" sẽ được thêm vào đây -->
-        </div>
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <?php require_once './mvc/views/admin/navBar.php'; ?>
 
-        <div id="imagePreviews">
-            <!-- Hình ảnh được chọn sẽ được hiển thị ở đây -->
-        </div>
+        <!-- End of Navbar -->
 
-        <button type="submit">Submit</button>
-    </form>
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Sản phẩm</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">
+                                Product
+                            </a></li>
+                        /
+                        <li><a href="#" class="active">Shop</a></li>
+                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
+                            Thêm sản phẩm
+                        </button>
+                    </ul>
+                </div>
+            </div>
 
             <!--********************* Product ***********************-->
             <div style="background: var(--light);color: var(--dark);">
@@ -201,59 +209,13 @@
         </main>
     </div>
 
-                        // Hiển thị size và chỗ nhập số lượng
-                        if (colorValue === 'red' || colorValue === 'blue') {
-                            sizeAndQuantity.innerHTML = `
-                                <label for="sizes">Nhập số lượng cho từng size size:</label><br/>
-                                <label for=""> Size S
-                                    <input type="text">
-                                </label><br/>
-                                <label for=""> Size L
-                                    <input type="text">
-                                </label><br/>
-                                <label for=""> Size M
-                                    <input type="text">
-                                </label><br/>
-                                <label for=""> Size L
-                                    <input type="text">
-                                </label><br/>
-                                <label for=""> Size XL
-                                    <input type="text">
-                                </label><br/>
-                                <label for=""> Size XXL
-                                    <input type="text">
-                                </label><br/>
-                            `;
-                        } else {
-                            sizeAndQuantity.innerHTML = ''; // Xóa nếu không phải là red hoặc blue.
-                        }
-                    } else {
-                        // Nếu màu không được chọn, xóa nút "Chọn File" tương ứng (nếu có).
-                        const existingFileInput = imageUploads.querySelector(`input[name="image-${colorValue}[]`);
-                        if (existingFileInput) {
-                            imageUploads.removeChild(existingFileInput);
-                        }
-                        // Xóa size và chỗ nhập số lượng
-                        sizeAndQuantity.innerHTML = '';
-                    }
-                }
-            });
+    </main>
 
-            // Event listener for form submission.
-            const form = document.getElementById('colorImageForm');
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                // Thu thập dữ liệu từ form
-                const formData = new FormData(form);
+    </div>
 
-                // In ra toàn bộ dữ liệu trong formData
-                for (const [name, value] of formData) {
-                    console.log(`${name}: ${value}`);
-                }
-            });
-        });
-    </script>
+    <script src="/public/js/dashboard.js"></script>
 </body>
+
 </html>
 <script>
     const link = document.querySelector(".slide-menu-product");
