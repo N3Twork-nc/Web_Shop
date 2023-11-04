@@ -1,11 +1,11 @@
 <?php
+include_once "./mvc/models/CategoryModel/CategoryObj.php";
     class ProductObj{
         private $product_code;
         private $name;
         private $description;
         private $price;
-        private $category_id;
-        private $category_name;
+        private $categoryObj;
         private $color;
         private $sizes;
         private $images;
@@ -18,8 +18,13 @@
             $this->name = $row['name'];
             $this->description = $row['description'];
             $this->price = $row['price'];
-            $this->category_id = $row['category_id'];
-            $this->category_name = $row['category_name'];
+            // parent_category_id cho là 0 vì không cần dùng
+            // sau này lỗi hoặc cần dùng có thể sửa store proceduce để thêm cột đó là xong
+            $data['category_id'] = $row['category_id'];
+            $data['name'] = $row['category_name'];
+            $data['parent_category_id'] = 0;
+
+            $this->categoryObj = new CategoryObj($data);
             $this->color = $row['color'];
             $this->update_latest = $row['update_latest'];
         }
@@ -127,24 +132,14 @@
 
         }
 
-        public function getCategory_id()
+        public function getCategoryObj()
         {
-                return $this->category_id;
+                return $this->categoryObj;
         }
 
-        public function setCategory_id($category_id)
+        public function setCategoryObj($categoryObj)
         {
-                $this->category_id = $category_id;
-        }
-
-        public function getCategory_name()
-        {
-                return $this->category_name;
-        }
-
-        public function setCategory_name($category_name)
-        {
-                $this->category_name = $category_name;
+                $this->categoryObj = $categoryObj;
         }
     }
 ?>
