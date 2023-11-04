@@ -65,25 +65,20 @@
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="ProductForm">
-                        <label for="ProductCode">Mã sản phẩm:</label>
-                        <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
+                    <form id="ProductForm" enctype="multipart/form-data">
                         <label for="ProductName">Tên sản phẩm:</label>
                         <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
                         <label for="ProductValue">Giá sản phẩm:</label>
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
-                        <label for="ProductValue">Giá khuyến mãi:</label>
-                        <select style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px; background-color: #f8f8f8; width: 100%;height: 46px;margin-bottom: 18px;padding-left: 20px;padding-top: 11px;font-size: 15px;border-radius: 4px;border: 2px solid #ccc;" id="ProductValuePromotion" name="ProductValuePromotion">
-                            <option value="10">10%</option>
-                            <option value="20">20%</option>
-                            <option value="30">30%</option>
-                            <option value="40">40%</option>
-                            <option value="50">50%</option>
-                            <option value="60">60%</option>
-                            <option value="70">70%</option>
-                            <option value="80">80%</option>
-                            <option value="90">90%</option>
-                            <option value="100">100%</option>
+                        <label for="ProductCategory" style="margin-top: 20px">Danh mục sản phẩm:</label>
+                        <select name="DanhMucSanPham" id="" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                            <!-- Mẫu test -->
+                            <?php foreach($data["categories"] as $each): ?>
+                                <?php if($each->getParent_category_id() != null): ?>
+                                    <option value="<?php echo $each->getCategory_id(); ?>"><?php echo $each->getName(); ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
                         </select>
                         <label for="ProductColor">Chọn màu sản phẩm:</label>
                         <div class="product-detail__color">
@@ -154,7 +149,7 @@
                         <!-- <button id="colorPickerButton">Chọn Màu</button> -->
 
                         <label for="SelectImg" style="margin-top: 20px;">Chọn hình ảnh:</label>
-                        <input multiple type="file" id="Img">
+                        <input multiple type="file" name="fileToUpload[]" id="Img">
                         <br>
                         <label for="ProductSize" style="margin-top: 20px">Chọn size sản phẩm:</label>
                         <div class="product-detail__size" style="margin-top: 10px;">
@@ -195,15 +190,6 @@
                         <button id="save" style="margin-top: 15px">Lưu</button> -->
                         <label for="ProductColor" style="margin-top: 20px">Mô tả sản phẩm:</label>
                         <textarea name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;" placeholder="Mô tả sản phẩm"></textarea>
-                        <label for="ProductCategory" style="margin-top: 20px">Danh mục sản phẩm:</label>
-                        <select name="" id="" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
-                            <!-- Mẫu test -->
-                            <option value="Nam">Nam</option>
-                            <option value="Nu">Nữ</option>
-                            <option value="TreEm">Trẻ em</option>
-                        </select>
-                        <label for="TotalProduct">Tổng số lượng:</label>
-                        <input style="color: black; background-color: #ddd; width: 100%; height: 45px; border-radius: 3px;" type="number" id="TongSP" name="TongSP" required readonly>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
                     </form>
@@ -230,6 +216,7 @@
 
 </html>
 <script>
+    const action = '';
     const link = document.querySelector(".slide-menu-product");
     const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
@@ -255,6 +242,7 @@
         document.querySelector("#ProductForm select").value = "";
         document.getElementById("TongSP").value = "";
         document.getElementById("Img").value = ""; // Reset input file
+        action = 'create';
     })
 
 
@@ -264,10 +252,10 @@
     })
 
     //ckeditor
-    CKEDITOR.replace('MoTa', {
-        filebrowserBrowseUrl: '/public/ckfinder/ckfinder.html',
-        filebrowserUploadUrl: '/public/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
-    });
+    // CKEDITOR.replace('MoTa', {
+    //     filebrowserBrowseUrl: '/public/ckfinder/ckfinder.html',
+    //     filebrowserUploadUrl: '/public/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+    // });
 
     // Dialog color
 //     const colorPickerButton = document.getElementById("colorPickerButton")
@@ -344,58 +332,124 @@
 
 // Xử lý submit sản phẩm
 // Đợi cho trang web được tải hoàn toàn
-document.addEventListener("DOMContentLoaded", function () {
-    // Lấy tham chiếu đến nút "Thêm"
+// document.addEventListener("DOMContentLoaded", function () {
+//     // Lấy tham chiếu đến nút "Thêm"
 
-    var addButton = document.getElementById("submitBtn");
+//     var addButton = document.getElementById("submitBtn");
 
-    // Thêm sự kiện click cho nút "Thêm"
-    addButton.addEventListener("click", function () {
-        event.preventDefault();
-        // Lấy giá trị từ các trường input
-        var maSanPham = document.getElementById("MaSanPham").value;
-        var tenSanPham = document.getElementById("TenSanPham").value;
-        var giaSanPham = document.getElementById("GiaSanPham").value;
-        var selectedValue = document.getElementById("ProductValuePromotion").value;
-        var selectedColor = document.querySelector('input[name="color"]:checked').value;
-        var selectedSizeS = document.getElementById("SoLuongSP_S").value;
-        var selectedSizeM = document.getElementById("SoLuongSP_M").value;
-        var selectedSizeL = document.getElementById("SoLuongSP_L").value;
-        var selectedSizeXL = document.getElementById("SoLuongSP_XL").value;
-        var selectedSizeXXL = document.getElementById("SoLuongSP_XXL").value;
-        //Lấy giá trị của ckeditor
-        var moTaValue = CKEDITOR.instances.MoTa.getData();
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(moTaValue, 'text/html');
-        var moTaText = doc.body.textContent || "";
-        var danhMuc = document.querySelector("#ProductForm select").value;
-        var tongSP = document.getElementById("TongSP").value;
-        var selectedFiles = document.getElementById("Img").files;
-        if (selectedFiles.length !== 4) {
-            alert("Vui lòng chọn đủ 4 hình ảnh.");
-            return; // Dừng xử lý nếu không đủ 4 ảnh
-        }
+//     // Thêm sự kiện click cho nút "Thêm"
+//     addButton.addEventListener("click", function () {
+//         event.preventDefault();
+//         // Lấy giá trị từ các trường input
+//         var maSanPham = document.getElementById("MaSanPham").value;
+//         var tenSanPham = document.getElementById("TenSanPham").value;
+//         var giaSanPham = document.getElementById("GiaSanPham").value;
+//         var selectedValue = document.getElementById("ProductValuePromotion").value;
+//         var selectedColor = document.querySelector('input[name="color"]:checked').value;
+//         var selectedSizeS = document.getElementById("SoLuongSP_S").value;
+//         var selectedSizeM = document.getElementById("SoLuongSP_M").value;
+//         var selectedSizeL = document.getElementById("SoLuongSP_L").value;
+//         var selectedSizeXL = document.getElementById("SoLuongSP_XL").value;
+//         var selectedSizeXXL = document.getElementById("SoLuongSP_XXL").value;
+//         //Lấy giá trị của ckeditor
+//         var moTaValue = CKEDITOR.instances.MoTa.getData();
+//         var parser = new DOMParser();
+//         var doc = parser.parseFromString(moTaValue, 'text/html');
+//         var moTaText = doc.body.textContent || "";
+//         var danhMuc = document.querySelector("#ProductForm select").value;
+//         var tongSP = document.getElementById("TongSP").value;
+//         var selectedFiles = document.getElementById("Img").files;
+//         if (selectedFiles.length !== 4) {
+//             alert("Vui lòng chọn đủ 4 hình ảnh.");
+//             return; // Dừng xử lý nếu không đủ 4 ảnh
+//         }
 
-        // In giá trị ra console
-        console.log("Mã sản phẩm:", maSanPham);
-        console.log("Tên sản phẩm:", tenSanPham);
-        console.log("Giá sản phẩm:", giaSanPham);
-        console.log("Giá khuyến mãi: " + selectedValue);
-        for (var i = 0; i < selectedFiles.length; i++) {
-            console.log("Hình ảnh " + (i + 1) + ": " + selectedFiles[i].name);
-        }
-        console.log("Màu sản phẩm:", selectedColor);
-        console.log("Số lượng SP S:", selectedSizeS);
-        console.log("Số lượng SP M:", selectedSizeM);
-        console.log("Số lượng SP L:", selectedSizeL);
-        console.log("Số lượng SP XL:", selectedSizeXL);
-        console.log("Số lượng SP XXL:", selectedSizeXXL);
-        console.log("Mô tả sản phẩm:", moTaText);
-        console.log("Danh mục sản phẩm:", danhMuc);
-        console.log("Tổng số lượng:", tongSP);
-        modal.style.display = "none";
-    });
-});
+//         // In giá trị ra console
+//         console.log("Mã sản phẩm:", maSanPham);
+//         console.log("Tên sản phẩm:", tenSanPham);
+//         console.log("Giá sản phẩm:", giaSanPham);
+//         console.log("Giá khuyến mãi: " + selectedValue);
+//         for (var i = 0; i < selectedFiles.length; i++) {
+//             console.log("Hình ảnh " + (i + 1) + ": " + selectedFiles[i].name);
+//         }
+//         console.log("Màu sản phẩm:", selectedColor);
+//         console.log("Số lượng SP S:", selectedSizeS);
+//         console.log("Số lượng SP M:", selectedSizeM);
+//         console.log("Số lượng SP L:", selectedSizeL);
+//         console.log("Số lượng SP XL:", selectedSizeXL);
+//         console.log("Số lượng SP XXL:", selectedSizeXXL);
+//         console.log("Mô tả sản phẩm:", moTaText);
+//         console.log("Danh mục sản phẩm:", danhMuc);
+//         console.log("Tổng số lượng:", tongSP);
+//         modal.style.display = "none";
+//     });
+// });
+
+function showLoadingSwal() {
+  return Swal.fire({
+    title: 'Loading...',
+    text: 'Vui lòng chờ trong giây lát!',
+    timer: 5000,
+    showConfirmButton: false,
+    imageUrl: '/public/img/gif/loading.gif',
+    onBeforeOpen: function() {
+      Swal.showLoading();
+    },
+    allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+  });
+}
+
+// bấm submit
+$('#ProductForm').submit(function(e){
+	e.preventDefault();
+
+    var formData = new FormData(this);
+
+    // check số lượng hình
+    var selectedFiles = document.getElementById("Img").files;
+    if (selectedFiles.length !== 4) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Cần nhập đủ 4 hình'
+        })
+        return; // Dừng xử lý nếu không đủ 4 ảnh
+    }
+
+    // gửi data
+    var sw = showLoadingSwal();
+		$.ajax({
+			url:'/Dashboard_product/AddProduct',
+			method:'POST',
+			data: formData,
+            processData: false,  // Ngăn jQuery xử lý dữ liệu
+            contentType: false,  // Ngăn jQuery đặt tiêu đề 'Content-Type'
+			error:err=>{
+				console.log(err)
+			},
+			success:function(resp){
+        var actionText = action == 'create' ? 'thêm' : 'sửa';
+		if(resp.trim() == "done"){
+          Swal.fire(
+              'Completed!',
+              'Bạn đã '+ actionText +' sản phẩm thành công!',
+              'success'
+            )
+          setTimeout(function() {
+              location.reload();
+          }, 1000);
+          $('#myModal').hide();
+          $('#ProductForm input[type=text]').removeAttr('readonly').removeClass('readonly'); 
+		}else{
+            sw.close();
+
+            //nhớ thêm cái này cho mấy trang kia
+            $('#ProductForm').find('.alert-danger').remove();
+            $('#ProductForm').prepend('<div class="alert alert-danger">'+ resp + '</div>');
+          }
+				}
+		})
+	});
 
 
 //******************* */ Xử lý số lượng của size và màu

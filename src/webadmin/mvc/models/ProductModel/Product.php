@@ -79,26 +79,15 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             }
             catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo $sql . "<br>" . $e->getMessage();
+                echo "Lỗi khi thêm size sản phẩm";
+                //echo $sql . "<br>" . $e->getMessage();
             }
         }
 
-        function InsertProductColors($db, $product_code, $color){
+        function InsertProductSizes($db, $product_code, $size, $quantity){
             try{
-                $sql = "INSERT INTO `ProductColors`(`product_code`, `color`) VALUES (?,?);";
-                $params = array($product_code, $color);
-                $db->execute($sql, $params);
-            }
-            catch (PDOException $e) {
-                $db->conn->rollBack();
-                echo $sql . "<br>" . $e->getMessage();
-            }
-        }
-
-        function InsertProductSizes($db, $color_id, $size, $quantity){
-            try{
-                $sql = "INSERT INTO `ProductSizes`(`product_colors_id`, `size`, `quantity`) VALUES (?,?, ?);";
-                $params = array($color_id, $size, $quantity);
+                $sql = "INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES (?,?, ?);";
+                $params = array($product_code, $size, $quantity);
                 $db->execute($sql, $params);
             }
             catch (PDOException $e) {
@@ -107,15 +96,16 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             }
         }
 
-        function InsertProductImages($db, $color_id, $image){
+        function InsertProductImages($db, $product_code, $image){
             try{
-                $sql = "INSERT INTO `ProductImages`((`product_colors_id`, `image`) VALUES (?,?);";
-                $params = array($color_id, $image);
+                $sql = "INSERT INTO `ProductImages`(`product_code`, `image`) VALUES (?,?);";
+                $params = array($product_code, $image);
                 $db->execute($sql, $params);
             }
             catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo  $sql . "<br>" . $e->getMessage();
+                echo "Lỗi khi thêm ảnh sản phẩm";
+                //echo  $sql . "<br>" . $e->getMessage();
             }
         }
 
@@ -123,33 +113,27 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             try {
                 $db = new DB();
                 $db->conn->beginTransaction();
-                $sql = "INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `discount_code`,`category_id`) 
+                $sql = "INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) 
                 VALUES (?,?,?,?,?,?);";
-                $params = array($data['product_code'], $data['name'], $data['description'], $data['price'], $data['discount_code'], $data['category_id']);
+                $params = array($data['product_code'], $data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color']);
                 $res = $db->execute($sql, $params);
                 
-                foreach ($data['details_data'] as $color => $details){
-                    $res = $this->InsertProductColors($db, $data['product_code'], $color);
-
-                    // tìm id của color vừa thêm
-                    $color_id = $this->findColorID($db, $data['product_code'], $color);
-
-                    foreach ($details['sizes'] as $size => $quantity) {
+                foreach ($data['size_quantities'] as $size => $quantity) {
                         // Thực hiện INSERT vào ProductSizes
-                        $res = $this->InsertProductSizes($db, $color_id, $size, $quantity);
-                    }
-
-                    foreach ($details['images'] as $image) {
-                        // Thực hiện INSERT vào ProductSizes
-                        $res = $this->InsertProductImages($db, $color_id, $image);
-                    }
-
+                    $res = $this->InsertProductSizes($db, $data['product_code'], $size, $quantity);
                 }
+
+                foreach ($data['product_images'] as $image) {
+                        // Thực hiện INSERT vào ProductSizes
+                    $res = $this->InsertProductImages($db, $data['product_code'], $image);
+                }
+
                 $db->conn->commit();
                 echo "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo  $sql . "<br>" . $e->getMessage();
+                echo "Lỗi khi thêm sản phẩm";
+                //echo  $sql . "<br>" . $e->getMessage();
             }
     }
     }

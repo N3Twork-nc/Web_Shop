@@ -24,7 +24,7 @@ CREATE TABLE Products (
   description NVARCHAR(400) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   category_id INT,
-  color ENUM('Đỏ', 'Hồng', 'Vàng', 'Xanh lá', 'Xanh lam', 'Be', 'Trắng', 'Đen', 'Nâu', 'Xám'),
+  color ENUM('red', 'pink', 'yellow', 'green', 'blue', 'beige', 'white', 'black', 'brown', 'gray'),
   update_latest DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`category_id`) REFERENCES `Categories`(`category_id`)
 );
@@ -124,37 +124,32 @@ CREATE TABLE AdminAccounts (
 INSERT INTO AdminAccounts (username, password, role) VALUES('moros', '123', 'admin');
 INSERT INTO AdminAccounts (username, password, role) VALUES('teo', '123', 'staff');
 
-INSERT INTO `Categories`(`name`) VALUES ('Nam');
-INSERT INTO `Categories`(`name`) VALUES ('Nữ');
-INSERT INTO `Categories`(`name`) VALUES ('Bé gái');
-INSERT INTO `Categories`(`name`) VALUES ('Bé trai');
+INSERT INTO `Categories`(`name`) VALUES ('Áo nam');
+INSERT INTO `Categories`(`name`) VALUES ('Quần nam');
+INSERT INTO `Categories`(`name`) VALUES ('Áo nữ');
+INSERT INTO `Categories`(`name`) VALUES ('Quần nữ');
+INSERT INTO `Categories`(`name`) VALUES ('Áo bé trai');
+INSERT INTO `Categories`(`name`) VALUES ('Quần bé trai');
+INSERT INTO `Categories`(`name`) VALUES ('Áo bé gái');
+INSERT INTO `Categories`(`name`) VALUES ('Quần bé gái');
 
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo bé gái', 3);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần bé gái', 3);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo bé trai', 4);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần bé trai', 4);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo nam', 1);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần nam', 1);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo nữ', 2);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần nữ', 2);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ mi nam', 1);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo thun nam', 1);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nam', 1);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nam', 2);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nam', 2);
 
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ nam', 9);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo thun nam', 9);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nam', 9);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nam', 10);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nam', 10);
-
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ nữ', 11);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo thun nữ', 11);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nữ', 11);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nữ', 12);
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nữ', 12);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ nữ', 3);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo thun nữ', 3);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nữ', 3);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nữ', 4);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nữ', 4);
 
 INSERT INTO `Discounts`(discount_code, percent, state_discount_code) VALUES('DCODE', 0, 'active');
 
-INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P001','Áo Sơ Mi Cổ Trái Tim','như shit', 100, 13, 'Xanh lá');
-INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P002','Áo Sơ Mi Lụa Cổ V','như shit', 100, 13, 'Be');
-INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P003','Áo Sơ Mi Dây Rút Eo','như shit', 100, 13, 'Xanh lam');
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P001','Áo Sơ Mi Cổ Trái Tim','như shit', 100, 9, 'green');
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P002','Áo Sơ Mi Lụa Cổ V','như shit', 100, 9, 'beige');
+INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) VALUES ('P003','Áo Sơ Mi Dây Rút Eo','như shit', 100, 9, 'blue');
 
 INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','S',5);
 INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P001','M',6);
