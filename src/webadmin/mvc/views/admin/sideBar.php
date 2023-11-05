@@ -8,6 +8,7 @@
             <li class="slide-menu-home"><a href="/Dashboard_home"><i class='bx bxs-home'></i>Trang chủ</a></li>
             <li class="slide-menu-product"><a href="/Dashboard_product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
             <li class="slide-menu-category"><a href="/Dashboard_category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+            <li class="slide-menu-discount"><a href="/Dashboard_discount"><i class='bx bx-store-alt'></i>Mã giảm giá</a></li>
             <li class="slide-menu-order"><a href="/Dashboard_order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
             <li class="slide-menu-details"><a href="/Dashboard_details"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
             <li class="slide-menu-customer"><a href="/Dashboard_customer"><i class='bx bx-group'></i>Khách hàng</a></li>
