@@ -42,9 +42,9 @@
                 <table width="100%">
                     <thead>
                         <tr>
-                            <!-- <th>ID</th> -->
-                            <th><span class="las la-sort"></span> MÃ DANH MỤC</th>
+                            <th>ID</th>
                             <th><span class="las la-sort"></span> TÊN DANH MỤC</th>
+                            <th><span class="las la-sort"></span> TÊN DANH MỤC CHA</th>
                             <th><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
@@ -55,10 +55,10 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CategoryForm">
-                        <label for="CategoryCode">Mã danh mục:</label>
+                        <label for="CategoryCode">Tên danh mục:</label>
                         <input style="color: black" type="text" id="MaDanhMuc" name="MaDanhMuc" required>
 
-                        <label for="OrderName">Tên danh mục:</label>
+                        <label for="OrderName">Tên danh mục cha:</label>
                         <input style="color: black" type="text" id="TenDanhMuc" name="TenDanhMuc" required>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
