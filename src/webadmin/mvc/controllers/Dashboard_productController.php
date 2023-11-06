@@ -113,7 +113,7 @@
 
             // gộp các thuộc tính của file thành một cụm
 
-            $uploadPath = './public/products/';
+            $uploadPath = '/public/products/';
             $year = date('Y', time());
             $month = date('m', time());
             $day = date('d', time());
