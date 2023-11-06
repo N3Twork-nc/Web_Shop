@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +47,7 @@
                             <th><span class="las la-sort"></span> MÃ DANH MỤC</th>
                             <th><span class="las la-sort"></span> TÊN DANH MỤC</th>
                             <th><span class="las la-sort"></span> ACTION</th>
-                        </tr>
+                        </tr>   
                     </thead>
                     <tbody id="tbody">
                     </tbody>
