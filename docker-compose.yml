@@ -1,5 +1,8 @@
 version: "3.6"
 
+volumes:
+  mysharedvolume:
+
 services:
   MysqlData:
     image: busybox
@@ -33,6 +36,7 @@ services:
     restart: always
     ports:
       - 8091:80
+
   webadmin:
     build: ./src/webadmin
     restart: 'always'
@@ -47,6 +51,7 @@ services:
       - MYSQL_PASSWORD=db_password
     volumes:
       - "./src/webadmin:/var/www/html/"
+      - mysharedvolume:/var/www/html/public/products/
   webshopping:
     build: ./src/webshopping
     restart: 'always'
@@ -60,4 +65,5 @@ services:
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
     volumes:
-      - "./src/webshopping:/var/www/html/"    
+      - "./src/webshopping:/var/www/html/"
+      - mysharedvolume:/var/www/html/public/products/
