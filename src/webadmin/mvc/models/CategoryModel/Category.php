@@ -13,7 +13,7 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
 
                         // tạo sản phẩm
                         $obj = new CategoryObj($row);
-
+                        
                         // thêm obj vào mảng
                         $arr[] = $obj;
                     }
