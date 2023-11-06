@@ -4,7 +4,6 @@
 
             $model = $this->model("Category");
             $data = $model->LoadCategories();
-
             $page = $this->view("dashboard_category", $data);
         }
     }

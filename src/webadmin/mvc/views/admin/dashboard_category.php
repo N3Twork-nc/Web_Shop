@@ -47,8 +47,26 @@
                             <th><span class="las la-sort"></span> TÊN DANH MỤC</th>
                             <th><span class="las la-sort"></span> TÊN DANH MỤC CHA</th>
                             <th><span class="las la-sort"></span> ACTION</th>
-                        </tr>   
+                        </tr>
                     </thead>
+                    <?php foreach($data as $category): ?>
+                            <tr>
+                                <td><?php echo $category->getCategory_id(); ?></td>
+                                <td><?php echo $category->getName(); ?> </td>
+                                <?php if($category->getParent_category_id() == null): ?>
+                                    <td> none</td>
+                                <?php endif; ?>
+                                <?php foreach($data as $category1): ?> 
+                                    <?php if($category1->getCategory_id() == $category->getParent_category_id() ): ?>
+                                    <td><?php echo $category1->getName(); ?></td> 
+                                    <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <td>
+                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-pencil"></i>
+                                </td> 
+                            </tr>
+                        <?php endforeach; ?>
                     <tbody id="tbody">
                     </tbody>
                 </table>
@@ -60,7 +78,12 @@
                         <input style="color: black" type="text" id="MaDanhMuc" name="MaDanhMuc" required>
 
                         <label for="OrderName">Tên danh mục cha:</label>
-                        <input style="color: black" type="text" id="TenDanhMuc" name="TenDanhMuc" required>
+                        <select name="TenDanhMuc" id="TenDanhMuc" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                            <?php foreach($data as $each): ?>
+                                <?php if($each->getParent_category_id() == null): ?>
+                                    <option value="<?php echo $each->getCategory_id(); ?>"><?php echo $each->getName(); ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
