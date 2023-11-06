@@ -22,7 +22,8 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
             // sau này lỗi hoặc cần dùng có thể sửa store proceduce để thêm cột đó là xong
             $data['category_id'] = $row['category_id'];
             $data['name'] = $row['category_name'];
-            $data['parent_category_id'] = 0;
+            $data['parent_category_id'] = null;
+            $data['parent_category_name'] = null;
 
             $this->categoryObj = new CategoryObj($data);
             $this->color = $row['color'];
