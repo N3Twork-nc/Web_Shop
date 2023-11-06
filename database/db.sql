@@ -169,20 +169,20 @@ INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','L
 INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','XL',8);
 INSERT INTO `ProductSizes`(`product_code`, `size`, `quantity`) VALUES ('P003','XXL',9);
 
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img1.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img3.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','img4.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','/public/products/2023/11/06/img1699259052.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','/public/products/2023/11/06/img1699259053.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','/public/products/2023/11/06/img1699259054.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P001','/public/products/2023/11/06/img1699259055.jpeg');
 
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img1.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img3.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','img4.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','/public/products/2023/11/06/img1699259052.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','/public/products/2023/11/06/img1699259053.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','/public/products/2023/11/06/img1699259054.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P002','/public/products/2023/11/06/img1699259055.jpeg');
 
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img1.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img3.jpg');
-INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','img4.jpg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','/public/products/2023/11/06/img1699259052.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','/public/products/2023/11/06/img1699259053.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','/public/products/2023/11/06/img1699259054.jpeg');
+INSERT INTO `ProductImages`(`product_code`, `image`) VALUES ('P003','/public/products/2023/11/06/img1699259055.jpeg');
 
 -- SP LOAD PRODUCT
 DROP PROCEDURE IF EXISTS `GetProducts`;
