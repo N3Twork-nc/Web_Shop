@@ -10,7 +10,7 @@
             $this->category_id = $row['category_id'];
             $this->name = $row['name'];
             $this->parent_category_id = $row['parent_category_id'];
-            $this->parent_category_name = $row['parent_category_name'];
+            $this->parent_category_name = $row['parent_name'];
         }
 
         public function getCategory_id()
