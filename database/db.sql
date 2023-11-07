@@ -139,7 +139,7 @@ INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nam', 1)
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nam', 2);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nam', 2);
 
-INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ nữ', 3);
+INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo sơ mi nữ', 3);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo thun nữ', 3);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nữ', 3);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần jeans nữ', 4);
