@@ -42,27 +42,91 @@
             </div>
 
             <!--********************* Product ***********************-->
-            <div style="background: var(--light);color: var(--dark);">
-                <table width="100%">
+            <table width="100%">
+                <div style="background: var(--light);color: var(--dark);">
                     <thead>
                         <tr>
-                            <th style="width: 130px;"><span class="las la-sort"></span> MÃ SP</th>
-                            <th style="width: 150px;"><span class="las la-sort"></span> TÊN SP</th>
-                            <th style="width: 100px;"><span class=" las la-sort "></span> Giá</th>
-                            <th style="width: 100px;"><span class="las la-sort "></span> % Giảm</th>
+                            <th style="width: 150px;"><span class="las la-sort"></span> MÃ SP</th>
+                            <th style="width: 220px;"><span class="las la-sort"></span> TÊN SP</th>
+                            <th style="width: 150px;"><span class=" las la-sort "></span> Giá</th>
                             <th style="width: 100px;"><span class="las la-sort "></span> Màu</th>
-                            <th style="width: 60px;"><span class="las la-sort "></span> Size</th>
-                            <th style="width: 180px;"><span class="las la-sort "></span> Mô tả</th>
+                            <th style="width: 150px;"><span class="las la-sort "></span> Size</th>
+                            <th style="width: 220px;"><span class="las la-sort "></span> Mô tả</th>
                             <th style="width: 150px;"><span class="las la-sort "></span> Ảnh</th>
-                            <th style="width: 120px;"><span class="las la-sort "></span> DMSP</th>
-                            <th style="width: 60px;"><span class="las la-sort "></span> SL</th>
+                            <th style="width: 200px;"><span class="las la-sort "></span> DMSP</th>
+                            <th style="width: 80px;"><span class="las la-sort "></span> SL</th>
+                            <th style="width: 120px;"><span class="las la-sort "></span> Last Updated</th>
                             <th><span class="las la-sort "></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                        <!-- Đổ dữ liệu ra table -->
+                        <?php foreach($data["products"] as $product): ?>
+                            <tr>                               
+                                <td data-label="MaSP" style="color: var(--primary);"><?php echo $product->getProduct_code(); ?></td>
+                                <td data-label="TenSP" style="color: var(--dark);"><?php echo $product->getName(); ?></td>
+                                <td data-label="GiaSP" style="color: var(--dark);"><?php echo $product->getPrice(); ?></td>
+                                <td data-label="MauSP"><img src="/public/img/<?php echo $product->getColor(); ?>.jpg" style="border-radius: 50%; height: 20px; width: 22px;"/></td>
+                                <td data-label="SizeSP" style="color: var(--dark);">
+                                    <?php 
+                                        $sizes = $product->getSizes();
+                                    ?>
+                                    <?php $i = 0; ?>
+                                    <?php foreach ($sizes as $size): ?>
+                                        <!-- Mục đích nhầm xử lý hiển thị lên form sửa dữ liệu -->
+                                        <p data-label="SizeS" style="display: none;"><?php if($i == 0){ echo $size; }?></p>
+                                        <p data-label="SizeM" style="display: none;"><?php if($i == 1){ echo $size; }?></p>
+                                        <p data-label="SizeL" style="display: none;"><?php if($i == 2){ echo $size; }?></p>
+                                        <p data-label="SizeXL" style="display: none;"><?php if($i == 3){ echo $size; }?></p>
+                                        <p data-label="SizeXXL" style="display: none;"><?php if($i == 4){ echo $size; }?></p>
+                                        <!-- End -->
+                                        <?php 
+                                            switch ($i) {
+                                                case 0:
+                                                    echo "S: $size, ";
+                                                    break;
+                                                case 1:
+                                                    echo "M: $size, ";
+                                                    break;
+                                                case 2:
+                                                    echo "L: $size<br>";
+                                                    break;
+                                                case 3:
+                                                    echo "XL: $size, ";
+                                                    break;
+                                                default:
+                                                    echo "XXL: $size";
+                                                    $i = -1;
+                                                    break;
+                                            }
+                                            $i++;
+                                        ?>
+                                    <?php endforeach; ?>
+                                </td>
+                                <td data-label="MoTaSP" style="color: var(--dark);"><?php echo $product->getDescription(); ?></td>
+                                <td data-label="HinhSP"><img style="width: 80px; height: 100px;" src="<?php echo $product->getImages()[0]; ?>"/></td>
+                                <td data-label="DMSP" style="color: var(--dark);"><?php echo $product->getCategoryObj()->getName(); ?></td>
+                                <td data-label="SLSP" style="color: var(--dark);"><?php echo $product->getQuantity(); ?></td>  
+                                <td data-label="UpdateSP" style="color: var(--dark);"><?php echo $product->getUpdate_lastest(); ?></td>
+                                <!-- Dùng để xử lý chọn img trên form sửa data -->
+                                <td data-label="HinhSP2" style="display: none;"><img src="<?php echo $product->getImages()[1]; ?>"/></td>
+                                <td data-label="HinhSP3" style="display: none;"><img src="<?php echo $product->getImages()[2]; ?>"/></td>
+                                <td data-label="HinhSP4" style="display: none;"><img src="<?php echo $product->getImages()[3]; ?>"/></td>
+                                <td> 
+                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-pencil editBtn"></i>
+                                </td>
+
+                                <!-- Dữ liệu để lấy từng size ra đưa lên form -->
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
-                </table>
-            </div>
+                </div>
+            </table>
+
+            <!-- Xử lý cho Form sửa data -->
+            
+
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="ProductForm" enctype="multipart/form-data">
@@ -231,7 +295,7 @@
         document.getElementById("MaSanPham").value = "";
         document.getElementById("TenSanPham").value = "";
         document.getElementById("GiaSanPham").value = "";
-        document.getElementById("ProductValuePromotion").value = "";
+        // document.getElementById("ProductValuePromotion").value = "";
         document.querySelector('input[name="color"]:checked').checked = false;
         document.getElementById("SoLuongSP_S").value = "";
         document.getElementById("SoLuongSP_M").value = "";
@@ -250,140 +314,6 @@
     cancelBtn.addEventListener('click', function() {
         modal.style.display = "none";
     })
-
-    //ckeditor
-    // CKEDITOR.replace('MoTa', {
-    //     filebrowserBrowseUrl: '/public/ckfinder/ckfinder.html',
-    //     filebrowserUploadUrl: '/public/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
-    // });
-
-    // Dialog color
-//     const colorPickerButton = document.getElementById("colorPickerButton")
-//     const colorPickerDialog = document.getElementById("colorPickerDialog")
-//     const confirmCancel = document.getElementById("confirmColor_cancel")
-//    // Xử lý sự kiện click trên nút button chọn màu
-//    colorPickerButton.addEventListener('click', () => {
-//     // Hiển thị dialog chọn màu
-//     colorPickerDialog.style.display = 'block';
-
-//     // Thêm một lớp overlay để tạo hiệu ứng modal
-//     const overlay = document.createElement('div');
-//     overlay.id = 'overlay';
-//     document.body.appendChild(overlay);
-// });
-
-// // Xử lý thêm màu vào 
-// $(document).ready(function () {
-//     var selectedColors = [];
-
-//     // Sự kiện khi thay đổi checkbox màu
-//     $(document).on('change', '#colorPickerDialog input[type="checkbox"]', function () {
-//         var colorName = $(this).attr('name');
-//         var colorValue = $(this).closest('label').find('img').attr('src');
-
-//         // Kiểm tra xem màu đã được chọn hay chưa
-//         var index = selectedColors.findIndex(color => color.name === colorName);
-
-//         if ($(this).prop('checked') && index === -1) {
-//             selectedColors.push({
-//                 name: colorName,
-//                 value: colorValue
-//             }); // Thêm màu vào mảng nếu chưa tồn tại
-//         } else if (!$(this).prop('checked') && index !== -1) {
-//             // Xóa màu khỏi mảng nếu không được chọn và tồn tại trong mảng
-//             selectedColors.splice(index, 1);
-//         }
-//     });
-
-//     // Sự kiện khi nhấn nút Xác nhận
-//     $(document).on('click', '#confirmColor_confirm', function () {
-//         // Xóa tất cả màu hiện có
-//         $('.product-detail__color__input').empty();
-
-//         // Thêm lại các màu đã chọn
-//         for (var i = 0; i < selectedColors.length; i++) {
-//             var clonedColor = $('<label><input type="radio" name="color" data-color-name="' + selectedColors[i].name + '"><span><img src="' + selectedColors[i].value + '" style="border-radius: 50%; height: 26px"></span></label>');
-//             $('.product-detail__color__input').append(clonedColor);
-//         }
-
-//         $('#colorPickerDialog').hide();
-//     });
-
-//     // Sự kiện khi nhấn nút Hủy
-//     $('#confirmColor_cancel').on('click', function () {
-//         $('#colorPickerDialog').hide();
-//     });
-// });
-
-        // function handleColorChange(colorName) {
-        //     // Get all radio buttons with the specified name
-        //     var radios = document.getElementsByName('color');
-
-        //     // Loop through all radio buttons
-        //     for (var i = 0; i < radios.length; i++) {
-        //         // Uncheck all radio buttons except the selected one
-        //         if (radios[i].value !== colorName) {
-        //             radios[i].checked = false;
-        //         }
-        //     }
-        // }
-
-
-
-// Xử lý submit sản phẩm
-// Đợi cho trang web được tải hoàn toàn
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Lấy tham chiếu đến nút "Thêm"
-
-//     var addButton = document.getElementById("submitBtn");
-
-//     // Thêm sự kiện click cho nút "Thêm"
-//     addButton.addEventListener("click", function () {
-//         event.preventDefault();
-//         // Lấy giá trị từ các trường input
-//         var maSanPham = document.getElementById("MaSanPham").value;
-//         var tenSanPham = document.getElementById("TenSanPham").value;
-//         var giaSanPham = document.getElementById("GiaSanPham").value;
-//         var selectedValue = document.getElementById("ProductValuePromotion").value;
-//         var selectedColor = document.querySelector('input[name="color"]:checked').value;
-//         var selectedSizeS = document.getElementById("SoLuongSP_S").value;
-//         var selectedSizeM = document.getElementById("SoLuongSP_M").value;
-//         var selectedSizeL = document.getElementById("SoLuongSP_L").value;
-//         var selectedSizeXL = document.getElementById("SoLuongSP_XL").value;
-//         var selectedSizeXXL = document.getElementById("SoLuongSP_XXL").value;
-//         //Lấy giá trị của ckeditor
-//         var moTaValue = CKEDITOR.instances.MoTa.getData();
-//         var parser = new DOMParser();
-//         var doc = parser.parseFromString(moTaValue, 'text/html');
-//         var moTaText = doc.body.textContent || "";
-//         var danhMuc = document.querySelector("#ProductForm select").value;
-//         var tongSP = document.getElementById("TongSP").value;
-//         var selectedFiles = document.getElementById("Img").files;
-//         if (selectedFiles.length !== 4) {
-//             alert("Vui lòng chọn đủ 4 hình ảnh.");
-//             return; // Dừng xử lý nếu không đủ 4 ảnh
-//         }
-
-//         // In giá trị ra console
-//         console.log("Mã sản phẩm:", maSanPham);
-//         console.log("Tên sản phẩm:", tenSanPham);
-//         console.log("Giá sản phẩm:", giaSanPham);
-//         console.log("Giá khuyến mãi: " + selectedValue);
-//         for (var i = 0; i < selectedFiles.length; i++) {
-//             console.log("Hình ảnh " + (i + 1) + ": " + selectedFiles[i].name);
-//         }
-//         console.log("Màu sản phẩm:", selectedColor);
-//         console.log("Số lượng SP S:", selectedSizeS);
-//         console.log("Số lượng SP M:", selectedSizeM);
-//         console.log("Số lượng SP L:", selectedSizeL);
-//         console.log("Số lượng SP XL:", selectedSizeXL);
-//         console.log("Số lượng SP XXL:", selectedSizeXXL);
-//         console.log("Mô tả sản phẩm:", moTaText);
-//         console.log("Danh mục sản phẩm:", danhMuc);
-//         console.log("Tổng số lượng:", tongSP);
-//         modal.style.display = "none";
-//     });
-// });
 
 function showLoadingSwal() {
   return Swal.fire({
@@ -447,114 +377,108 @@ $('#ProductForm').submit(function(e){
             $('#ProductForm').find('.alert-danger').remove();
             $('#ProductForm').prepend('<div class="alert alert-danger">'+ resp + '</div>');
           }
-				}
+			}
 		})
-	});
+    });
 
 
-//******************* */ Xử lý số lượng của size và màu
-// var data = {};
+// Hiển thị dữ liệu cần sửa lên form
+$(document).ready(function () {
+        var productForm = document.getElementById("ProductForm");
+	var newInput = document.createElement("input");
+        var newLabel = document.createElement("label");
+        // Sự kiện click vào biểu tượng bút chì
+        $('.editBtn').on('click', function () {
+            // Lấy dữ liệu từ hàng tương ứng để điền vào form
+            var row = $(this).closest('tr');
+            var maSP = row.find('td[data-label="MaSP"]').text();
+            var tenSP = row.find('td[data-label="TenSP"]').text();
+            var giaSP = row.find('td[data-label="GiaSP"]').text();
+            var sizeS = row.find('p[data-label="SizeS"]').text();
+            var sizeM = row.find('p[data-label="SizeM"]').text();
+            var sizeL = row.find('p[data-label="SizeL"]').text();
+            var sizeXL = row.find('p[data-label="SizeXL"]').text();
+            var sizeXXL = row.find('p[data-label="SizeXXL"]').text();
+            var moTaSP = row.find('td[data-label="MoTaSP"]').text();
+            var hinhSP =  row.find('td[data-label="HinhSP"]').find('img').attr('src');
+            var hinhSP2 = row.find('td[data-label="HinhSP2"]').find('img').attr('src');
+            var hinhSP3 = row.find('td[data-label="HinhSP3"]').find('img').attr('src');
+            var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
+            setFiles(hinhSP, hinhSP2, hinhSP3, hinhSP4);
+            var danhMucSP = row.find('td[data-label="DMSP"]').text();
+            var mauSP = row.find('td[data-label="MauSP"]').find('img').attr('src').split('/')[3].split('.')[0];
+            // Thêm các dữ liệu vào form
+            $('#TenSanPham').val(tenSP);
+            $('#GiaSanPham').val(giaSP);
+            $('input[name="color"][value="' + mauSP + '"]').prop('checked', true);
+            $('#MoTa').val(moTaSP);
+            $('#SoLuongSP_S').val(sizeS);
+            $('#SoLuongSP_M').val(sizeM);
+            $('#SoLuongSP_L').val(sizeL);
+            $('#SoLuongSP_XL').val(sizeXL);
+            $('#SoLuongSP_XXL').val(sizeXXL);
+            // Chọn danh mục sản phẩm trong dropdown
+            $('#DanhMucSanPham option').filter(function () {
+                return $(this).text() == danhMucSP;
+            }).prop('selected', true);
 
-// $(document).ready(function () {
-//     var selectedColors = "";
-//     var selectedSize = "";
-//     var fileName = document.getElementById("ProductValue");
-    
-//     var data = {}
+            //Hiển thị mã sản phẩm nhưng disable ko cho thao tác
+             // Tạo label mới
+            newLabel.setAttribute("for", "MaSP");
+            newLabel.textContent = "Mã sản phẩm:";
 
-//     function addData(color, size, nameFile, quantity){
+            // Tạo input mới
+            newInput.setAttribute("type", "text");
+            newInput.setAttribute("id", "MaSanPham");
+            newInput.setAttribute("name", "MaSanPham");
+            newInput.readOnly = true;
+            newInput.style.background = "#eee"
+            productForm.insertBefore(newInput, productForm.firstChild);
+            productForm.insertBefore(newLabel, productForm.firstChild);
+            $('#MaSanPham').val(maSP);
+            // Hiển thị form
+            $('#myModal').show();
+        });
 
-//         if (!data[color]) {
-//             data[color] = {};
-//         }
-//         if (!data[color].size) {
-//             data[color].size = {};
-//         }
-//         data[color].size[size] = quantity;
-//         if (!data[color].Img) {
-//             data[color].Img = {};
-//         }
-//         data[color].Img = {
-//             "img": nameFile
-//         };
-//     }
+        // Sự kiện click nút Hủy
+        $('#cancelBtn').on('click', function () {
+            // Ẩn form
+            $('#myModal').hide();
+        });
+    });
 
-//     $(document).on('change', '.product-detail__color__input input[type="radio"]', function () {
-//         selectedColors = $(this).data('color-name');
-//     });
+    function setFiles(img1, img2, img3, img4) {
+        const files = [
+            new Blob(["file content 1"], { type: "text/plain" }),
+            new Blob(["file content 2"], { type: "text/plain" }),
+            new Blob(["file content 3"], { type: "text/plain" }),
+            new Blob(["file content 4"], { type: "text/plain" }),
+        ];
+        const dataTransfer = new DataTransfer();
+        var i = 0
+        files.forEach((file, index) => {
+            let fileName; // Declare fileName in the outer scope
 
-//     $('input[name="size"]').on('change', function () {
-//         selectedSize = $(this).val();
-//     });
+            if (i == 0){
+                fileName = img1;
+                i++;
+            } else if(i == 1){
+                fileName = img2;
+                i++;
+            } else if(i == 2){
+                fileName = img3;
+                i++;
+            } else {
+                fileName = img4;
+                i = 0;
+            }
+            console.log(fileName);
+            const fileObj = new File([file], fileName, { type: "text/plain" });
+            dataTransfer.items.add(fileObj);
+        });
 
-//     // $('#save').on('click', function () {
-//     //     event.preventDefault();
-//     //     if (selectedColors.length !== "" && selectedSize !== "") {
-//     //         var quantity = $('#SoLuongSP').val();
-//     //         var nameFile = []
-//     //         for(var i = 0; i < 4; i++) {
-//     //             nameFile.push(fileName.files[i].name);
-//     //         }
-
-//     //         if (quantity !== "" && !isNaN(quantity) && parseInt(quantity) > 0) {
-//     //             console.log("Color: " + selectedColors);
-//     //             console.log("Size: " + selectedSize);
-//     //             console.log("Quantity: " + quantity);
-//     //             console.log("Name FIle: " + nameFile);
-
-//     //             addData(selectedColors, selectedSize, nameFile, quantity);
-//     //         } else {
-//     //             alert("Vui lòng nhập số lượng hợp lệ.");
-//     //         }
-//     //         console.log(data);
-//     //     } else {
-//     //         alert("Vui lòng chọn ít nhất một màu và một size.");
-//     //     }
-//     // });
-//     // ...
-
-//     // in hết form ra 
-// $('#submitBtn').on('click', function () {
-//     event.preventDefault();
-//     if (selectedColors.length !== "" && selectedSize !== "") {
-//         var quantity = $('#SoLuongSP').val();
-//         var nameFile = [];
-//         for(var i = 0; i < 4; i++) {
-//             nameFile.push(fileName.files[i].name);
-//         }
-
-//         var maSanPham = $('#MaSanPham').val();
-//         var tenSanPham = $('#TenSanPham').val();
-//         var giaSanPham = $('#GiaSanPham').val();
-//         var giaKhuyenMai = $('#GiaKhuyenMai').val();
-//         var moTaValue = CKEDITOR.instances.MoTa.getData();
-//         // Chuyển mota -> thuần html 
-//         // var parser = new DOMParser();
-//         // var doc = parser.parseFromString(moTaValue, 'text/html');
-//         // var moTaText = doc.body.textContent || "";
-
-//         if (quantity !== "" && !isNaN(quantity) && parseInt(quantity) > 0) {
-//             console.log("Mã sản phẩm: " + maSanPham);
-//             console.log("Tên sản phẩm: " + tenSanPham);
-//             console.log("Giá sản phẩm: " + giaSanPham);
-//             console.log("Giá khuyến mãi: " + giaKhuyenMai);
-//             console.log("Color: " + selectedColors);
-//             console.log("Size: " + selectedSize);
-//             console.log("Quantity: " + quantity);
-//             console.log("Name File: " + nameFile);
-//             console.log("Mô tả: " + moTaValue);
-//             console.log("Danh mục: " + $('select').val());
-//             console.log("Tổng số lượng: " + $('#TongSP').val());
-
-//         } else {
-//             alert("Vui lòng nhập số lượng hợp lệ.");
-//         }
-//     } else {
-//         alert("Vui lòng chọn ít nhất một màu và một size.");
-//     }
-// });
-
-// });
-
+        const fileInput = document.getElementById('Img');
+        fileInput.files = dataTransfer.files;
+    }
 
 </script>
