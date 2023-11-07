@@ -385,6 +385,8 @@ $('#ProductForm').submit(function(e){
 // Hiển thị dữ liệu cần sửa lên form
 $(document).ready(function () {
         var productForm = document.getElementById("ProductForm");
+	var newInput = document.createElement("input");
+        var newLabel = document.createElement("label");
         // Sự kiện click vào biểu tượng bút chì
         $('.editBtn').on('click', function () {
             // Lấy dữ liệu từ hàng tương ứng để điền vào form
@@ -422,12 +424,10 @@ $(document).ready(function () {
 
             //Hiển thị mã sản phẩm nhưng disable ko cho thao tác
              // Tạo label mới
-            var newLabel = document.createElement("label");
             newLabel.setAttribute("for", "MaSP");
             newLabel.textContent = "Mã sản phẩm:";
 
             // Tạo input mới
-            var newInput = document.createElement("input");
             newInput.setAttribute("type", "text");
             newInput.setAttribute("id", "MaSanPham");
             newInput.setAttribute("name", "MaSanPham");
