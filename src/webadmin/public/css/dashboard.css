@@ -803,3 +803,39 @@
         position: absolute;
         top: 5px;
     }
+/*Hiển thị lỗi và thành công*/
+
+.custom-alert {
+    width: 500px;
+    height: 60px;
+    padding-top: 20px !important;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    /* Đảm bảo nằm trên các phần khác */
+    display: none;
+    /* Ẩn ban đầu */
+}
+
+.custom-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.custom-alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.custom-alert i {
+    margin-right: 8px;
+}
