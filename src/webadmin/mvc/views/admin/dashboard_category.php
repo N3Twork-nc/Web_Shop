@@ -140,7 +140,6 @@
         document.getElementById("labelCategoryID").style.display = 'block';
         document.getElementById("CategoryID").removeAttribute("hidden");
         document.getElementById("CategoryID").removeAttribute("disabled");
-
         $('#CategoryForm #submitBtn').text('Lưu');
         const row = event.target.closest('tr');
         const category_id_in_table = row.cells[0].textContent.trim();
@@ -152,9 +151,12 @@
         // // Điền dữ liệu vào form
         category_id.value = category_id_in_table;
         category_name.value = category_name_in_table;
-
+        //Không chỉnh sửa danh mục cha
         if(category_parent_id_in_table == "none"){
-            document.getElementById("CategoryParentID").value = "";
+                Swal.fire({
+                title: 'Bạn không thể chỉnh sửa danh mục này',
+                icon: 'error'
+            })
         }
         else{
             for (let i = 0; i < optionCategoryParentID.length; i++) {
@@ -163,10 +165,9 @@
                 optionCategoryParentID[i].selected = true;
             }
         }
+            // Hiển thị form
+            modal.style.display = "block";
         }
-
-        // Hiển thị form
-        modal.style.display = "block";
     }
     });
 
@@ -240,7 +241,14 @@ table2.addEventListener('click', function(event) {
   if (event.target.classList.contains('fa-trash')) {
     const row = event.target.closest('tr');
     const category_id = row.cells[0].textContent.trim();
-  Swal.fire({
+    const parent_name = row.cells[2].textContent.trim();
+    if(parent_name === 'none'){
+        Swal.fire({
+            title: 'Bạn không thể xóa danh mục này',
+            icon: 'error'
+        })
+    }else{
+        Swal.fire({
       title: 'Bạn có chắc là muốn xóa danh mục này không?',
       text: "Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
       icon: 'warning',
@@ -280,6 +288,8 @@ table2.addEventListener('click', function(event) {
       });
     }
   })
+}
+  
 }
 });
 </script>
