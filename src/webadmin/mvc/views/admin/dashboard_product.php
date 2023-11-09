@@ -50,13 +50,14 @@
                             <th style="width: 220px;"><span class="las la-sort"></span> TÊN SP</th>
                             <th style="width: 150px;"><span class=" las la-sort "></span> Giá</th>
                             <th style="width: 100px;"><span class="las la-sort "></span> Màu</th>
-                            <th style="width: 150px;"><span class="las la-sort "></span> Size</th>
+                            <!-- <th style="width: 150px;"><span class="las la-sort "></span> Size</th> -->
                             <th style="width: 220px;"><span class="las la-sort "></span> Mô tả</th>
-                            <th style="width: 150px;"><span class="las la-sort "></span> Ảnh</th>
+                            <!-- <th style="width: 150px;"><span class="las la-sort "></span> Ảnh</th> -->
                             <th style="width: 200px;"><span class="las la-sort "></span> DMSP</th>
                             <th style="width: 80px;"><span class="las la-sort "></span> SL</th>
                             <th style="width: 120px;"><span class="las la-sort "></span> Last Updated</th>
                             <th><span class="las la-sort "></span> ACTION</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -67,7 +68,7 @@
                                 <td data-label="TenSP" style="color: var(--dark);"><?php echo $product->getName(); ?></td>
                                 <td data-label="GiaSP" style="color: var(--dark);"><?php echo $product->getPrice(); ?></td>
                                 <td data-label="MauSP"><img src="/public/img/<?php echo $product->getColor(); ?>.jpg" style="border-radius: 50%; height: 20px; width: 22px;"/></td>
-                                <td data-label="SizeSP" style="color: var(--dark);">
+                                <td data-label="SizeSP" style="color: var(--dark); display: none;">
                                     <?php 
                                         $sizes = $product->getSizes();
                                     ?>
@@ -103,12 +104,12 @@
                                         ?>
                                     <?php endforeach; ?>
                                 </td>
-                                <td data-label="MoTaSP" style="color: var(--dark);"><?php echo $product->getDescription(); ?></td>
-                                <td data-label="HinhSP"><img style="width: 80px; height: 100px;" src="<?php echo $product->getImages()[0]; ?>"/></td>
+                                <td data-label="MoTaSP" style="color: var(--dark);"><?php echo $product->getDescription(); ?></td>                                
                                 <td data-label="DMSP" style="color: var(--dark);"><?php echo $product->getCategoryObj()->getName(); ?></td>
                                 <td data-label="SLSP" style="color: var(--dark);"><?php echo $product->getQuantity(); ?></td>  
                                 <td data-label="UpdateSP" style="color: var(--dark);"><?php echo $product->getUpdate_lastest(); ?></td>
                                 <!-- Dùng để xử lý chọn img trên form sửa data -->
+                                <td data-label="HinhSP" style="display: none;"><img src="<?php echo $product->getImages()[0];  ?>" /></td>
                                 <td data-label="HinhSP2" style="display: none;"><img src="<?php echo $product->getImages()[1]; ?>"/></td>
                                 <td data-label="HinhSP3" style="display: none;"><img src="<?php echo $product->getImages()[2]; ?>"/></td>
                                 <td data-label="HinhSP4" style="display: none;"><img src="<?php echo $product->getImages()[3]; ?>"/></td>
@@ -116,7 +117,7 @@
                                     <i class="fa fa-trash"></i>
                                     <i class="fa fa-pencil editBtn"></i>
                                 </td>
-
+                                <td><button class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
                                 <!-- Dữ liệu để lấy từng size ra đưa lên form -->
                             </tr>
                         <?php endforeach; ?>
@@ -135,7 +136,7 @@
                         <label for="ProductValue">Giá sản phẩm:</label>
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
                         <label for="ProductCategory" style="margin-top: 20px">Danh mục sản phẩm:</label>
-                        <select name="DanhMucSanPham" id="" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                        <select name="DanhMucSanPham" id="DMSP" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
                             <!-- Mẫu test -->
                             <?php foreach($data["categories"] as $each): ?>
                                 <?php if($each->getParent_category_id() != null): ?>
@@ -259,20 +260,27 @@
                     </form>
                 </div>
             </div>
-            <!-- Dialog chọn màu -->
-            <!-- <div id="colorPickerDialog" style="display:none; position: fixed; z-index: 10;">
-                <div class="product-detail__color">
-                    <div class="product-detail__color__input_dialog">
-                    </div>
+
+        </div>
+        <div id="formChiTietSP" class="XemChiTiet" style="display:none; border-radius: 12px;">
+                <h2 style="font-size:20px;margin-bottom: 10px;">Size:</h2>
+                <div class="product_select_size">
+                    <p id="size_S">S</p><br>
+                    <p id="size_M">M</p><br>
+                    <p id="size_L">L</p><br>
+                    <p id="size_XL">XL</p><br>
+                    <p id="size_XXL">XXL</p><br>
                 </div>
-                <button id="confirmColor_confirm">Xác nhận</button>
-                <button id="confirmColor_cancel">Hủy</button>
-            </div> -->
+                <h2 style="font-size:20px;margin-bottom: 10px;">Image:</h2>
+                <div class="product_select_img">
+                    <img id="product_image1" src="image1.jpg" alt="Product Image 1" style="width: 80px; height: 80px">
+                    <img id="product_image2" src="image2.jpg" alt="Product Image 2" style="width: 80px; height: 80px">
+                    <img id="product_image3" src="image3.jpg" alt="Product Image 3" style="width: 80px; height: 80px">
+                    <img id="product_image4" src="image4.jpg" alt="Product Image 4" style="width: 80px; height: 80px">
+                </div>
+                <button id="cancelXemChiTietSP" style="font-size: 14px;border: none;background-color: red;margin-top: 21px; color: white; width: 120px; height: 30px;border-radius: 1px;">Cancel</button>
+        </div>
         </main>
-    </div>
-
-    </main>
-
     </div>
 
     <script src="/public/js/dashboard.js"></script>
@@ -286,29 +294,33 @@
     const modal = document.getElementById("myModal");
     const cancelBtn = document.getElementById("cancelBtn");
     const submitBtn = document.getElementById("submitBtn");
+    // Dùng để check là đang vào sửa hay là thêm
+    var check = 0;
     link.classList.add('active');
 
     //Thêm đơn hàng
     addBtn.addEventListener('click', function() {
         modal.style.display = "block";
          // Reset giá trị của các trường input
-        document.getElementById("MaSanPham").value = "";
+        if(check > 0){
+            var inputElement = document.getElementById('MaSanPham');
+            var labelElement = document.getElementById('MaSP');
+            inputElement.remove();
+            labelElement.remove();
+        }
         document.getElementById("TenSanPham").value = "";
         document.getElementById("GiaSanPham").value = "";
-        // document.getElementById("ProductValuePromotion").value = "";
         document.querySelector('input[name="color"]:checked').checked = false;
         document.getElementById("SoLuongSP_S").value = "";
         document.getElementById("SoLuongSP_M").value = "";
         document.getElementById("SoLuongSP_L").value = "";
         document.getElementById("SoLuongSP_XL").value = "";
         document.getElementById("SoLuongSP_XXL").value = "";
-        CKEDITOR.instances.MoTa.setData(""); // Reset CKEditor
-        document.querySelector("#ProductForm select").value = "";
-        document.getElementById("TongSP").value = "";
-        document.getElementById("Img").value = ""; // Reset input file
+        document.getElementById("MoTa").value="";
+        document.getElementById("DMSP").value="";
+        document.getElementById("Img").value="";
         action = 'create';
     })
-
 
     // Xử lý nút cancel
     cancelBtn.addEventListener('click', function() {
@@ -385,7 +397,7 @@ $('#ProductForm').submit(function(e){
 // Hiển thị dữ liệu cần sửa lên form
 $(document).ready(function () {
         var productForm = document.getElementById("ProductForm");
-	var newInput = document.createElement("input");
+	    var newInput = document.createElement("input");
         var newLabel = document.createElement("label");
         // Sự kiện click vào biểu tượng bút chì
         $('.editBtn').on('click', function () {
@@ -406,6 +418,7 @@ $(document).ready(function () {
             var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
             setFiles(hinhSP, hinhSP2, hinhSP3, hinhSP4);
             var danhMucSP = row.find('td[data-label="DMSP"]').text();
+            console.log(danhMucSP);
             var mauSP = row.find('td[data-label="MauSP"]').find('img').attr('src').split('/')[3].split('.')[0];
             // Thêm các dữ liệu vào form
             $('#TenSanPham').val(tenSP);
@@ -418,13 +431,14 @@ $(document).ready(function () {
             $('#SoLuongSP_XL').val(sizeXL);
             $('#SoLuongSP_XXL').val(sizeXXL);
             // Chọn danh mục sản phẩm trong dropdown
-            $('#DanhMucSanPham option').filter(function () {
+            $('#DMSP option').filter(function () {
                 return $(this).text() == danhMucSP;
             }).prop('selected', true);
 
             //Hiển thị mã sản phẩm nhưng disable ko cho thao tác
              // Tạo label mới
             newLabel.setAttribute("for", "MaSP");
+            newLabel.setAttribute("id", "MaSP")
             newLabel.textContent = "Mã sản phẩm:";
 
             // Tạo input mới
@@ -438,6 +452,7 @@ $(document).ready(function () {
             $('#MaSanPham').val(maSP);
             // Hiển thị form
             $('#myModal').show();
+            check++;
         });
 
         // Sự kiện click nút Hủy
@@ -480,5 +495,42 @@ $(document).ready(function () {
         const fileInput = document.getElementById('Img');
         fileInput.files = dataTransfer.files;
     }
+
+    //Xem chi tiết sản phẩm bao gồm ảnh và size
+    var formChiTietSP = document.getElementById('formChiTietSP');
+    var cancelXemChiTiet = document.getElementById('cancelXemChiTietSP');
+
+    document.querySelectorAll('.xemChiTietBtn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            formChiTietSP.style.display = 'block';
+            var row = $(this).closest('tr');
+            var sizeS = row.find('p[data-label="SizeS"]').text();
+            var sizeM = row.find('p[data-label="SizeM"]').text();
+            var sizeL = row.find('p[data-label="SizeL"]').text();
+            var sizeXL = row.find('p[data-label="SizeXL"]').text();
+            var sizeXXL = row.find('p[data-label="SizeXXL"]').text();
+            var hinhSP =  row.find('td[data-label="HinhSP"]').find('img').attr('src');
+            var hinhSP2 = row.find('td[data-label="HinhSP2"]').find('img').attr('src');
+            var hinhSP3 = row.find('td[data-label="HinhSP3"]').find('img').attr('src');
+            var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
+            //Size
+            document.getElementById('size_S').innerHTML = 'S: ' + sizeS;
+            document.getElementById('size_M').innerHTML = 'M: ' + sizeM;
+            document.getElementById('size_L').innerHTML = 'L: ' + sizeL;
+            document.getElementById('size_XL').innerHTML = 'XL: ' + sizeXL;
+            document.getElementById('size_XXL').innerHTML = 'XXL: ' + sizeXXL;
+            //Img
+            document.getElementById('product_image1').src = hinhSP;
+            document.getElementById('product_image2').src = hinhSP2;
+            document.getElementById('product_image3').src = hinhSP3;
+            document.getElementById('product_image4').src = hinhSP4;
+
+        });
+    });
+
+
+    cancelXemChiTiet.addEventListener('click', function() {
+        formChiTietSP.style.display = 'none';
+    });
 
 </script>
