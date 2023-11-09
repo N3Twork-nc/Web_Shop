@@ -285,6 +285,7 @@
 
     <script src="/public/js/dashboard.js"></script>
 </body>
+
 </html>
 <script>
     const action = '';
@@ -293,29 +294,33 @@
     const modal = document.getElementById("myModal");
     const cancelBtn = document.getElementById("cancelBtn");
     const submitBtn = document.getElementById("submitBtn");
+    // Dùng để check là đang vào sửa hay là thêm
+    var check = 0;
     link.classList.add('active');
 
     //Thêm đơn hàng
     addBtn.addEventListener('click', function() {
         modal.style.display = "block";
          // Reset giá trị của các trường input
-        document.getElementById("MaSanPham").value = "";
+        if(check > 0){
+            var inputElement = document.getElementById('MaSanPham');
+            var labelElement = document.getElementById('MaSP');
+            inputElement.remove();
+            labelElement.remove();
+        }
         document.getElementById("TenSanPham").value = "";
         document.getElementById("GiaSanPham").value = "";
-        // document.getElementById("ProductValuePromotion").value = "";
         document.querySelector('input[name="color"]:checked').checked = false;
         document.getElementById("SoLuongSP_S").value = "";
         document.getElementById("SoLuongSP_M").value = "";
         document.getElementById("SoLuongSP_L").value = "";
         document.getElementById("SoLuongSP_XL").value = "";
         document.getElementById("SoLuongSP_XXL").value = "";
-        CKEDITOR.instances.MoTa.setData(""); // Reset CKEditor
-        document.querySelector("#ProductForm select").value = "";
-        document.getElementById("TongSP").value = "";
-        document.getElementById("Img").value = ""; // Reset input file
+        document.getElementById("MoTa").value="";
+        document.getElementById("DMSP").value="";
+        document.getElementById("Img").value="";
         action = 'create';
     })
-
 
     // Xử lý nút cancel
     cancelBtn.addEventListener('click', function() {
@@ -392,7 +397,7 @@ $('#ProductForm').submit(function(e){
 // Hiển thị dữ liệu cần sửa lên form
 $(document).ready(function () {
         var productForm = document.getElementById("ProductForm");
-	var newInput = document.createElement("input");
+	    var newInput = document.createElement("input");
         var newLabel = document.createElement("label");
         // Sự kiện click vào biểu tượng bút chì
         $('.editBtn').on('click', function () {
@@ -413,6 +418,7 @@ $(document).ready(function () {
             var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
             setFiles(hinhSP, hinhSP2, hinhSP3, hinhSP4);
             var danhMucSP = row.find('td[data-label="DMSP"]').text();
+            console.log(danhMucSP);
             var mauSP = row.find('td[data-label="MauSP"]').find('img').attr('src').split('/')[3].split('.')[0];
             // Thêm các dữ liệu vào form
             $('#TenSanPham').val(tenSP);
@@ -425,13 +431,14 @@ $(document).ready(function () {
             $('#SoLuongSP_XL').val(sizeXL);
             $('#SoLuongSP_XXL').val(sizeXXL);
             // Chọn danh mục sản phẩm trong dropdown
-            $('#DanhMucSanPham option').filter(function () {
+            $('#DMSP option').filter(function () {
                 return $(this).text() == danhMucSP;
             }).prop('selected', true);
 
             //Hiển thị mã sản phẩm nhưng disable ko cho thao tác
              // Tạo label mới
             newLabel.setAttribute("for", "MaSP");
+            newLabel.setAttribute("id", "MaSP")
             newLabel.textContent = "Mã sản phẩm:";
 
             // Tạo input mới
@@ -445,6 +452,7 @@ $(document).ready(function () {
             $('#MaSanPham').val(maSP);
             // Hiển thị form
             $('#myModal').show();
+            check++;
         });
 
         // Sự kiện click nút Hủy
@@ -487,7 +495,8 @@ $(document).ready(function () {
         const fileInput = document.getElementById('Img');
         fileInput.files = dataTransfer.files;
     }
-	//Xem chi tiết sản phẩm bao gồm ảnh và size
+
+    //Xem chi tiết sản phẩm bao gồm ảnh và size
     var formChiTietSP = document.getElementById('formChiTietSP');
     var cancelXemChiTiet = document.getElementById('cancelXemChiTietSP');
 
@@ -523,4 +532,5 @@ $(document).ready(function () {
     cancelXemChiTiet.addEventListener('click', function() {
         formChiTietSP.style.display = 'none';
     });
+
 </script>
