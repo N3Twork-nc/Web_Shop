@@ -203,47 +203,49 @@
         }
         
 
-        function ModifyProduct(){
-            $data['product_code']= 'P004';
-            $data['name'] = 'Áo Sơ Mi Cổ Tròn';
-            $data['description'] = 'như shit';
-            $data['price'] = 3000;
-            $data['discount_code'] = 'DCODE';
-            $data['category_id'] = 13;
-            $data['details_data'] = [
-                "Xanh lá" => [
-                    "sizes" => [
-                        "S" => 5,
-                        "M" => 6,
-                        "L" => 7
-                    ],
-                    "images" => [
-                        'img1', 'img2', 'img3'
-                    ]
-                ],
-                "Xanh lam" => [
-                    "sizes" => [
-                        "S" => 5,
-                        "M" => 6,
-                        "L" => 7
-                    ],
-                    "images" => [
-                        'img4', 'img5', 'img6'
-                    ]
-                ],
-                "Be" => [
-                    "sizes" => [
-                        "S" => 5,
-                        "M" => 6,
-                        "L" => 7
-                    ],
-                    "images" => [
-                        'img5', 'img6', 'img7'
-                    ]
-                ]
-            ];
-            $model = $this->model("Product");
-            $model->InsertProduct($data);
+        function EditProduct(){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                $this->checkAccess = true;
+
+                $size_quantities = array(
+                    "S" => $_POST['SoLuongSP_S'],
+                    "M" => $_POST['SoLuongSP_M'],
+                    "L" => $_POST['SoLuongSP_L'],
+                    "XL" => $_POST['SoLuongSP_XL'],
+                    "XXL" => $_POST['SoLuongSP_XXL']
+                );
+    
+                $product_data = array(
+                    "product_code" => $_POST['MaSanPham'],
+                    "product_name" => $_POST['TenSanPham'],
+                    "product_price" => $_POST['GiaSanPham'],
+                    "category_id" => $_POST['DanhMucSanPham'],
+                    "product_color" => $_POST['color'],
+                    "product_description" => $_POST['MoTa'],
+                    "size_quantities" => $size_quantities,
+                );
+                    
+                $check = $this->ValidateProductData($product_data);
+                if($check == "validated"){
+                    
+                    $uploadedFile = $_FILES["fileToUpload"];
+                    $fileNames = $this->UpLoadFiles($uploadedFile);
+                    if(!is_array($fileNames)){
+                        echo $fileNames;
+                    }
+                    else{
+                        // thêm ảnh vào data
+                        $product_data["product_images"] = $fileNames;
+
+                        $model = $this->model("Product");
+                        //$model->InsertProduct($product_data);
+                    }
+                }
+                else{
+                    echo $check;
+                }
+            }
         }
     }
 ?>
