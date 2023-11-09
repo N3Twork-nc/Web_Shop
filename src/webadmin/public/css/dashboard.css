@@ -839,3 +839,51 @@
 .custom-alert i {
     margin-right: 8px;
 }
+
+/* Xem chi tiết */
+    
+    .XemChiTiet {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 1000;
+        transform: translate(-50%, -50%);
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product_select_size {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+    
+    .size_button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: 2px solid #333;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+    
+    .size_button:hover {
+        background-color: #333;
+        color: #fff;
+    }
+    
+    .product_select_img {
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .product_image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
