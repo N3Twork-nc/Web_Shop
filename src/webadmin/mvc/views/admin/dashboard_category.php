@@ -140,7 +140,8 @@
         document.getElementById("labelCategoryID").style.display = 'block';
         document.getElementById("CategoryID").removeAttribute("hidden");
         document.getElementById("CategoryID").removeAttribute("disabled");
-
+        document.getElementById("CategoryID").style.background = "#eee";
+        
         $('#CategoryForm #submitBtn').text('Lưu');
         const row = event.target.closest('tr');
         const category_id_in_table = row.cells[0].textContent.trim();
@@ -240,6 +241,9 @@ table2.addEventListener('click', function(event) {
   if (event.target.classList.contains('fa-trash')) {
     const row = event.target.closest('tr');
     const category_id = row.cells[0].textContent.trim();
+
+    
+
   Swal.fire({
       title: 'Bạn có chắc là muốn xóa danh mục này không?',
       text: "Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
