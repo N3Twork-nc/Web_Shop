@@ -1,8 +1,5 @@
 version: "3.6"
 
-volumes:
-  mysharedvolume:
-
 services:
   MysqlData:
     image: busybox
@@ -24,6 +21,7 @@ services:
       - MYSQL_PASSWORD=db_password
       - LANG=C.UTF-8
       - LC_ALL=C.UTF-8
+      - TZ=Asia/Ho_Chi_Minh
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
@@ -51,7 +49,6 @@ services:
       - MYSQL_PASSWORD=db_password
     volumes:
       - "./src/webadmin:/var/www/html/"
-      - mysharedvolume:/var/www/html/public/products/
   webshopping:
     build: ./src/webshopping
     restart: 'always'
@@ -66,4 +63,4 @@ services:
       - MYSQL_PASSWORD=db_password
     volumes:
       - "./src/webshopping:/var/www/html/"
-      - mysharedvolume:/var/www/html/public/products/
+      - "./src/webadmin/public/products:/var/www/html/public/products"

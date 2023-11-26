@@ -17,5 +17,25 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     return  $sql . "<br>" . $e->getMessage();
                 }
         }
+
+        function LoadAdmins(){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "select * from AdminAccounts";
+                $sth = $db->select($sql);
+                $admin_from_DB = $sth->fetchAll();
+                foreach ($admin_from_DB as $row) {
+                    // thêm obj vào mảng
+                    
+                    $obj = new AdminObj($row);
+
+                    $admin_from_DB[] = $obj;
+                }
+                return $admin_from_DB;
+            } catch (PDOException $e) {
+                return  $sql . "<br>" . $e->getMessage();
+            }
+    }
     }
 ?>

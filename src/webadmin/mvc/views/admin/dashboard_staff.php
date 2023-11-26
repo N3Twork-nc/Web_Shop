@@ -22,10 +22,10 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Khách hàng</h1>
+                    <h1>Nhân viên</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Customer
+                                Staff
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
