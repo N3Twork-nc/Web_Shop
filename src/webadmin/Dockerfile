@@ -9,15 +9,16 @@ COPY ./ .
 RUN chown -R root:www-data /var/www/html
 RUN chmod 750 /var/www/html
 
-# Tạo thư mục /tmp/uploads
-# RUN mkdir -p /tmp/uploads
+# Tạo thư mục /tmp/uploadFiles
+# RUN mkdir -p /tmp/uploadFiles
 
 # Cấu hình upload_tmp_dir cho PHP
-# RUN echo "upload_tmp_dir = /tmp/uploads" > /usr/local/etc/php/php.ini
+# RUN echo "upload_tmp_dir = /tmp/uploadFiles" > /usr/local/etc/php/php.ini
 
 # Cấu hình quyền truy cập cho thư mục
-# RUN chown www-data:www-data /tmp/uploads
-# RUN chmod 755 /tmp/uploads
+# RUN chown root:root /tmp/uploadFiles
+# RUN chmod -R 776 /tmp/uploadFiles
+# RUN chmod +t -R /tmp/uploadFiles
 
 # allow rewrite
 RUN a2enmod rewrite
@@ -25,8 +26,16 @@ RUN a2enmod rewrite
 RUN sed -ri -e 's!/etc/apache2/sites-available!${APACHE_CONFDIR}!g' /etc/apache2/apache2.conf && \
 sed -ri -e 's!/etc/apache2/mods-available!${APACHE_CONFDIR}!g' /etc/apache2/apache2.conf
 
-RUN find . -type f -exec chmod 640 {} \;
+RUN chown -R www-data:www-data /var/www/html/public/products
+
 RUN find . -type d -exec chmod 750 {} \;
+
+# config folder to uploads file
+RUN chmod -R 774 /var/www/html/public/products
+
+RUN find /var/www/html/public/products -type d -exec chmod 774 {} \;
+
+RUN find . -type f -exec chmod 640 {} \;
 
 RUN chmod +t -R /var/www/html/
 

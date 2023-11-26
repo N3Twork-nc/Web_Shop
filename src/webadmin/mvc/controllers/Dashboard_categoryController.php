@@ -1,6 +1,13 @@
 <?php
     class Dashboard_categoryController extends Controller{
-        private $checkAccess = false;
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_product');
+                exit;
+            }
+        }
 
         function Show(){
             $model = $this->model("Category");
@@ -9,6 +16,8 @@
         }
 
         function ValidateData($data){
+
+            $this->CheckAccess();
 
             // check thiếu data
             if($this->validateNull($data)){
@@ -22,7 +31,7 @@
 
             if($this->validateNumber($arr_Number)){
                 //var_dump($arr_Number);
-                return "Giá trị không hợp lệ";
+                return "Giá trị số không hợp lệ";
             }
 
             if($this->validateSpecialCharacter($arr_Str)){
@@ -35,7 +44,7 @@
         function AddCategory(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                $this->checkAccess = true;
+                $this->access = true;
     
                 $category_data = array(
                     "category_name" => $_POST['CategoryName'],
@@ -56,7 +65,8 @@
 
         function EditCategory(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $this->checkAccess = true;
+
+                $this->access = true;
     
                 $category_data = array(
                     "category_id" => $_POST['CategoryID'],
@@ -82,8 +92,6 @@
 
         function DeleteCategory(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                
-                $this->checkAccess = true;
     
                 $category_data = array(
                     "category_id" => $_POST['category_id'],
