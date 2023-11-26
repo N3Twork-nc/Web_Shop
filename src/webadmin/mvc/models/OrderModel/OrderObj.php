@@ -21,6 +21,7 @@
 
             $this->payment_code = $row['payment_code'];
             $this->payment_date = $row['payment_date'];
+            $this->username = $row['username'];
             $this->type = $row['type'];
             $this->address = $row['address'];
             $this->phone = $row['phone'];
