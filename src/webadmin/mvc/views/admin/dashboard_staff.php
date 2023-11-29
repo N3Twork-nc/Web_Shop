@@ -29,9 +29,9 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <!-- <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
-                            Thêm khách hàng
-                        </button> -->
+                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
+                            Thêm staff
+                        </button>
                     </ul>
                 </div>
             </div>
@@ -41,37 +41,35 @@
                 <table width="100%">
                     <thead>
                         <tr>
+                            <th><span class="las la-sort"></span> ID</th>
                             <th><span class="las la-sort"></span> USERNAME</th>
                             <th><span class="las la-sort"></span> PASSWORD</th>
-                            <th><span class="las la-sort"></span> HỌ TÊN</th>
-                            <th><span class="las la-sort"></span> EMAIL</th>
-                            <th><span class="las la-sort"></span> SĐT</th>
-                            <th><span class="las la-sort"></span> ĐỊA CHỈ</th>
+                            <th><span class="las la-sort"></span> ROLE</th>
                             <th><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                        <?php foreach($data as $staff): ?>
+                            <tr>
+                                <td><?php echo $staff->getAdmin_id(); ?></td>
+                                <td><?php echo $staff->getUsername(); ?></td>
+                                <td><?php echo $staff->getPassword(); ?></td>
+                                <td><?php echo $staff->getRole(); ?></td>
+                                <td style="display: ;"><button style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CustomerForm">
-                        <label for="CustomerCode">Mã Khách hàng:</label>
-                        <input style="color: black" type="text" id="MaKhachHang" name="MaKhachHang" required>
+                        <label for="CustomerCode">Username</label>
+                        <input style="color: black" type="text" id="username" name="username" required>
 
-                        <label for="NameCustomer">Tên khách hàng:</label>
-                        <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" required>
-
-                        <label for="Email">Email:</label>
-                        <input style="color: black" type="text" id="Email" name="Email" required>
-
-                        <label for="NumberPhoneCustomer">SĐT:</label>
-                        <input style="color: black" type="text" id="SDT" name="SDT" required>
-
-                        <label for="Address">Địa chỉ:</label>
-                        <input style="color: black" type="text" id="DiaChi" name="DiaChi" required>
-                        <br>
+                        <label for="NameCustomer">Password</label>
+                        <input style="color: black ; width: 100%;
+                        padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" id="password" name="password" required>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
@@ -113,11 +111,8 @@
         modal.style.display = "block";
         isEditing = false;
         btnEdit.innerText = "Thêm";
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
     })
 
     //Xử lý button add
@@ -144,18 +139,12 @@
     document.getElementById("CustomerForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const maKhachHang = document.getElementById("MaKhachHang").value;
-        const tenKhachHang = document.getElementById("TenKhachHang").value;
-        const email = document.getElementById("Email").value;
-        const sdt = document.getElementById("SDT").value;
-        const diaChi = document.getElementById("DiaChi").value;
+        const username = document.getElementById("username").value;
+        const tenKhachHang = document.getElementById("password").value;
 
         const newProduct = {
-            maKhachHang: maKhachHang,
-            tenKhachHang: tenKhachHang,
-            email: email,
-            sdt: sdt,
-            diaChi: diaChi,
+            username: username,
+            username: username,
         };
 
         // Thêm sản phẩm mới vào đầu danh sách (kiểu stack)

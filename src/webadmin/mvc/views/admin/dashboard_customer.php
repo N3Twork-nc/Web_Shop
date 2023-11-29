@@ -51,6 +51,12 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                    <!-- <?php var_dump($data); ?>
+                    <?php foreach($data as $category): ?>
+                            <tr>
+                                <td><?php echo $category->getUsername(); ?></td>
+                            </tr>
+                        <?php endforeach; ?> -->
                     </tbody>
                 </table>
             </div>

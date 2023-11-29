@@ -27,12 +27,12 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                 $admin_from_DB = $sth->fetchAll();
                 foreach ($admin_from_DB as $row) {
                     // thêm obj vào mảng
-                    
+
                     $obj = new AdminObj($row);
 
-                    $admin_from_DB[] = $obj;
+                    $arr[] = $obj;
                 }
-                return $admin_from_DB;
+                return $arr;
             } catch (PDOException $e) {
                 return  $sql . "<br>" . $e->getMessage();
             }
