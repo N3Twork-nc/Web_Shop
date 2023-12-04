@@ -23,10 +23,10 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Danh mục sản phẩm</h1>
+                    <h1>Mã giảm giá</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Category
+                                Discount
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>

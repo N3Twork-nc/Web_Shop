@@ -26,12 +26,6 @@
                 return $this->role;
         }
 
-        public function setAdmin_id($admin_id)
-        {
-                $this->admin_id = $admin_id;
-
-        }
-
         public function setUsername($username)
         {
                 $this->username = $username;

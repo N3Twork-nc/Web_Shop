@@ -3,7 +3,7 @@
         function Show(){
             $model = $this->model("Customer");
             $data = $model->LoadCustomers();
-            //var_dump($data);
+            //var_dump($data[0]);
             $page = $this->view("dashboard_customer", $data);
         }
     }

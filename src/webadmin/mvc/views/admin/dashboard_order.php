@@ -82,12 +82,12 @@
                                 <td data-label="NgayDat"><?php echo $order->getOrder_date(); ?></td>
                                 <td data-label="TrangThai"><?php echo $order->getState(); ?></td>
                                 <td data-label="TongTien"><?php echo $order->getTotal_price(); ?></td>
-                                <td data-label="Username"><?php echo $order->getUsername(); ?></td>
+                                <td data-label="Username"><?php echo $order->getCustomer()->getUsername(); ?></td>
                                 <td data-label="MaThanhToan"><?php echo $order->getPayment_code() == null ? "NONE": $order->getPayment_code() ?></td>
                                 <td data-label="NgayThanhToan"><?php echo $order->getPayment_date() == null ? "NONE": $order->getPayment_date() ?></td>
                                 <td data-label="LoaiThanhToan"><?php echo $order->getType() == null ? "NONE" : $order->getType();?></td>
                                 <td data-label="DiaChi"><?php echo $order->getAddress(); ?></td>
-                                <td data-label="SDT"><?php echo $order->getPhone(); ?></td>
+                                <td data-label="SDT"><?php echo $order->getCustomer()->getPhone(); ?></td>
                                 <td>
                                     <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
                                     <?php

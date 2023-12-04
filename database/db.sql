@@ -54,7 +54,6 @@ CREATE TABLE Customers (
   username VARCHAR(100) PRIMARY KEY,
   password VARCHAR(100) NOT NULL,
   full_name NVARCHAR(150) NOT NULL,
-  address NVARCHAR(150) NOT NULL,
   phone VARCHAR(20),
   email VARCHAR(100) NOT NULL,
   random_code VARCHAR(20),
@@ -90,6 +89,7 @@ CREATE TABLE Orders (
   state ENUM('pending', 'delivered','delivering', 'cancelled') DEFAULT 'pending',
   total_price DECIMAL(10,2) DEFAULT 0,
   username VARCHAR(100),
+  address NVARCHAR(150) NOT NULL,
   FOREIGN KEY (`username`) REFERENCES `Customers`(`username`) ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS `OrderItems`;
@@ -212,15 +212,15 @@ INSERT INTO `ProductImages`(`product_code`, `ordinal_number`, `image`) VALUES ('
 INSERT INTO `ProductImages`(`product_code`, `ordinal_number`, `image`) VALUES ('P003', 'third', '/public/products/2023/11/06/img1699259054.jpeg');
 INSERT INTO `ProductImages`(`product_code`, `ordinal_number`, `image`) VALUES ('P003', 'fourth', '/public/products/2023/11/06/img1699259055.jpeg');
 
-INSERT INTO `Customers`(`username`, `password`, `full_name`, `address`, `phone`, `email`) VALUES ('tuatua','123','Lê Văn Tèo','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555','n20dcat011@student.ptithcm.edu.vn');
-INSERT INTO `Customers`(`username`, `password`, `full_name`, `address`, `phone`, `email`) VALUES ('sieunhan','123','Lê Siêu Nhân','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555','n20dcat011@student.ptithcm.edu.vn');
+INSERT INTO `Customers`(`username`, `password`, `full_name`, `phone`, `email`) VALUES ('tuatua','123','Lê Văn Tèo','0707888555','n20dcat011@student.ptithcm.edu.vn');
+INSERT INTO `Customers`(`username`, `password`, `full_name`, `phone`, `email`) VALUES ('sieunhan','123','Lê Siêu Nhân','0707888555','n20dcat011@student.ptithcm.edu.vn');
 
 INSERT INTO `ShoppingCart`(`cart_code`, `username`) VALUES ('tuatua_cart_edc3d04ab475f595df9592f977d8dab95a085a53','tuatua');
 INSERT INTO `ShoppingCart`(`cart_code`, `username`) VALUES ('sieunhan_cart_a535da5f10c0d335cad1b6450dfa9737c74bd47a','sieunhan');
 
-INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`) VALUES ('order_1','delivered',400,'tuatua');
-INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`) VALUES ('order_2','pending',600,'sieunhan');
-INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`) VALUES ('order_3','cancelled',400,'sieunhan');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_1','delivered',400,'tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_2','pending',600,'sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_3','cancelled',400,'sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P001',2,'S',200);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P002',2,'L',200);
