@@ -38,33 +38,30 @@
 
             <!--********************* Customer ***********************-->
             <div style="background: var(--light);color: var(--dark);">
-                <table width="100%">
+                <table width="100%" id="myTable">
                     <thead>
                         <tr>
                             <th style="width: 120px;"><span class="las la-sort"></span> USERNAME</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> PASSWORD</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> HỌ TÊN</th>
-                            <th style="width: 150px;"><span class="las la-sort"></span> EMAIL</th>
                             <th style="width: 150px;"><span class="las la-sort"></span> SĐT</th>
-                            <th style="width: 170px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> ACTION</th>
+                            <th style="width: 170px;"><span class="las la-sort"></span> EMAIL</th>
+                            <th style="width: 150px;"><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         <?php foreach($data as $customer): ?>
                             <tr>
                                 <td data-label="Username"><?php echo $customer->getUsername(); ?></td>
-                                <td data-label="Password"><?php echo $customer->getPassword(); ?></td>
                                 <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
-                                <td data-label="DiaChi"><?php echo $customer->getAddress(); ?></td>
                                 <td data-label="SDT"><?php echo $customer->getPhone(); ?></td>
                                 <td data-label="Email"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="Action">
+                                    <i class="fa fa-pencil editBtn"></i>
                                     <button class="reset-password-btn" onclick="resetPassword('<?php echo $customer->getUsername(); ?>')">Reset Password</button>
                                 </td>
                                 <style>
                                     .reset-password-btn {
-                                    background-color: #ff0000;
+                                    background-color: #0066ff;
                                     color: white;
                                     padding: 8px 12px;
                                     border: none;
@@ -73,7 +70,7 @@
                                     transition: background-color 0.3s;
                                 }
                                 .reset-password-btn:hover {
-                                    background-color: #cc0033;
+                                    background-color: #3333cc;
                                 }
                                 </style>
                             </tr>
@@ -81,11 +78,11 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+            </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CustomerForm">
-                        <label for="CustomerCode">Mã Khách hàng:</label>
-                        <input style="color: black" type="text" id="MaKhachHang" name="MaKhachHang" required>
 
                         <label for="NameCustomer">Tên khách hàng:</label>
                         <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" required>
@@ -96,8 +93,6 @@
                         <label for="NumberPhoneCustomer">SĐT:</label>
                         <input style="color: black" type="text" id="SDT" name="SDT" required>
 
-                        <label for="Address">Địa chỉ:</label>
-                        <input style="color: black" type="text" id="DiaChi" name="DiaChi" required>
                         <br>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
@@ -117,200 +112,48 @@
     </main>
 
     </div>
-
     <script src="/public/js/dashboard.js"></script>
 </body>
 
 </html>
 
+
 <script>
     // Khai báo biến
     const link = document.querySelector(".slide-menu-customer");
-    const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
     const btnEdit = document.getElementById("submitBtn");
     const cancelBtn = document.getElementById("cancelBtn");
     const tbody = document.getElementById("tbody");
 
+    const table2 = document.querySelector('#myTable');
+    const hoTen = modal.querySelector('#TenKhachHang');
+    const email = modal.querySelector('#Email');
+    const sdt = modal.querySelector('#SDT');
+    const diaChi = modal.querySelector('#DiaChi');
+
     let isEditing = false
 
-    // ************************************ THÊM DỮ LIỆU ************************************ //
-    //Thêm đơn hàng
-    addBtn.addEventListener('click', function() {
-        modal.style.display = "block";
-        isEditing = false;
-        btnEdit.innerText = "Thêm";
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
-    })
-
-    //Xử lý button add
-    let productList = [];
-
-    // Sắp xếp theo mảng lại theo mã khách hàng
-    function sortProductList() {
-        productList.sort((a, b) => {
-            // Sử dụng toLowerCase để so sánh không phân biệt chữ hoa, chữ thường
-            const maKhachHangA = a.maKhachHang.toLowerCase();
-            const maKhachHangB = b.maKhachHang.toLowerCase();
-
-            if (maKhachHangA < maKhachHangB) {
-                return -1;
-            }
-            if (maKhachHangA > maKhachHangB) {
-                return 1;
-            }
-            return 0;
-        });
-    }
-
-    // Xử lý sự kiện submit của form
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const maKhachHang = document.getElementById("MaKhachHang").value;
-        const tenKhachHang = document.getElementById("TenKhachHang").value;
-        const email = document.getElementById("Email").value;
-        const sdt = document.getElementById("SDT").value;
-        const diaChi = document.getElementById("DiaChi").value;
-
-        const newProduct = {
-            maKhachHang: maKhachHang,
-            tenKhachHang: tenKhachHang,
-            email: email,
-            sdt: sdt,
-            diaChi: diaChi,
-        };
-
-        // Thêm sản phẩm mới vào đầu danh sách (kiểu stack)
-        productList.unshift(newProduct);
-        renderTable();
-        // Xóa dữ liệu trong form
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
-        modal.style.display = "none";
-    });
-
-    //**************************** XÓA DỮ LIỆU ************************************//
-    tbody.addEventListener("click", function(event) {
-        if (event.target.classList.contains("fa-trash")) {
-            const row = event.target.closest("tr");
-            const maKhachHang = row.querySelector("h4").textContent; // Lấy mã danh mục từ HTML
-            showConfirmationModal(maKhachHang);
-        }
-    });
-
-    // Hiển thị modal xác nhận xóa
-    function showConfirmationModal(maKhachHang) {
-        const confirmationModal = document.getElementById("confirmationModal");
-        confirmationModal.style.display = "block";
-
-        // Xác nhận xóa
-        document.getElementById("confirmDelete").onclick = function() {
-            // Tìm index của sản phẩm cần xóa
-            const index = productList.findIndex((product) => product.maKhachHang === maKhachHang);
-
-            if (index !== -1) {
-                productList.splice(index, 1);
-                renderTable();
-            }
-
-            closeConfirmationModal();
-        };
-
-        // Hủy xóa
-        document.getElementById("cancelDelete").onclick = function() {
-            closeConfirmationModal();
-        };
-    }
-
-    function closeConfirmationModal() {
-        const confirmationModal = document.getElementById("confirmationModal");
-        confirmationModal.style.display = "none";
-    }
-
+    
     // ********************************** SỬA DỮ LIỆU ************************************
-    function handleEditClick(event) {
-        isEditing = true;
-        const row = event.target.closest("tr");
-        const maKhachHang = row.querySelector("h4").textContent;
-        BtnEdit.innerText = "Sửa";
-        editProduct(maKhachHang);
+    table2.addEventListener('click', function(event) {
+    if (event.target.classList.contains('fa-pencil')) {
+        action = 'edit';
+        submitBtn.innerText = "Lưu";
+        const row = event.target.closest('tr');
+        const hoTen_in_table = row.cells[1].textContent.trim();
+        const sdt_in_table = row.cells[2].textContent.trim();
+        const email_in_table = row.cells[3].textContent.trim();
+        
+        // Điền dữ liệu vào form
+        hoTen.value = hoTen_in_table;
+        email.value = email_in_table;
+        sdt.value = sdt_in_table;
+        
+        // Hiển thị form
+        modal.style.display = "block";
+        
     }
-
-    // Render lại bảng đã cập nhật code mới nhất    
-    function renderTable() {
-        tbody.innerHTML = "";
-        sortProductList();
-        productList.forEach(function(product) {
-            const newRowHTML = `
-        <tr>
-            <td>
-                <div class="client">
-                    <div class="client-info">
-                        <h4>${product.maKhachHang}</h4>
-                    </div>
-                </div>
-            </td>
-            <td>${product.tenKhachHang}</td>
-            <td>${product.email}</td>
-            <td>${product.sdt}</td>
-            <td>${product.diaChi}</td>
-            <td>
-                <i class="fa fa-trash" onclick="handleDeleteClick(event)"></i>
-                <i class="fa fa-pencil" onclick="handleEditClick(event)"></i>
-            </td>
-        </tr>
-    `;
-
-            tbody.insertAdjacentHTML("beforeend", newRowHTML);
-        });
-    }
-
-    function editProduct(maDanhMuc) {
-        const productToEditIndex = productList.findIndex((product) => product.maDanhMuc === maDanhMuc);
-
-        if (productToEditIndex !== -1) {
-            const productToEdit = productList[productToEditIndex];
-            modal.style.display = "block";
-            document.getElementById("MaKhachHang").value = productToEdit.maKhachHang;
-            document.getElementById("TenKhachHang").value = productToEdit.tenKhachHang;
-            document.getElementById("Email").value = productToEdit.email;
-            document.getElementById("SDT").value = productToEdit.sdt;
-            document.getElementById("DiaChi").value = productToEdit.diaChi;
-        }
-    }
-
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        if (isEditing == true) {
-
-            const maKhachHang = document.getElementById("MaKhachHang").value;
-            const tenKhachHang = document.getElementById("TenKhachHang").value;
-            const email = document.getElementById("Email").value;
-            const sdt = document.getElementById("SDT").value;
-            const diaChi = document.getElementById("DiaChi").value;
-
-            for (let i = 0; i < productList.length; i++) {
-                if (productList[i].maKhachHang === maKhachHang) {
-                    // Cập nhật thông tin của chi tiết đơn hàng
-                    productList[i].tenKhachHang = tenKhachHang;
-                    productList[i].email = email;
-                    productList[i].sdt = sdt;
-                    productList[i].diaChi = diaChi;
-                    break; // Dừng vòng lặp khi tìm thấy và cập nhật
-                }
-            }
-            renderTable();
-        }
-        modal.style.display = "none";
     });
 
     //Xử lý button cancel
@@ -320,4 +163,63 @@
 
     // Active
     link.classList.add('active');
+
+    function showLoadingSwal() {
+    return Swal.fire({
+        title: 'Loading...',
+        text: 'Vui lòng chờ trong giây lát!',
+        timer: 2000,
+        showConfirmButton: false,
+        imageUrl: '/public/img/gif/loading.gif',
+        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+    });
+    }
+
+    // bấm submit
+    $('#CustomerForm').submit(function(e){
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        let method = '';
+        if(action == 'create'){
+            method = "AddCustomer";
+        }
+        else if(action == 'edit'){
+            method = "EditCustomer";
+        }
+
+        // gửi data
+        var sw = showLoadingSwal();
+            $.ajax({
+                url:'/Dashboard_customer/' + method,
+                method:'POST',
+                data: formData,
+                processData: false,  // Ngăn jQuery xử lý dữ liệu
+                contentType: false,  // Ngăn jQuery đặt tiêu đề 'Content-Type'
+                error:err=>{
+                    console.log(err)
+                },
+                success:function(resp){
+                var actionText = action == 'create' ? 'thêm' : 'sửa';
+                if(resp.trim() == "done"){
+                Swal.fire(
+                    'Completed!',
+                    'Bạn đã '+ actionText +' khách hàng thành công!',
+                    'success'
+                    )
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+                $('#myModal').hide();
+                }
+                else{
+                    sw.close();
+                    //nhớ thêm cái này cho mấy trang kia
+                    $('#CustomerForm').find('.custom-alert-error').remove();
+                    $('#CustomerForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
+                }
+            }
+        })
+    });
 </script>
