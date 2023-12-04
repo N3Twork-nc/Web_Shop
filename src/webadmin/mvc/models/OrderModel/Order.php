@@ -43,7 +43,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 foreach ($orders_item_from_DB as $row) {
                     // thêm obj vào mảng
                     
-                    $obj = new OrderObj($row);
+                    $obj = new OrderItemObj($row);
 
                     $orders_items[] = $obj;
                 }

@@ -803,39 +803,38 @@
         position: absolute;
         top: 5px;
     }
-/*Hiển thị lỗi và thành công*/
-
-.custom-alert {
-    width: 100%;
-    height: 60px;
-    padding-top: 20px !important;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    z-index: 1000;
-    /* Đảm bảo nằm trên các phần khác */
-    display: none;
-    /* Ẩn ban đầu */
-}
-
-.custom-alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.custom-alert-error {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.custom-alert i {
-    margin-right: 8px;
-}
-
-/* Xem chi tiết */
+    /*Hiển thị lỗi và thành công*/
+    
+    .custom-alert {
+        width: 100%;
+        height: 60px;
+        padding-top: 20px !important;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        z-index: 1000;
+        /* Đảm bảo nằm trên các phần khác */
+        display: none;
+        /* Ẩn ban đầu */
+    }
+    
+    .custom-alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    
+    .custom-alert-error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .custom-alert i {
+        margin-right: 8px;
+    }
+    /* Xem chi tiết */
     
     .XemChiTiet {
         position: fixed;
@@ -881,4 +880,41 @@
         height: auto;
         margin-bottom: 10px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .disabled {
+        pointer-events: none;
+        filter: grayscale(90%);
+    }
+    
+    #formChiTietOrder {
+        border-radius: 12px;
+        background: var(--light);
+        padding: 20px;
+    }
+    
+    .XemChiTiet h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+    
+    .XemChiTiet p {
+        display: inline-block;
+        margin: 0;
+        margin-right: 20px;
+        /* Khoảng cách giữa các phần tử */
+    }
+    
+    #cancelXemChiTietOrder {
+        display: block;
+        margin-top: 20px;
+        /* Khoảng cách giữa dòng chữ và button */
+        background-color: red;
+        color: white;
+        border: none;
+        width: 120px;
+        height: 30px;
+        border-radius: 1px;
+        font-size: 14px;
     }
