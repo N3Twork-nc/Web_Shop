@@ -51,6 +51,7 @@
                             <th><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
+                    <tbody id="tbody">
                     <?php foreach($data as $category): ?>
                             <tr>
                                 <td><?php echo $category->getCategory_id(); ?></td>
@@ -64,7 +65,6 @@
                                 </td> 
                             </tr>
                         <?php endforeach; ?>
-                    <tbody id="tbody">
                     </tbody>
                 </table>
             </div>

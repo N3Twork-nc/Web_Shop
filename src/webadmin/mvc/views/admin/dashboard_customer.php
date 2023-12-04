@@ -49,6 +49,12 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                    <!-- <?php var_dump($data); ?>
+                    <?php foreach($data as $category): ?>
+                            <tr>
+                                <td><?php echo $category->getUsername(); ?></td>
+                            </tr>
+                        <?php endforeach; ?> -->
                         <?php foreach($data as $customer): ?>
                             <tr>
                                 <td data-label="Username"><?php echo $customer->getUsername(); ?></td>
@@ -75,6 +81,7 @@
                                 </style>
                             </tr>
                         <?php endforeach; ?>
+
                     </tbody>
                 </table>
             </div>
@@ -92,7 +99,6 @@
 
                         <label for="NumberPhoneCustomer">SĐT:</label>
                         <input style="color: black" type="text" id="SDT" name="SDT" required>
-
                         <br>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
