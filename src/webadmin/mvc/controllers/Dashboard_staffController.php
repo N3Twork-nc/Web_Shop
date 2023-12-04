@@ -3,7 +3,7 @@
         function Show(){
             $model = $this->model("Admin");
             $data = $model->LoadAdmins();
-            // var_dump($data);
+            //var_dump($data);
             $page = $this->view("dashboard_staff", $data);
         }
     }

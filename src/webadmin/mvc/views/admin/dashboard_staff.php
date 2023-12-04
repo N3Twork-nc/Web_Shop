@@ -41,7 +41,6 @@
                 <table width="100%">
                     <thead>
                         <tr>
-                            <th><span class="las la-sort"></span> ID</th>
                             <th><span class="las la-sort"></span> USERNAME</th>
                             <th><span class="las la-sort"></span> PASSWORD</th>
                             <th><span class="las la-sort"></span> ROLE</th>
@@ -51,7 +50,6 @@
                     <tbody id="tbody">
                         <?php foreach($data as $staff): ?>
                             <tr>
-                                <td><?php echo $staff->getAdmin_id(); ?></td>
                                 <td><?php echo $staff->getUsername(); ?></td>
                                 <td><?php echo $staff->getPassword(); ?></td>
                                 <td><?php echo $staff->getRole(); ?></td>

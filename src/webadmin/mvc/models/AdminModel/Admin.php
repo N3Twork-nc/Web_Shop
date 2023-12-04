@@ -30,9 +30,9 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     
                     $obj = new AdminObj($row);
 
-                    $admin_from_DB[] = $obj;
+                    $arr[] = $obj;
                 }
-                return $admin_from_DB;
+                return $arr;
             } catch (PDOException $e) {
                 return  $sql . "<br>" . $e->getMessage();
             }
