@@ -51,6 +51,50 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                            <th style="width: 120px;"><span class="las la-sort"></span> USERNAME</th>
+                            <th style="width: 120px;"><span class="las la-sort"></span> PASSWORD</th>
+                            <th style="width: 120px;"><span class="las la-sort"></span> HỌ TÊN</th>
+                            <th style="width: 150px;"><span class="las la-sort"></span> EMAIL</th>
+                            <th style="width: 150px;"><span class="las la-sort"></span> SĐT</th>
+                            <th style="width: 170px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
+                            <th style="width: 120px;"><span class="las la-sort"></span> ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <!-- <?php var_dump($data); ?>
+                    <?php foreach($data as $category): ?>
+                            <tr>
+                                <td><?php echo $category->getUsername(); ?></td>
+                            </tr>
+                        <?php endforeach; ?> -->
+                        <?php foreach($data as $customer): ?>
+                            <tr>
+                                <td data-label="Username"><?php echo $customer->getUsername(); ?></td>
+                                <td data-label="Password"><?php echo $customer->getPassword(); ?></td>
+                                <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
+                                <td data-label="DiaChi"><?php echo $customer->getAddress(); ?></td>
+                                <td data-label="SDT"><?php echo $customer->getPhone(); ?></td>
+                                <td data-label="Email"><?php echo $customer->getEmail(); ?></td>
+                                <td data-label="Action">
+                                    <button class="reset-password-btn" onclick="resetPassword('<?php echo $customer->getUsername(); ?>')">Reset Password</button>
+                                </td>
+                                <style>
+                                    .reset-password-btn {
+                                    background-color: #ff0000;
+                                    color: white;
+                                    padding: 8px 12px;
+                                    border: none;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                    transition: background-color 0.3s;
+                                }
+                                .reset-password-btn:hover {
+                                    background-color: #cc0033;
+                                }
+                                </style>
+                            </tr>
+                        <?php endforeach; ?>
+
                     </tbody>
                 </table>
             </div>
