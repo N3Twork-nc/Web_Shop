@@ -41,22 +41,10 @@
                 <table width="100%">
                     <thead>
                         <tr>
-                            <th><span class="las la-sort"></span> USERNAME</th>
-                            <th><span class="las la-sort"></span> PASSWORD</th>
-                            <th><span class="las la-sort"></span> HỌ TÊN</th>
-                            <th><span class="las la-sort"></span> EMAIL</th>
-                            <th><span class="las la-sort"></span> SĐT</th>
-                            <th><span class="las la-sort"></span> ĐỊA CHỈ</th>
-                            <th><span class="las la-sort"></span> ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
                             <th style="width: 120px;"><span class="las la-sort"></span> USERNAME</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> PASSWORD</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> HỌ TÊN</th>
                             <th style="width: 150px;"><span class="las la-sort"></span> EMAIL</th>
                             <th style="width: 150px;"><span class="las la-sort"></span> SĐT</th>
-                            <th style="width: 170px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
@@ -70,9 +58,7 @@
                         <?php foreach($data as $customer): ?>
                             <tr>
                                 <td data-label="Username"><?php echo $customer->getUsername(); ?></td>
-                                <td data-label="Password"><?php echo $customer->getPassword(); ?></td>
                                 <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
-                                <td data-label="DiaChi"><?php echo $customer->getAddress(); ?></td>
                                 <td data-label="SDT"><?php echo $customer->getPhone(); ?></td>
                                 <td data-label="Email"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="Action">
@@ -112,9 +98,6 @@
 
                         <label for="NumberPhoneCustomer">SĐT:</label>
                         <input style="color: black" type="text" id="SDT" name="SDT" required>
-
-                        <label for="Address">Địa chỉ:</label>
-                        <input style="color: black" type="text" id="DiaChi" name="DiaChi" required>
                         <br>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
