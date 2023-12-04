@@ -1,16 +1,16 @@
 <?php
+include_once "./mvc/models/CustomerModel/CustomerObj.php";
     class OrderObj{
         private $order_code;
         private $order_date;
         private $state;
         private $total_price;
-        private $username;
+        private $customer;
+        private $address;
         private $order_items;
         private $payment_code;
         private $payment_date;
         private $type;
-        private $address;
-        private $phone;
 
         public function __construct($row)
         {
@@ -21,10 +21,8 @@
 
             $this->payment_code = $row['payment_code'];
             $this->payment_date = $row['payment_date'];
-            $this->username = $row['username'];
             $this->type = $row['type'];
             $this->address = $row['address'];
-            $this->phone = $row['phone'];
         }
 
         public function getOrder_code()
@@ -68,14 +66,14 @@
                 $this->total_price = $total_price;
         }
 
-        public function getUsername()
+        public function getCustomer()
         {
-                return $this->username;
+                return $this->customer;
         }
 
-        public function setUsername($username)
+        public function setCustomer($customer)
         {
-                $this->username = $username;
+                $this->customer = $customer;
         }
 
         public function getOrder_items()
@@ -127,17 +125,6 @@
         public function setAddress($address)
         {
                 $this->address = $address;
-        }
-
-        public function getPhone()
-        {
-                return $this->phone;
-        }
-
-        public function setPhone($phone)
-        {
-                $this->phone = $phone;
-
         }
     }
 

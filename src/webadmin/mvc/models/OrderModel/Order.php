@@ -60,7 +60,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db = new DB();
                 $sql = "SELECT TMP.*, P.payment_code, P.payment_date, P.type 
                 FROM (
-                    SELECT O.*, C.address, C.phone 
+                    SELECT O.*, C.phone 
                     FROM Orders AS O, Customers AS C 
                     WHERE O.username = C.username
                     ) AS TMP 
@@ -76,8 +76,13 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
 
                     $orders_item = $this->LoadOrdersItem($row['order_code']);
 
-                    $obj->setOrder_items($orders_item);
+                    $dataCustomer = [];
+                    $dataCustomer['username'] = $row['username'];
+                    $dataCustomer['phone'] = $row['phone'];
+                    $customer = new CustomerObj($dataCustomer);
 
+                    $obj->setOrder_items($orders_item);
+                    $obj->setCustomer($customer);
                     $orders[] = $obj;
                 }
 
@@ -122,7 +127,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db->conn->beginTransaction();
                 $sql = "SELECT TMP.*, P.payment_code, P.payment_date, P.type 
                 FROM (
-                    SELECT O.*, C.address, C.phone, C.email 
+                    SELECT O.*, C.phone, C.email 
                     FROM Orders AS O, Customers AS C 
                     WHERE (O.state = 'delivered' OR O.state = 'cancelled') AND O.username = C.username
                     ) AS TMP 
