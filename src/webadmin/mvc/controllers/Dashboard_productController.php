@@ -266,9 +266,9 @@
 
                         $model = $this->model("Order");
 
-                        $res = $model->CheckOrderDelivered($product_data);
+                        $res = $model->CheckOrderNotDeliveredYet($product_data);
 
-                        if($res === "done"){
+                        if($res === "None"){
                             $model = $this->model("Product");
                             $old_images = $model->LoadProductImages($product_data['product_code']);
                             if(is_array($old_images)){
@@ -322,9 +322,9 @@
                 if($check == false){
                         $model = $this->model("Order");
 
-                        $res = $model->CheckOrderDelivered($product_data);
+                        $res = $model->CheckOrderNotDeliveredYet($product_data);
 
-                        if($res === "done"){
+                        if($res === "None"){
                             $model = $this->model("Product");
 
                             // lấy đường dẫn hình và xóa nó đi

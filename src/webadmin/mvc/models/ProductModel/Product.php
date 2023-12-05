@@ -75,8 +75,8 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 $db->execute($sql, $params);
             }
             catch (PDOException $e) {
-                //throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
-                throw "Lỗi khi thêm size"; // Ném ngoại lệ để bắt ở nơi gọi hàm
+                throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
+                //throw "Lỗi khi thêm size"; // Ném ngoại lệ để bắt ở nơi gọi hàm
             }
         }
 
@@ -87,8 +87,8 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 $db->execute($sql, $params);
             }
             catch (PDOException $e) {
-                //throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
-                throw "Lỗi khi thêm ảnh"; // Ném ngoại lệ để bắt ở nơi gọi hàm
+                throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
+                //throw "Lỗi khi thêm ảnh"; // Ném ngoại lệ để bắt ở nơi gọi hàm
             }
         }
 
@@ -132,8 +132,8 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             $db->execute($sql, $params);
         }
         catch (PDOException $e) {
-            //throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
-            throw "Lỗi khi sửa size"; // Ném ngoại lệ để bắt ở nơi gọi hàm
+            throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
+            //throw "Lỗi khi sửa size"; // Ném ngoại lệ để bắt ở nơi gọi hàm
         }
     }
 
@@ -144,9 +144,9 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             $db->execute($sql, $params);
         }
         catch (PDOException $e) {
-            //throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
+            throw $e; // Ném ngoại lệ để bắt ở nơi gọi hàm
             //echo  $sql . "<br>" . $e->getMessage();
-            throw "Lỗi khi sửa ảnh";
+            //throw "Lỗi khi sửa ảnh";
         }
     }
 

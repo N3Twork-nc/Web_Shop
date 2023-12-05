@@ -23,17 +23,14 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Đơn hàng</h1>
+                    <h1>Lịch sử đơn hàng</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Order
+                                Order Histtory
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
 
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
-                            Thêm đơn hàng
-                        </button>
                     </ul>
                 </div>
             </div>
@@ -90,28 +87,6 @@
                                 <td data-label="SDT"><?php echo $order->getCustomer()->getPhone(); ?></td>
                                 <td>
                                     <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
-                                    <?php
-                                        if ($order->getState() == 'pending') {
-                                            echo '<i style="background: #db7419; border: 2px solid #db7419 !important; margin-top: 5px" class="fa fa-truck deliveryOrder active" title="Vận chuyển"></i>';
-                                            echo '<i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times cancelOrder active" title="Hủy đơn hàng"></i>';
-                                        } else {
-                                            echo '<i style="background: #c11515; border: 2px solid #c11515 !important; pointer-events: none; margin-top: 5px" class="fa fa-truck disabled" title="Vận chuyển"></i>';
-                                            echo '<i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times disabled" title="Hủy đơn hàng"></i>';
-                                        }
-                                    ?>
-                                    <?php
-                                        if ($order->getState() == 'delivering') {
-                                            if($order->getPayment_code() == null && 
-                                            $order->getPayment_date() == null &&
-                                            $order->getType() == null) {
-                                                echo '<i style="margin-top: 5px" class="fa fa-paypal payOrder active" title="Thanh toán"></i>';
-                                            }else {
-                                                echo '<i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>';
-                                            }
-                                        }else {
-                                            echo '<i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>';
-                                        }
-                                    ?>
                                 </td>                 
                                 <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
                                     <?php $order_items = $order->getOrder_items(); ?>
@@ -128,39 +103,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="myModal" class="modal" style="display: none;">
-                <div class="modal-content" style="border-radius: 8px;">
-                    <form id="OrderForm">
-                        <label for="OrderCode">Mã đơn:</label>
-                        <input style="color: black" type="text" id="MaDonHang" name="MaDonHang" required>
-
-                        <label for="NameCustomer">Tên khách hàng:</label>
-                        <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" required>
-
-                        <label for="OrderDate">Ngày đặt:</label>
-                        <input style="height: 47px; width:100%;" type="date" id="NgayDat" name="NgayDat" required>
-
-                        <label for="OrderStatus" style="width: 100%; margin-top: 8px;">Trạng thái:</label>
-                        <select style="height: 47px; width:100%;" id="TrangThai" name="TrangThai" required>
-                            <option value="ConHang">Còn hàng</option>
-                            <option value="HetHang">Hết hàng</option>
-                        </select>
-
-                        <label for="TotalMoney" style="margin-top: 8px;">Tổng tiền:</label>
-                        <input style="color: black" type="text" id="TongTien" name="TongTien" required>
-                        <br>
-
-                        <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
-                        <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
-                    </form>
-                </div>
-            </div>
             <!-- Confirmation Modal -->
-            <div id="confirmationModal">
-                <p>Bạn có chắc chắn muốn xóa dữ liệu này?</p>
-                <button id="confirmDelete" onclick="deleteData()" style="background: var(--primary); border: none;padding: 10px 15px; color: white; border-radius: 8px; width: 60px;">Có</button>
-                <button id="cancelDelete" onclick="closeConfirmationModal()" style="background: var(--dark-grey); border: none;padding: 10px 10px; color: white; border-radius: 8px; width: 60px;">Không</button>
-            </div>
             
             <div id="formChiTietOrder" class="XemChiTiet" style="display:none; border-radius: 12px; background: var(--light); width: 80% !important;">
                 <table width="100%">
@@ -194,111 +137,15 @@
     //Khai báo biến tổng quát dùng mọi chỗ
     const link = document.querySelector(".slide-menu-order");
     const modal = document.getElementById("myModal");
-    const btnEdit = document.getElementById("submitBtn");
-    const cancelBtn = document.getElementById("cancelBtn");
+    // const cancelBtn = document.getElementById("cancelBtn");
     const tbody = document.getElementById("tbody");
 
     const table2 = document.querySelector('#myTable');
     let isEditing = false;
 
-    function showLoadingSwal() {
-    return Swal.fire({
-        title: 'Loading...',
-        text: 'Vui lòng chờ trong giây lát!',
-        timer: 2000,
-        showConfirmButton: false,
-        imageUrl: '/public/img/gif/loading.gif',
-        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
-    });
-    }
-
-    function popUp(title, icon, confirmText, cancelText, method, successText){
-            const row = event.target.closest('tr');
-            const order_code = row.cells[0].textContent.trim();
-            Swal.fire({
-                title: title,
-                icon: icon,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: confirmText,
-                cancelButtonText: cancelText
-            }).then((result) => {
-                if (result.isConfirmed) {
-                var sw = showLoadingSwal();
-                $.ajax({
-                    url: '/Dashboard_order/' + method,
-                    type: 'POST',
-                    data: { order_code: order_code },
-                    success: function(response) {
-                    if (response.trim() == "done") {
-                        Swal.fire(
-                        'Completed!',
-                        successText,
-                        'success'
-                        )
-                        // sau 2 giây sẽ tải lại trang
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000); 
-                    } else {
-                        sw.close();
-                        // Nếu có lỗi thì hiển thị thông báo lỗi
-                        Swal.fire(
-                        'Oops...',
-                        response,
-                        'error'
-                        )
-                    }
-                    },
-                });
-                }
-            })
-    }
-
-    //Thanh toán
-    table2.addEventListener('click', function(event) {
-        if (event.target.classList.contains('payOrder')) {
-            let title = 'Thanh toán cho đơn hàng này?';
-            let icon = 'question';
-            let confirmText = 'Thanh toán';
-            let cancelText = 'Hủy';
-            let method = 'Pay';
-            let successText = 'Thanh toán thành công!';
-            popUp(title, icon, confirmText, cancelText, method, successText);
-        }
-    })
-
-    //Hủy đơn
-
-    table2.addEventListener('click', function(event) {
-        if (event.target.classList.contains('cancelOrder')) {
-            let title = 'Bạn muốn hủy đơn hàng này?';
-            let icon = 'warning';
-            let confirmText = 'Hủy đơn';
-            let cancelText = 'Không';
-            let method = 'Cancel';
-            let successText = 'Hủy đơn thành công!';
-            popUp(title, icon, confirmText, cancelText, method, successText);
-        }
-    })
-    
-    // Vận chuyển
-    table2.addEventListener('click', function(event) {
-        if (event.target.classList.contains('deliveryOrder')) {
-            let title = 'Vận chuyển đơn hàng này?';
-            let icon = 'question';
-            let confirmText = 'Vận chuyển';
-            let cancelText = 'Hủy';
-            let method = 'Delivery';
-            let successText = 'Đơn hàng đang được vận chuyển!';
-            popUp(title, icon, confirmText, cancelText, method, successText);
-        }
-    })
-
-    cancelBtn.addEventListener('click', function() {
-            modal.style.display = "none";
-        })
+    // cancelBtn.addEventListener('click', function() {
+    //         modal.style.display = "none";
+    // })
         //Active
     link.classList.add('active');
 
