@@ -118,11 +118,11 @@ CREATE TABLE Payment (
 DROP TABLE IF EXISTS `OrdersHistory`;
 
 CREATE TABLE OrdersHistory (
-  history_id INT PRIMARY KEY AUTO_INCREMENT,
+  order_code VARCHAR(100) PRIMARY KEY,
+  order_date DATETIME,
   payment_code VARCHAR(50),
   payment_date DATETIME,
   payment_type ENUM('cash', 'bank_transfer'),
-  order_code VARCHAR(100),
   state ENUM('pending', 'delivered','delivering', 'cancelled'),
   username VARCHAR(100),
   address NVARCHAR(150),
@@ -134,12 +134,12 @@ DROP TABLE IF EXISTS `OrdersHistoryItems`;
 
 CREATE TABLE OrdersHistoryItems (
   history_detail_id INT PRIMARY KEY AUTO_INCREMENT,
-  history_id INT,
+  order_code VARCHAR(100),
   product_code VARCHAR(50),
   quantity INT,
   size ENUM('S', 'M', 'L', 'XL', 'XXL'),
   total_price DECIMAL(10,2),
-  FOREIGN KEY (`history_id`) REFERENCES `OrdersHistory`(`history_id`)
+  FOREIGN KEY (`order_code`) REFERENCES `OrdersHistory`(`order_code`)
 ); 
 DROP TABLE IF EXISTS `AdminAccounts`;
 
@@ -221,21 +221,23 @@ INSERT INTO `ShoppingCart`(`cart_code`, `username`) VALUES ('sieunhan_cart_a535d
 INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_1','delivered',400,'tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_2','pending',600,'sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_3','cancelled',400,'sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_4','delivering',800,'tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P001',2,'S',200);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P002',2,'L',200);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_2','P002',3,'L',300);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_2','P003',3,'M',300);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_3','P003',4,'L',400);
+INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_4','P003',8,'L',800);
 
 INSERT INTO `Payment`(`payment_code`, `order_code`, `type`) VALUES ('payment_1','order_1','bank_transfer');
 
-INSERT INTO `OrdersHistory`(`payment_code`, `payment_date`, `payment_type`, `order_code`, `state`, `username`, `address`, `phone`, `total_price`) VALUES ('payment_1',CURRENT_TIMESTAMP,'bank_transfer','order_1','delivered','tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
-INSERT INTO `OrdersHistory`(`order_code`, `state`, `username`, `address`, `phone`, `total_price`) VALUES ('order_3','cancelled','sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
+INSERT INTO `OrdersHistory`(`order_code`, `order_date` ,`payment_code`, `payment_date`, `payment_type`, `state`, `username`, `address`, `phone`, `total_price`) VALUES ('order_1', CURRENT_TIMESTAMP,'payment_1',CURRENT_TIMESTAMP,'bank_transfer','delivered','tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
+INSERT INTO `OrdersHistory`(`order_code`, `order_date` , `state`, `username`, `address`, `phone`, `total_price`) VALUES ('order_3', CURRENT_TIMESTAMP,'cancelled','sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
 
-INSERT INTO `OrdersHistoryItems`(`history_id`, `product_code`, `quantity`, `size`, `total_price`) VALUES (1,'P001',2,'S', 200);
-INSERT INTO `OrdersHistoryItems`(`history_id`, `product_code`, `quantity`, `size`, `total_price`) VALUES (1,'P002',2,'L', 200);
-INSERT INTO `OrdersHistoryItems`(`history_id`, `product_code`, `quantity`, `size`, `total_price`) VALUES (2,'P003',4,'L', 400);
+INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P001',2,'S', 200);
+INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','P002',2,'L', 200);
+INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_3','P003',4,'L', 400);
 
 -- SP LOAD PRODUCT
 DROP PROCEDURE IF EXISTS `GetProducts`;
