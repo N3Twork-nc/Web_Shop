@@ -112,6 +112,13 @@
                                             echo '<i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>';
                                         }
                                     ?>
+                                    <?php 
+                                        if($order->getState() == 'delivering' && $order->getPayment_code() != null) {
+                                            echo('<i style="margin-top: 5px; margin-left: 5px;" class="fa fa-check confirmDelivery active" title="Xác nhận giao hàng"></i>');
+                                        }else {
+                                            echo('<i style="margin-top: 5px; margin-left: 5px;" class="fa fa-check disabled" title="Xác nhận giao hàng"></i>');
+                                        }
+                                    ?>
                                 </td>                 
                                 <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
                                     <?php $order_items = $order->getOrder_items(); ?>
@@ -205,7 +212,6 @@
     return Swal.fire({
         title: 'Loading...',
         text: 'Vui lòng chờ trong giây lát!',
-        timer: 2000,
         showConfirmButton: false,
         imageUrl: '/public/img/gif/loading.gif',
         allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
@@ -292,6 +298,19 @@
             let cancelText = 'Hủy';
             let method = 'Delivery';
             let successText = 'Đơn hàng đang được vận chuyển!';
+            popUp(title, icon, confirmText, cancelText, method, successText);
+        }
+    })
+
+    // Xác nhận giao hàng
+    table2.addEventListener('click', function(event) {
+        if (event.target.classList.contains('confirmDelivery')) {
+            let title = 'Đơn này đã giao thành công?';
+            let icon = 'question';
+            let confirmText = 'Xác nhận';
+            let cancelText = 'Hủy';
+            let method = 'ConfirmDelivery';
+            let successText = 'Đã chuyển trạng thái đơn hàng!';
             popUp(title, icon, confirmText, cancelText, method, successText);
         }
     })

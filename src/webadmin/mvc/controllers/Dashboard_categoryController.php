@@ -50,7 +50,9 @@
                     "category_name" => $_POST['CategoryName'],
                     "category_parent_id" => $_POST['CategoryParentID'],
                 );
-                    
+                
+                $category_data = array_map('trim', $category_data);
+
                 $check = $this->ValidateData($category_data);
                 if($check == "validated"){
                     
@@ -73,6 +75,8 @@
                     "category_name" => $_POST['CategoryName'],
                     "category_parent_id" => $_POST['CategoryParentID'],
                 );
+
+                $category_data = array_map('trim', $category_data);
                     
                 $check = $this->ValidateData($category_data);
                 if($check == "validated"){

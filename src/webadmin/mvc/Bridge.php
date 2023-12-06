@@ -1,6 +1,10 @@
 <?php
     require_once './mvc/core/SessionIDCustom.php';
     $sessionID = new SessionIDCustom();
+
+    // set timezone
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    
     //session_create_id($sessionID->php_session_create_id());
     ini_set('session.sid_length', 64);
     ini_set('session.sid_bits_per_character', 6);

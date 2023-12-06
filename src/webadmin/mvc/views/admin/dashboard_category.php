@@ -186,7 +186,6 @@
     return Swal.fire({
         title: 'Loading...',
         text: 'Vui lòng chờ trong giây lát!',
-        timer: 2000,
         showConfirmButton: false,
         imageUrl: '/public/img/gif/loading.gif',
         allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
@@ -231,8 +230,8 @@
                 sw.close();
 
                 //nhớ thêm cái này cho mấy trang kia
-                $('#CategoryForm').find('.alert-danger').remove();
-                $('#CategoryForm').prepend('<div class="alert alert-danger">'+ resp + '</div>');
+                $('#CategoryForm').find('.custom-alert-error').remove();
+                $('#CategoryForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>'+ resp + '</div>');
             }
         }
     })

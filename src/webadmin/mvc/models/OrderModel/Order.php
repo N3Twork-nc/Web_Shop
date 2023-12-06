@@ -156,6 +156,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
         // di chuyển chi tiết đơn hàng vào history
         function MoveOrderToHistoryDetails($db, $data){
             try {
+                // var_dump($data);
                 $sql = "INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) 
                 VALUES (?,?,?,?,?);";
                 $params = array($data->getOrder_code(), $data->getProduct_code(), $data->getQuantity(), $data->getSize(), $data->getTotal_price());
@@ -276,7 +277,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $order_details = $order[0]->getOrder_items();
 
                 // di chuyển từng cái qua history
-                foreach($order_details->getOrder_items() as $each){
+                foreach($order_details as $each){
                     $this->MoveOrderToHistoryDetails($db, $each);
                 }
 
@@ -361,6 +362,45 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db->conn->rollBack();
                 //echo "Lỗi khi thanh toán";
                 echo $e->getMessage();
+            }
+        }
+
+         // xác nhận đơn đã giao
+         function ConfirmDelivery($data){
+            try {
+                $db = new DB();
+                $db->conn->beginTransaction();
+
+                // update trạng thái thành delivered
+                $sql = "UPDATE `Orders` AS O SET O.state= 'delivered' WHERE O.order_code = ?;";
+                $params = array($data['order_code']);
+                $db->execute($sql, $params);
+
+                // // load order
+                $order = $this->FindOrder($data['order_code'], $db);
+                
+                // // di chuyển order qua history
+                $this->MoveOrderToHistory($db, $order[0]);
+                
+                // // load order details
+                $order_details = $order[0]->getOrder_items();
+                
+                // di chuyển từng cái qua history
+                foreach($order_details as $each){
+                    $this->MoveOrderToHistoryDetails($db, $each);
+                }
+                
+                // xóa order
+                $sql = "DELETE FROM `Orders` AS O WHERE O.order_code = ?;";
+                $params = array($data['order_code']);
+                $db->execute($sql, $params);
+                
+                $db->conn->commit();
+                echo "done";
+            } catch (PDOException $e) {
+                $db->conn->rollBack();
+                echo "Lỗi khi đổi trạng thái đơn hàng";
+                //echo $e->getMessage();
             }
         }
 

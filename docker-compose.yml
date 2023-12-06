@@ -47,6 +47,7 @@ services:
       - MYSQL_DATABASE=ptit_shop
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
+      - TZ=Asia/Ho_Chi_Minh
     volumes:
       - "./src/webadmin:/var/www/html/"
   webshopping:
@@ -61,6 +62,7 @@ services:
       - MYSQL_DATABASE=ptit_shop
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
+      - TZ=Asia/Ho_Chi_Minh
     volumes:
       - "./src/webshopping:/var/www/html/"
       - "./src/webadmin/public/products:/var/www/html/public/products"

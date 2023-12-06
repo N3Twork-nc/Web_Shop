@@ -64,7 +64,7 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                 echo "done";
             } catch (PDOException $e) {
 
-                echo "Lỗi khi sửa danh mục";
+                echo "Tồn tại sản phẩm thuộc danh mục này, không thể xóa";
                 //echo  $sql . "<br>" . $e->getMessage();
             }
         }

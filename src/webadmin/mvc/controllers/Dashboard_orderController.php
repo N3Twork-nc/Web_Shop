@@ -25,6 +25,29 @@
             }
         }
 
+        function ConfirmDelivery(){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $order_data = array(
+                    "order_code" => $_POST['order_code']
+                );
+
+                $model = $this->model("Order");
+                $order = $model->FindOrder($order_data['order_code']);
+
+                if($order[0]->getState() == 'delivering'){
+                   if(empty($order[0]->getPayment_code())){
+                    echo "Đơn hàng chưa được thanh toán trước nên không thể xác nhận giao hàng!";
+                   }
+                   else{
+                        $data = $model->ConfirmDelivery($order_data);
+                   }
+                }
+                else{
+                    echo "Chỉ được xác nhận đơn hàng đang giao";
+                }
+            }
+        }
+
         function Pay(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $order_data = array(

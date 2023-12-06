@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require_once './mvc/views/admin/libHeader.php'; ?>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>PTITShop</title>
 </head>
 
@@ -38,22 +39,24 @@
 
             <!--********************* Customer ***********************-->
             <div style="background: var(--light);color: var(--dark);">
-                <table width="100%">
+                <table id="myTable" width="100%">
                     <thead>
                         <tr>
-                            <th><span class="las la-sort"></span> USERNAME</th>
-                            <th><span class="las la-sort"></span> PASSWORD</th>
-                            <th><span class="las la-sort"></span> ROLE</th>
-                            <th><span class="las la-sort"></span> ACTION</th>
+                            <th style="width: 30%;"><span class="las la-sort"></span> USERNAME</th>
+                            <th style="width: 30%;"><span class="las la-sort"></span> ROLE</th>
+                            <th style="width: 30%;"><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         <?php foreach($data as $staff): ?>
                             <tr>
                                 <td><?php echo $staff->getUsername(); ?></td>
-                                <td><?php echo $staff->getPassword(); ?></td>
                                 <td><?php echo $staff->getRole(); ?></td>
-                                <td><button style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button></td>
+                                
+                                <td>
+                                    <button style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
+                                    <i class="fa fa-trash"></i>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -61,13 +64,19 @@
             </div>
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
-                    <form id="CustomerForm">
+                    <form id="StaffForm">
                         <label for="CustomerCode">Username</label>
-                        <input style="color: black" type="text" id="username" name="username" required>
+                        <input style="color: black" type="text" id="username" name="username">
 
                         <label for="NameCustomer">Password</label>
                         <input style="color: black ; width: 100%;
-                        padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" id="password" name="password" required>
+                        padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" id="password" name="password">
+
+                        <label for="ProductCategory" style="margin-top: 20px">Role:</label>
+                        <select name="role" id="role" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
+                            <option value="staff">staff</option>
+                            <option value="manager">manager</option>
+                        </select>   
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
@@ -99,178 +108,115 @@
     const modal = document.getElementById("myModal");
     const btnEdit = document.getElementById("submitBtn");
     const cancelBtn = document.getElementById("cancelBtn");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const role = document.getElementById("role");
     const tbody = document.getElementById("tbody");
 
     let isEditing = false
 
-    // ************************************ THÊM DỮ LIỆU ************************************ //
-    //Thêm đơn hàng
-    addBtn.addEventListener('click', function() {
-        modal.style.display = "block";
-        isEditing = false;
-        btnEdit.innerText = "Thêm";
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
+    const table2 = document.querySelector('#myTable');
+        //xóa nv
+    table2.addEventListener('click', function(event) {
+        if (event.target.classList.contains('fa-trash')) {
+            const row = event.target.closest('tr');
+            const username = row.cells[0].textContent.trim();
+            Swal.fire({
+                title: 'Bạn có chắc là muốn xóa nhân viên này không?',
+                text: "Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vẫn xóa',
+                cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                if (result.isConfirmed) {
+                var sw = showLoadingSwal();
+                $.ajax({
+                    url: '/Dashboard_staff/DeleteStaff',
+                    type: 'POST',
+                    data: { username: username },
+                    success: function(response) {
+                    if (response.trim() == "done") {
+                        Swal.fire(
+                        'Completed!',
+                        'Bạn đã xóa danh mục thành công!',
+                        'success'
+                        )
+                        // sau 2 giây sẽ tải lại trang
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000); 
+                    } else {
+                        sw.close();
+                        // Nếu có lỗi thì hiển thị thông báo lỗi
+                        Swal.fire(
+                        'Oops...',
+                        response,
+                        'error'
+                        )
+                    }
+                    },
+                });
+                }
+            })
+            }
     })
 
-    //Xử lý button add
-    let productList = [];
+    addBtn.addEventListener('click', function() {
+        modal.style.display = "block";
+        username.value = '';
+        password.value = '';
+        role.value = '';
+        $('#StaffForm').find('.custom-alert-error').remove();
+        BtnEdit.innerText = "Thêm";
+    })
 
-    // Sắp xếp theo mảng lại theo mã khách hàng
-    function sortProductList() {
-        productList.sort((a, b) => {
-            // Sử dụng toLowerCase để so sánh không phân biệt chữ hoa, chữ thường
-            const maKhachHangA = a.maKhachHang.toLowerCase();
-            const maKhachHangB = b.maKhachHang.toLowerCase();
-
-            if (maKhachHangA < maKhachHangB) {
-                return -1;
-            }
-            if (maKhachHangA > maKhachHangB) {
-                return 1;
-            }
-            return 0;
-        });
-    }
-
-    // Xử lý sự kiện submit của form
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const username = document.getElementById("username").value;
-        const tenKhachHang = document.getElementById("password").value;
-
-        const newProduct = {
-            username: username,
-            username: username,
-        };
-
-        // Thêm sản phẩm mới vào đầu danh sách (kiểu stack)
-        productList.unshift(newProduct);
-        renderTable();
-        // Xóa dữ liệu trong form
-        document.getElementById("MaKhachHang").value = "";
-        document.getElementById("TenKhachHang").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("SDT").value = "";
-        document.getElementById("DiaChi").value = "";
-        modal.style.display = "none";
+    
+    function showLoadingSwal() {
+    return Swal.fire({
+        title: 'Loading...',
+        text: 'Vui lòng chờ trong giây lát!',
+        showConfirmButton: false,
+        imageUrl: '/public/img/gif/loading.gif',
+        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
     });
-
-    //**************************** XÓA DỮ LIỆU ************************************//
-    tbody.addEventListener("click", function(event) {
-        if (event.target.classList.contains("fa-trash")) {
-            const row = event.target.closest("tr");
-            const maKhachHang = row.querySelector("h4").textContent; // Lấy mã danh mục từ HTML
-            showConfirmationModal(maKhachHang);
-        }
-    });
-
-    // Hiển thị modal xác nhận xóa
-    function showConfirmationModal(maKhachHang) {
-        const confirmationModal = document.getElementById("confirmationModal");
-        confirmationModal.style.display = "block";
-
-        // Xác nhận xóa
-        document.getElementById("confirmDelete").onclick = function() {
-            // Tìm index của sản phẩm cần xóa
-            const index = productList.findIndex((product) => product.maKhachHang === maKhachHang);
-
-            if (index !== -1) {
-                productList.splice(index, 1);
-                renderTable();
-            }
-
-            closeConfirmationModal();
-        };
-
-        // Hủy xóa
-        document.getElementById("cancelDelete").onclick = function() {
-            closeConfirmationModal();
-        };
     }
 
-    function closeConfirmationModal() {
-        const confirmationModal = document.getElementById("confirmationModal");
-        confirmationModal.style.display = "none";
-    }
+    // bấm submit
+    $('#StaffForm').submit(function(e){
+        e.preventDefault();
 
-    // ********************************** SỬA DỮ LIỆU ************************************
-    function handleEditClick(event) {
-        isEditing = true;
-        const row = event.target.closest("tr");
-        const maKhachHang = row.querySelector("h4").textContent;
-        BtnEdit.innerText = "Sửa";
-        editProduct(maKhachHang);
-    }
-
-    // Render lại bảng đã cập nhật code mới nhất    
-    function renderTable() {
-        tbody.innerHTML = "";
-        sortProductList();
-        productList.forEach(function(product) {
-            const newRowHTML = `
-        <tr>
-            <td>
-                <div class="client">
-                    <div class="client-info">
-                        <h4>${product.maKhachHang}</h4>
-                    </div>
-                </div>
-            </td>
-            <td>${product.tenKhachHang}</td>
-            <td>${product.email}</td>
-            <td>${product.sdt}</td>
-            <td>${product.diaChi}</td>
-            <td>
-                <i class="fa fa-trash" onclick="handleDeleteClick(event)"></i>
-                <i class="fa fa-pencil" onclick="handleEditClick(event)"></i>
-            </td>
-        </tr>
-    `;
-
-            tbody.insertAdjacentHTML("beforeend", newRowHTML);
-        });
-    }
-
-    function editProduct(maDanhMuc) {
-        const productToEditIndex = productList.findIndex((product) => product.maDanhMuc === maDanhMuc);
-
-        if (productToEditIndex !== -1) {
-            const productToEdit = productList[productToEditIndex];
-            modal.style.display = "block";
-            document.getElementById("MaKhachHang").value = productToEdit.maKhachHang;
-            document.getElementById("TenKhachHang").value = productToEdit.tenKhachHang;
-            document.getElementById("Email").value = productToEdit.email;
-            document.getElementById("SDT").value = productToEdit.sdt;
-            document.getElementById("DiaChi").value = productToEdit.diaChi;
-        }
-    }
-
-    document.getElementById("CustomerForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        if (isEditing == true) {
-
-            const maKhachHang = document.getElementById("MaKhachHang").value;
-            const tenKhachHang = document.getElementById("TenKhachHang").value;
-            const email = document.getElementById("Email").value;
-            const sdt = document.getElementById("SDT").value;
-            const diaChi = document.getElementById("DiaChi").value;
-
-            for (let i = 0; i < productList.length; i++) {
-                if (productList[i].maKhachHang === maKhachHang) {
-                    // Cập nhật thông tin của chi tiết đơn hàng
-                    productList[i].tenKhachHang = tenKhachHang;
-                    productList[i].email = email;
-                    productList[i].sdt = sdt;
-                    productList[i].diaChi = diaChi;
-                    break; // Dừng vòng lặp khi tìm thấy và cập nhật
+        // gửi data
+        var sw = showLoadingSwal();
+            $.ajax({
+                url:'/Dashboard_staff/AddStaff',
+                method:'POST',
+                data: $(this).serialize(),
+                error:err=>{
+                    console.log(err)
+                },
+                success:function(resp){
+                if(resp.trim() == "done"){
+                Swal.fire(
+                    'Completed!',
+                    'Bạn đã nhân viên thành công!',
+                    'success'
+                    )
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+                $('#myModal').hide();
+                }
+                else{
+                    sw.close();
+                    //nhớ thêm cái này cho mấy trang kia
+                    $('#StaffForm').find('.custom-alert-error').remove();
+                    $('#StaffForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
                 }
             }
-            renderTable();
-        }
-        modal.style.display = "none";
+        })
     });
 
     //Xử lý button cancel
