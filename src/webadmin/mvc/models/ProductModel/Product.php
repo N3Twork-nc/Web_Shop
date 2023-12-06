@@ -97,7 +97,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 $db = new DB();
                 $db->conn->beginTransaction();
                 $sql = "INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`, `product_state`) 
-                VALUES (?,?,?,?,?,?);";
+                VALUES (?,?,?,?,?,?,?);";
                 $params = array($data['product_code'], $data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color'], $data['product_state']);
                 $res = $db->execute($sql, $params);
                 
@@ -117,11 +117,11 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 }
 
                 $db->conn->commit();
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo "Lỗi khi thêm sản phẩm";
-                //echo  $sql . "<br>" . $e->getMessage();
+                //echo "Lỗi khi thêm sản phẩm";
+                return  $sql . "<br>" . $e->getMessage();
             }
     }
 
@@ -176,10 +176,10 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
 
             $db->conn->commit();
 
-            echo "done";
+            return "done";
         } catch (PDOException $e) {
             $db->conn->rollBack();
-            echo "Lỗi khi sửa sản phẩm";
+            return "Lỗi khi sửa sản phẩm";
             // echo  $sql . "<br>" . $e->getMessage();
         }
     }

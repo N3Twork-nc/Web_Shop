@@ -26,6 +26,13 @@ RUN a2enmod rewrite
 RUN sed -ri -e 's!/etc/apache2/sites-available!${APACHE_CONFDIR}!g' /etc/apache2/apache2.conf && \
 sed -ri -e 's!/etc/apache2/mods-available!${APACHE_CONFDIR}!g' /etc/apache2/apache2.conf
 
+### thay đổi kick thước upload
+RUN echo "upload_max_filesize = 60M" >> /usr/local/etc/php/php.ini
+RUN echo "post_max_size = 100M" >> /usr/local/etc/php/php.ini
+
+# Kiểm tra cấu hình của Apache
+# RUN sed -ri -e 's!^(\s*#?\s*LimitRequestBody)\s+[0-9]+!\1 2097152!g' /etc/apache2/apache2.conf
+
 RUN chown -R www-data:www-data /var/www/html/public/products
 
 RUN find . -type d -exec chmod 750 {} \;

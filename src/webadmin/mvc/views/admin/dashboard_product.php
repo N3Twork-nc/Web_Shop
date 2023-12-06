@@ -138,7 +138,7 @@
                         <label for="ProductValue">Giá sản phẩm:</label>
                         <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
                         <label for="ProductCategory" style="margin-top: 20px">Danh mục sản phẩm:</label>
-                        <select name="DanhMucSanPham" id="DMSP" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                        <select name="DanhMucSanPham" id="DMSP" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
                             <!-- Mẫu test -->
                             <?php foreach($data["categories"] as $each): ?>
                                 <?php if($each->getParent_category_id() != null): ?>
@@ -257,8 +257,8 @@
                         <button id="save" style="margin-top: 15px">Lưu</button> -->
                         <label for="ProductColor" style="margin-top: 20px">Mô tả sản phẩm:</label>
                         <textarea name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;" placeholder="Mô tả sản phẩm" required></textarea>
-                        <label for="ProductCategory" style="margin-top: 20px">Danh mục sản phẩm:</label>
-                        <select name="ProductState" id="ProductState" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                        <label for="ProductCategory" style="margin-top: 20px">Trạng thái sản phẩm:</label>
+                        <select name="ProductState" id="ProductState" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
                             <option value="disabled">Disabled</option>
                             <option value="active">Active</option>
                         </select>
@@ -341,11 +341,11 @@
         modal.style.display = "none";
     })
 
+
 function showLoadingSwal() {
   return Swal.fire({
     title: 'Loading...',
     text: 'Vui lòng chờ trong giây lát!',
-    timer: 5000,
     showConfirmButton: false,
     imageUrl: '/public/img/gif/loading.gif',
     allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
@@ -552,7 +552,7 @@ $(document).ready(function () {
 
                     blobs.forEach((blob) => {
                         const file = new File([blob["data"]], blob["url"], { type: blob["extension"]});
-                        console.log([blob["data"]]);
+                        //console.log([blob["data"]]);
                         newFileList.items.add(file);
                     });
 

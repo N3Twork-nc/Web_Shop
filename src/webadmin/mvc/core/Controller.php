@@ -17,8 +17,9 @@
 
         function validateNull($data){
             foreach($data as $key => $values){
-                if($values == '')
+                if(empty($values) || empty(trim($values))){
                     return true;
+                }
             }
             return false;
         }
@@ -41,6 +42,15 @@
                 }
             }
             return false;
+        }
+
+        function validateEmail($email) {
+            // Sử dụng hàm filter_var với FILTER_VALIDATE_EMAIL để kiểm tra tính hợp lệ của email
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return true; // Đúng định dạng email
+            } else {
+                return false; // Không đúng định dạng email
+            }
         }
     }
 ?>

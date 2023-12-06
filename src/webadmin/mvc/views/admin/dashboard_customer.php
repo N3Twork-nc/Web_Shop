@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require_once './mvc/views/admin/libHeader.php'; ?>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>PTITShop</title>
 </head>
 
@@ -63,8 +64,6 @@
                                 <td data-label="Email"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="Action">
                                     <i class="fa fa-pencil editBtn"></i>
-                                    <button class="reset-password-btn" onclick="resetPassword('<?php echo $customer->getUsername(); ?>')">Reset Password</button>
-                                </td>
                                 <style>
                                     .reset-password-btn {
                                     background-color: #0066ff;
@@ -91,14 +90,16 @@
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CustomerForm">
 
+                        <input style="color: black" type="text" id="username" name="username" hidden>
+
                         <label for="NameCustomer">Tên khách hàng:</label>
-                        <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" required>
+                        <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang">
 
                         <label for="Email">Email:</label>
-                        <input style="color: black" type="text" id="Email" name="Email" required>
+                        <input style="color: black" type="text" id="Email" name="Email">
 
                         <label for="NumberPhoneCustomer">SĐT:</label>
-                        <input style="color: black" type="text" id="SDT" name="SDT" required>
+                        <input style="color: black" type="text" id="SDT" name="SDT">
                         <br>
 
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
@@ -137,6 +138,7 @@
     const email = modal.querySelector('#Email');
     const sdt = modal.querySelector('#SDT');
     const diaChi = modal.querySelector('#DiaChi');
+    const username = modal.querySelector('#username');
 
     let isEditing = false
 
@@ -147,6 +149,7 @@
         action = 'edit';
         submitBtn.innerText = "Lưu";
         const row = event.target.closest('tr');
+        const username_in_table = row.cells[0].textContent.trim();
         const hoTen_in_table = row.cells[1].textContent.trim();
         const sdt_in_table = row.cells[2].textContent.trim();
         const email_in_table = row.cells[3].textContent.trim();
@@ -155,7 +158,7 @@
         hoTen.value = hoTen_in_table;
         email.value = email_in_table;
         sdt.value = sdt_in_table;
-        
+        username.value = username_in_table;
         // Hiển thị form
         modal.style.display = "block";
         
@@ -165,53 +168,40 @@
     //Xử lý button cancel
     cancelBtn.addEventListener('click', function() {
         modal.style.display = "none";
+        $('#CustomerForm').find('.custom-alert-error').remove();
     })
 
     // Active
     link.classList.add('active');
 
     function showLoadingSwal() {
-    return Swal.fire({
-        title: 'Loading...',
-        text: 'Vui lòng chờ trong giây lát!',
-        timer: 2000,
-        showConfirmButton: false,
-        imageUrl: '/public/img/gif/loading.gif',
-        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
-    });
+        return Swal.fire({
+            title: 'Loading...',
+            text: 'Vui lòng chờ trong giây lát!',
+            showConfirmButton: false,
+            imageUrl: '/public/img/gif/loading.gif',
+            allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+        });
     }
 
     // bấm submit
     $('#CustomerForm').submit(function(e){
         e.preventDefault();
 
-        var formData = new FormData(this);
-
-        let method = '';
-        if(action == 'create'){
-            method = "AddCustomer";
-        }
-        else if(action == 'edit'){
-            method = "EditCustomer";
-        }
-
         // gửi data
         var sw = showLoadingSwal();
             $.ajax({
-                url:'/Dashboard_customer/' + method,
+                url:'/Dashboard_customer/Edit',
                 method:'POST',
-                data: formData,
-                processData: false,  // Ngăn jQuery xử lý dữ liệu
-                contentType: false,  // Ngăn jQuery đặt tiêu đề 'Content-Type'
+                data: $(this).serialize(),
                 error:err=>{
                     console.log(err)
                 },
                 success:function(resp){
-                var actionText = action == 'create' ? 'thêm' : 'sửa';
                 if(resp.trim() == "done"){
                 Swal.fire(
                     'Completed!',
-                    'Bạn đã '+ actionText +' khách hàng thành công!',
+                    'Bạn đã sửa thông tin khách hàng thành công!',
                     'success'
                     )
                 setTimeout(function() {

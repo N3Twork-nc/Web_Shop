@@ -26,14 +26,15 @@
         function ValidateProductData($data){
 
             $this->CheckAccess();
-
+            $size_quantities = $data['size_quantities'];
+            $data['size_quantities'] = "none";
             // check thiếu data
             if($this->validateNull($data)){
                 return "Vui lòng nhập đủ thông tin";
             }
 
             $arr_Str["product_name"] = $data['product_name'];
-            $arr_Str["product_description"] = $data['product_description'];
+            //$arr_Str["product_description"] = $data['product_description'];
             $arr_Str["product_code"] = $data['product_code'];
             $arr_Str["product_state"] = $data['product_state'];
 
@@ -54,7 +55,7 @@
                 return "Giá trị số không hợp lệ";
             }
         
-            foreach ($data['size_quantities'] as $size => $quantity) {
+            foreach ($size_quantities as $size => $quantity) {
                 if (!is_numeric($quantity) || $quantity < 0) {
                     return "Số lượng cho kích thước $size không hợp lệ.";
                 }
@@ -74,11 +75,16 @@
             $check = false;
             
             
-            if(isset($file["tmp_name"]) && $file["tmp_name"] != ''){
+            if(isset($file["tmp_name"]) && !empty($file["tmp_name"])){
                 $check = getimagesize($file["tmp_name"]);
             }
             if($check === false) {
-                return "File không phải file ảnh";
+                if(empty($file["name"])){
+                    return "Vui lòng chọn file";
+                }
+                else{
+                    return "File không phải file ảnh";
+                }
             }
 
             
@@ -89,8 +95,8 @@
             }
 
             // Kiểm tra kích thước tệp tin (vd: tối đa 2MB)
-            if ($file['size'] > 2097152) {
-                return "File vượt quá kích thước";
+            if ($file['size'] >  52428800) {
+                return "File vượt quá kích thước 50MB";
             }
 
             // Kiểm tra lỗi khi upload
@@ -122,13 +128,12 @@
                 if(!is_array($values)){
                     return "File không hợp lệ";
                 }
+                if(count($values) != 4){
+                    return "Vui lòng chọn 4 file";
+                }
                 foreach($values as $index => $value){
                     $files[$index][$key] = $value;
                 }
-            }
-
-            if($count < 5 || $count > 5){
-                return "Vui lòng chọn 4 file";
             }
 
             // gộp các thuộc tính của file thành một cụm
@@ -137,7 +142,7 @@
             $year = date('Y', time());
             $month = date('m', time());
             $day = date('d', time());
-            $uploadPath = $uploadPath . $year . "/" . $month . "/" . "14";
+            $uploadPath = $uploadPath . $year . "/" . $month . "/" . $day;
             
             // nếu chưa có dir thì tạo
             if(!is_dir($uploadPath)){
@@ -178,6 +183,7 @@
         function AddProduct(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // sinh mã sp
+
                 if($_POST == NULL){
                     echo "reload";
                 }
@@ -194,7 +200,9 @@
                         "XL" => $_POST['SoLuongSP_XL'],
                         "XXL" => $_POST['SoLuongSP_XXL']
                     );
-        
+
+                    $size_quantities = array_map('trim', $size_quantities);
+
                     $product_data = array(
                         "product_code" => $product_code,
                         "product_name" => $_POST['TenSanPham'],
@@ -202,14 +210,21 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
-                        "product_state" => $_POST["ProductState"],
-                        "size_quantities" => $size_quantities,
+                        "product_state" => $_POST["ProductState"]
                     );
-                        
+
+                    
+                    $product_data['product_description'] = htmlspecialchars($product_data['product_description'], ENT_QUOTES, 'UTF-8');
+
+                    $product_data = array_map('trim', $product_data);
+
+                    $product_data["size_quantities"] = $size_quantities;
+
                     $check = $this->ValidateProductData($product_data);
                     if($check === "validated"){
                         
                         $uploadedFile = $_FILES["fileToUpload"];
+
                         $fileNames = $this->UpLoadFiles($uploadedFile);
                         if(!is_array($fileNames)){
                             echo $fileNames;
@@ -219,7 +234,14 @@
                             $product_data["product_images"] = $fileNames;
 
                             $model = $this->model("Product");
-                            $model->InsertProduct($product_data);
+                            $err = $model->InsertProduct($product_data);
+                            
+                            if($err != "done"){
+                                foreach($fileNames as $each){
+                                    unlink($each);
+                                }
+                            }
+                            echo $err;
                         }
                     }
                     else{
@@ -247,6 +269,8 @@
                         "XL" => $_POST['SoLuongSP_XL'],
                         "XXL" => $_POST['SoLuongSP_XXL']
                     );
+
+                    $size_quantities = array_map('trim', $size_quantities);
         
                     $product_data = array(
                         "product_code" => $_POST['MaSanPham'],
@@ -255,9 +279,15 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
-                        "product_state" => $_POST["ProductState"],
-                        "size_quantities" => $size_quantities,
+                        "product_state" => $_POST["ProductState"]
                     );
+
+                    //<script>alert("hehe")</script>
+                    $product_data['product_description'] = htmlspecialchars($product_data['product_description'], ENT_QUOTES, 'UTF-8');
+
+                    $product_data = array_map('trim', $product_data);
+
+                    $product_data["size_quantities"] = $size_quantities;
 
                     //var_dump($_POST['MaSanPham']);
                         
@@ -289,7 +319,14 @@
                                         // thêm ảnh vào data
                                         $product_data["product_images"] = $fileNames;
     
-                                        $model->EditProduct($product_data);
+                                        $err = $model->EditProduct($product_data);
+
+                                        if($err != "done"){
+                                            foreach($fileNames as $each){
+                                                unlink($each);
+                                            }
+                                        }
+                                        echo $err;
                                     }   
                                 }
                                 else {

@@ -24,20 +24,20 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 }
         }
 
-        function EditCustomerPassword($data){
-            try {
-                $db = new DB();
-                $sql = "UPDATE `Customers` SET `password` = ? WHERE `username` = ?;";
-                $params = array($data['password'], $data['username']);
-                $db->execute($sql, $params);
+        // function EditCustomerPassword($data){
+        //     try {
+        //         $db = new DB();
+        //         $sql = "UPDATE `Customers` SET `password` = ? WHERE `username` = ?;";
+        //         $params = array($data['password'], $data['username']);
+        //         $db->execute($sql, $params);
 
-                echo "done";
-            } catch (PDOException $e) {
+        //         echo "done";
+        //     } catch (PDOException $e) {
 
-                echo "Lỗi khi sửa thông tin khách hàng";
-                //echo  $sql . "<br>" . $e->getMessage();
-            }
-        }
+        //         echo "Lỗi khi sửa thông tin khách hàng";
+        //         //echo  $sql . "<br>" . $e->getMessage();
+        //     }
+        // }
 
         function EditCustomer($data){
             try {

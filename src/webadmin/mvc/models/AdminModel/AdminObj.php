@@ -1,24 +1,17 @@
 <?php 
     class AdminObj{
         private $username;
-        private $password;
         private $role;
 
         public function __construct($row)
         {
             $this->username = $row['username'];
-            $this->password = $row['password'];
             $this->role = $row['role'];
         }
 
         public function getUsername()
         {
                 return $this->username;
-        }
-
-        public function getPassword()
-        {
-                return $this->password;
         }
 
         public function getRole()
@@ -35,12 +28,6 @@
         public function setRole($role)
         {
                 $this->role = $role;
-
-        }
-
-        public function setPassword($password)
-        {
-                $this->password = $password;
 
         }
     };
