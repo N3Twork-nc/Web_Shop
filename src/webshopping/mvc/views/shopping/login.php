@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - codingnepalweb.com -->
 <html lang="en">
 
 <head>
@@ -78,6 +77,10 @@
                         <input type="text" id="username" placeholder="Enter Username" class="input">
                     </div>
                     <div class="field input-field">
+                        <label for="username">Nhập email</label>
+                        <input type="email" id="username" placeholder="Enter Email" class="input">
+                    </div>
+                    <div class="field input-field">
                         <label for="password">Tạo password</label>
                         <input type="password" id="password" placeholder="Enter Password" class="password">
                     </div>
@@ -102,9 +105,32 @@
             </div>
         </div>
     </section>
-
-    <!-- JavaScript -->
-    <script src="/src/webshopping/public/js/login_user.js"></script>
 </body>
 
 </html>
+
+<script>
+        const forms = document.querySelector(".forms"),
+                pwShowHide = document.querySelectorAll(".eye-icon"),
+                links = document.querySelectorAll(".link");
+        
+        pwShowHide.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.classList.replace("bx-hide", "bx-show");
+                    return;
+                }
+            password.type = "password";
+            eyeIcon.classList.replace("bx-show", "bx-hide");})})})
+
+        links.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault(); //preventing form submit
+                forms.classList.toggle("show-signup");
+            })
+        })
+</script>
