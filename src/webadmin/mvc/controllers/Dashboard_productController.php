@@ -56,7 +56,7 @@
             }
         
             foreach ($size_quantities as $size => $quantity) {
-                if (!is_numeric($quantity) || $quantity < 0) {
+                if (!is_numeric($quantity) || $quantity <= 0) {
                     return "Số lượng cho kích thước $size không hợp lệ.";
                 }
             }

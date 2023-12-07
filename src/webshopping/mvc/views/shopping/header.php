@@ -4,62 +4,40 @@
             <img src="/public/img/logo_shop.png" alt="">
         </div>
         <nav class="menu">
-            <li class="main-menu-item"><a href="">NỮ</a>
+            <li class="main-menu-item"><a>NỮ</a>
                 <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
                 <ul class="sub-menu sub-menu-1">
-                    <li><a href="">ÁO</a>
+                    <li><a href="/Category/Show/ao-nu">ÁO</a>
                         <ul class="empty-item-1">
-                            <li><a href="/Category">Áo Sơ Mi</a></li>
-                            <li><a href="/Category">Áo Croptop</a></li>
-                            <li><a href="">Áo Thun</a></li>
-                            <li><a href="">Áo Khoác</a></li>
-                            <li><a href="">Áo Len</a></li>
+                            <?php foreach($data["categories"]['ao-nu'] as $key => $value): ?>
+                                <li><a href="<?php echo "/Category/Show/" . $key; ?>"><?php echo $value; ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
-                    <li><a href="">QUẦN</a>
+                    <li><a href="/Category/Show/quan-nu">QUẦN</a>
                         <ul>
-                            <li><a href="">Quần jean</a></li>
-                            <li><a href="">Quần lửng</a></li>
-                            <li><a href="">Quầy dài</a></li>
+                            <?php foreach($data["categories"]['quan-nu'] as $key => $value): ?>
+                                <li><a href="<?php echo "/Category/Show/" . $key; ?>"><?php echo $value; ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
                 </ul>
             </li>
-            <li class="main-menu-item"><a href="">NAM</a>
+            <li class="main-menu-item"><a>NAM</a>
                 <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
                 <ul class="sub-menu sub-menu-2">
-                    <li><a href="">ÁO</a>
+                    <li><a href="/Category/Show/ao-nam">ÁO</a>
                         <ul class="empty-item-2">
-                            <li><a href="">Áo Sơ Mi</a></li>
-                            <li><a href="">Áo Vest</a></li>
-                            <li><a href="">Áo Thun</a></li>
-                            <li><a href="">Áo Khoác</a></li>
-                            <li><a href="">Áo Len</a></li>
+                            <?php foreach($data["categories"]['ao-nam'] as $key => $value): ?>
+                                <li><a href="<?php echo "/Category/Show/" . $key; ?>"><?php echo $value; ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
-                    <li><a href="">QUẦN</a>
+                    <li><a href="/Category/Show/quan-nam">QUẦN</a>
                         <ul>
-                            <li><a href="">Quần jean</a></li>
-                            <li><a href="">Quần Khaki</a></li>
-                            <li><a href="">Quầy Tây</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-menu-item"><a href="">TRẺ EM</a>
-                <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-                <ul class="sub-menu sub-menu-3">
-                    <li><a href="">BÉ GÁI</a>
-                        <ul class="empty-item-3">
-                            <li><a href="">Áo bé gái</a></li>
-                            <li><a href="">Quần bé gái</a></li>
-                            <li><a href="">Váy bé gái</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">BÉ TRAI</a>
-                        <ul>
-                            <li><a href="">Áo bé trai</a></li>
-                            <li><a href="">Quần bé trai</a></li>
+                            <?php foreach($data["categories"]['quan-nam'] as $key => $value): ?>
+                                <li><a href="<?php echo "/Category/Show/" . $key; ?>"><?php echo $value; ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
                 </ul>
