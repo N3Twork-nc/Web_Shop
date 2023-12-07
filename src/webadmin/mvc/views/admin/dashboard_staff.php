@@ -52,11 +52,14 @@
                             <tr>
                                 <td><?php echo $staff->getUsername(); ?></td>
                                 <td><?php echo $staff->getRole(); ?></td>
-                                
+                                <?php if ($staff->getRole() != "admin" ): ?> 
                                 <td>
                                     <button style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
                                     <i class="fa fa-trash"></i>
+                                    <i class="fa fa-pencil editBtn"></i>
                                 </td>
+                                <?php endif; ?>
+                               
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -65,10 +68,10 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="StaffForm">
-                        <label for="CustomerCode">Username</label>
+                        <label for="UsernameID" id = "labelUsernameID">Username</label>
                         <input style="color: black" type="text" id="username" name="username">
 
-                        <label for="NameCustomer">Password</label>
+                        <label for="PasswordID" id= "labelPasswordID">Password</label>
                         <input style="color: black ; width: 100%;
                         padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" id="password" name="password">
 
@@ -111,8 +114,7 @@
     const username = document.getElementById("username");
     const password = document.getElementById("password");
     const role = document.getElementById("role");
-    const tbody = document.getElementById("tbody");
-
+    const tbody = document.getElementById("tbody");                    
     let isEditing = false
 
     const table2 = document.querySelector('#myTable');
@@ -163,9 +165,31 @@
             })
             }
     })
+    //Sua du lieu 
+    table2.addEventListener('click', function(event) {
+    if (event.target.classList.contains('fa-pencil')) {
+        action = 'edit';
+        document.getElementById("labelUsernameID").style.display = "none";
+        document.getElementById("username").style.display = "none";
+        document.getElementById("labelPasswordID").style.display = "none";
+        document.getElementById("password").style.display = "none";
+
+        submitBtn.innerText = "Lưu";
+        const row = event.target.closest('tr');
+        const role_in_table = row.cells[1].textContent.trim();
+        // Điền dữ liệu vào form
+        role.value = role_in_table;
+        // Hiển thị form
+        modal.style.display = "block";   
+    }
+    });
 
     addBtn.addEventListener('click', function() {
         modal.style.display = "block";
+        document.getElementById("labelUsernameID").style.display = "block";
+        document.getElementById("username").style.display = "block";
+        document.getElementById("labelPasswordID").style.display = "block";
+        document.getElementById("password").style.display = "block";
         username.value = '';
         password.value = '';
         role.value = '';
