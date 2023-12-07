@@ -120,8 +120,8 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                //echo "Lỗi khi thêm sản phẩm";
-                return  $sql . "<br>" . $e->getMessage();
+                echo "Lỗi khi thêm sản phẩm";
+                //return  $sql . "<br>" . $e->getMessage();
             }
     }
 

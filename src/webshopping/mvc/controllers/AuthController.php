@@ -18,7 +18,8 @@
             }
 
             array_push($data, $username);
-            array_push($data, $password);
+            $pass_hash = hash('sha256', $password);
+            array_push($data, $pass_hash);
 
             // gọi model xử lý data
             $model = $this->model("Admin");
@@ -26,11 +27,11 @@
 
             if($result != null){
                 $_SESSION['usr'] = $username;
+                $_SESSION['role'] = $result;
 
+                //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
                 // sinh một id khác nhưng data vẫn giữ nguyên
                 session_regenerate_id(true);
-                // sinh một id khác nhưng data vẫn giữ nguyên
-               // session_regenerate_id(true);
                 header("Location: /Home");
             }
             else{
@@ -43,7 +44,6 @@
 
         public function Logout(){
 			// Hủy tất cả các biến session
-			session_unset();
 			session_unset();
 
 			// Xóa tất cả các session đã lưu trữ trên máy chủ

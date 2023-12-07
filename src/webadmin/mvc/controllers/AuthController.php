@@ -18,7 +18,8 @@
             }
 
             array_push($data, $username);
-            array_push($data, $password);
+            $pass_hash = hash('sha256', $password);
+            array_push($data, $pass_hash);
 
             // gọi model xử lý data
             $model = $this->model("Admin");
