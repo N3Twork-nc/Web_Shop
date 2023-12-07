@@ -53,8 +53,8 @@
 
             $data["categories"] = $tmp;
 
-            var_dump($data["product"]);
-            //$this->view($page, $data);
+            //var_dump($data["product"]);
+            $this->view($page, $data);
         }
     }
 ?>
