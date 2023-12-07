@@ -122,8 +122,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php foreach($data["products"] as $product): ?>
                         <div class="category-right-content-item">
+                            <a href="/Product/Show/<?php echo $product->getProduct_code(); ?>">
+                                <img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" alt="">
+                                <p style="font-size:14px;"><?php echo $product->getName(); ?></p>
+                                <p><?php echo $product->getPrice(); ?><sup>đ</sup></p>
+                            </a>
+                        </div>
+                        <?php endforeach; ?>
+                        <!-- <div class="category-right-content-item">
                             <a href="/Product">
                                 <img src="/public/img/aothun_babytee.jpg" alt="">
                                 <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
@@ -171,14 +179,7 @@
                                 <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
                                 <p>590.000<sup>đ</sup></p>
                             </a>
-                        </div>
-                        <div class="category-right-content-item">
-                            <a href="/Product">
-                                <img src="/public/img/aothun_babytee.jpg" alt="">
-                                <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                                <p>590.000<sup>đ</sup></p>
-                            </a>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="category-right-bottom row">
