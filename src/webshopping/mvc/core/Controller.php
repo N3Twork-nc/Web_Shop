@@ -1,5 +1,5 @@
 <?php
-    class Controller{
+    class Controller extends Mail{
         function model($model){
             
             if(file_exists("./mvc/models/". $model . "Model" ."/" . $model . ".php")){
