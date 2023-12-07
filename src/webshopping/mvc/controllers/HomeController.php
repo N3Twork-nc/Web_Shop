@@ -18,9 +18,6 @@
             $this->categories = $data;
         }
         function Show($params){
-            
-            
-
             // chuyển data về dạng key value để dễ for
             $tmp = [];
             foreach($this->categories as $key => $value){
@@ -29,6 +26,29 @@
 
             $data["categories"] = $tmp;
             $page = $this->view("home", $data);
+
         }
+        // function haha($params){
+            
+        //     // chuyển data về dạng key value để dễ for
+        //     // $tmp = [];
+        //     // foreach($this->categories as $key => $value){
+        //     //         $tmp[$value->getParent_category_name()][$key] =  $value->getName();
+        //     // }
+
+        //     // $data["categories"] = $tmp;
+        //     // $page = $this->view("home", $data);
+        //     $data['email'] = "n20dcat011@student.ptithcm.edu.vn";
+        //     $data['fullname'] = "Lê Văn Tèo";
+        //     $data['subject'] = "Mã xác nhận";
+        //     $data['body'] = "123456";
+        //     $res = $this->SendMail($data);
+        //     if($res == 'sent'){
+        //         echo "oke";
+        //     }
+        //     else{
+        //         echo $res;
+        //     }
+        // }
     }
 ?>

@@ -2,7 +2,7 @@
     class DB{
         public $conn;
         public function __construct() {
-            ini_set('display_errors', 'Off');
+            //ini_set('display_errors', 'Off');
             $connectionString = "mysql:host=" . getenv('MYSQL_HOSTNAME') . ";dbname=" . getenv('MYSQL_DATABASE');
             $conn = new \PDO($connectionString, getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

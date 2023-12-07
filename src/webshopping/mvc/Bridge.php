@@ -1,6 +1,10 @@
 <?php
-    require_once './mvc/core/SessionIDCustom.php';
-    $sessionID = new SessionIDCustom();
+
+    require './mvc/core/PHPMailer/src/Exception.php';
+    require './mvc/core/PHPMailer/src/PHPMailer.php';
+    require './mvc/core/PHPMailer/src/SMTP.php';
+    // require_once './mvc/core/SessionIDCustom.php';
+    // $sessionID = new SessionIDCustom();
     //session_create_id($sessionID->php_session_create_id());
     ini_set('session.sid_length', 64);
     ini_set('session.sid_bits_per_character', 6);
@@ -12,6 +16,7 @@
     session_start();
 
     require_once './mvc/core/App.php';
+    require_once './mvc/core/Mail.php';
     require_once './mvc/core/Controller.php';
     require_once './mvc/core/DB.php';
     $myApp = new App();
