@@ -75,7 +75,7 @@
                         </select>
                     </div>
 
-                    <div class="category-right-content row">
+                    <div class="category-right-content row" style="width: 100% !important;">
                         <div class="category-right-filter" id="filterDiv" style="display: none;">
                             <div class="filter-row">
                                 <div class="filter-row-title">
@@ -122,8 +122,9 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <?php foreach($data["products"] as $product): ?>
-                        <div class="category-right-content-item">
+                        <div class="category-right-content-item" style="padding-right: 10px;">
                             <a href="/Product/Show/<?php echo $product->getProduct_code(); ?>">
                                 <img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" alt="">
                                 <p style="font-size:14px;"><?php echo $product->getName(); ?></p>

@@ -98,7 +98,7 @@
 
 .category-right-content {
     margin-top: 20px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .category-right-content-item {
