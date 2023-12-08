@@ -266,6 +266,18 @@
     margin-bottom: 40px;
 }
 
+.no-related-products {
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 46px;
+    color: #d9534f;
+    letter-spacing: 2px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
 .product-related-item {
     width: 18%;
     text-align: left;
@@ -308,4 +320,22 @@
     font-size: 18px;
     font-weight: bold;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+    text-align: center;
 }
+
+
+.product-content-row-items {
+    text-align: center;
+}
+
+.product-related-item {
+    display: inline-block;
+    text-align: left;
+    margin: 0 10px;
+}
+
+
+.product-related-item img {
+    width: 100%;
+}
+
