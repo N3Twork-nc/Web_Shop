@@ -6,10 +6,10 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
         function CheckOrderNotDeliveredYet($data){
                 try {
                     $db = new DB();
-                    if(isset($data['username'])){
+                    if(isset($data['email'])){
                         $sql = "SELECT * FROM Orders AS O 
-                            WHERE O.username = ? AND O.state != 'delivered'";
-                        $params = array($data['username']);
+                            WHERE O.email = ? AND O.state != 'delivered'";
+                        $params = array($data['email']);
                         $sth = $db->select($sql, $params);
                     }
                     else if(isset($data['product_code'])){
@@ -65,7 +65,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 FROM (
                     SELECT O.*, C.phone 
                     FROM Orders AS O, Customers AS C 
-                    WHERE O.username = C.username
+                    WHERE O.email = C.email
                     ) AS TMP 
                     LEFT JOIN Payment AS P 
                     ON P.order_code = TMP.order_code";
@@ -80,7 +80,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                     $orders_item = $this->LoadOrdersItem($row['order_code']);
 
                     $dataCustomer = [];
-                    $dataCustomer['username'] = $row['username'];
+                    $dataCustomer['email'] = $row['email'];
                     $dataCustomer['phone'] = $row['phone'];
                     $customer = new CustomerObj($dataCustomer);
 
@@ -137,7 +137,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                         $orders_item = $this->LoadOrderHistoryItem($row['order_code']);
         
                         $dataCustomer = [];
-                        $dataCustomer['username'] = $row['username'];
+                        $dataCustomer['email'] = $row['email'];
                         $dataCustomer['phone'] = $row['phone'];
                         $customer = new CustomerObj($dataCustomer);
         
@@ -172,14 +172,14 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
         function MoveOrderToHistory($db, $order){
             try {
                 if(empty($order->getPayment_code())){
-                    $sql = "INSERT INTO `OrdersHistory`(`order_code`, `order_date`, `state`, `username`, `address`, `phone`, `total_price`) 
+                    $sql = "INSERT INTO `OrdersHistory`(`order_code`, `order_date`, `state`, `email`, `address`, `phone`, `total_price`) 
                     VALUES (?,?,?,?,?,?,?);";
-                    $params = array($order->getOrder_code(), $order->getOrder_date(), $order->getState(), $order->getCustomer()->getUsername(), $order->getAddress(), $order->getCustomer()->getPhone(), $order->getTotal_price());
+                    $params = array($order->getOrder_code(), $order->getOrder_date(), $order->getState(), $order->getCustomer()->getEmail(), $order->getAddress(), $order->getCustomer()->getPhone(), $order->getTotal_price());
                 }
                 else {
-                    $sql = "INSERT INTO `OrdersHistory`(`order_code`, `order_date`, `payment_code`, `payment_date`, `payment_type`, `state`, `username`, `address`, `phone`, `total_price`)
+                    $sql = "INSERT INTO `OrdersHistory`(`order_code`, `order_date`, `payment_code`, `payment_date`, `payment_type`, `state`, `email`, `address`, `phone`, `total_price`)
                     VALUES (?,?,?,?,?,?,?,?,?,?);";
-                    $params = array($order->getOrder_code(), $order->getOrder_date(), $order->getPayment_code(), $order->getPayment_date(), $order->getType(), $order->getState(), $order->getCustomer()->getUsername(), $order->getAddress(), $order->getCustomer()->getPhone(), $order->getTotal_price());
+                    $params = array($order->getOrder_code(), $order->getOrder_date(), $order->getPayment_code(), $order->getPayment_date(), $order->getType(), $order->getState(), $order->getCustomer()->getEmail(), $order->getAddress(), $order->getCustomer()->getPhone(), $order->getTotal_price());
                 }
                 $db->execute($sql, $params);
                 
@@ -223,7 +223,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 FROM (
                     SELECT O.*, C.phone 
                     FROM Orders AS O, Customers AS C 
-                    WHERE O.username = C.username AND O.order_code = ?
+                    WHERE O.email = C.email AND O.order_code = ?
                     ) AS TMP 
                     LEFT JOIN Payment AS P 
                     ON P.order_code = TMP.order_code";
@@ -240,7 +240,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                     $orders_item = $this->FindOrdersItem($db, $row['order_code']);
 
                     $dataCustomer = [];
-                    $dataCustomer['username'] = $row['username'];
+                    $dataCustomer['email'] = $row['email'];
                     $dataCustomer['phone'] = $row['phone'];
                     $customer = new CustomerObj($dataCustomer);
 

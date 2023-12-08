@@ -20,7 +20,6 @@
                 return "Giá trị số không hợp lệ";
             }
 
-            $arr_Str["username"] = $data['username'];
             $arr_Str["full_name"] = $data['full_name'];
 
             if($this->validateSpecialCharacter($arr_Str)){
@@ -41,7 +40,6 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $customer_data = array(
-                    "username" => $_POST['username'],
                     "full_name" => $_POST['TenKhachHang'],
                     "email" => $_POST['Email'],
                     "phone" => $_POST['SDT']

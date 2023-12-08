@@ -48,7 +48,7 @@
     
                 $category_data = array(
                     "category_name" => $_POST['CategoryName'],
-                    "category_parent_id" => $_POST['CategoryParentID'],
+                    "category_parent_id" => $_POST['CategoryParentID']
                 );
                 
                 $category_data = array_map('trim', $category_data);
@@ -73,7 +73,7 @@
                 $category_data = array(
                     "category_id" => $_POST['CategoryID'],
                     "category_name" => $_POST['CategoryName'],
-                    "category_parent_id" => $_POST['CategoryParentID'],
+                    "category_parent_id" => $_POST['CategoryParentID']
                 );
 
                 $category_data = array_map('trim', $category_data);
@@ -98,7 +98,7 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
                 $category_data = array(
-                    "category_id" => $_POST['category_id'],
+                    "category_id" => $_POST['category_id']
                 );
 
                 $check = $this->validateNumber($category_data);
