@@ -51,22 +51,26 @@ CREATE TABLE ProductSizes(
 DROP TABLE IF EXISTS `Customers`;
 
 CREATE TABLE Customers (
-  username VARCHAR(100) PRIMARY KEY,
+  email VARCHAR(100) PRIMARY KEY,
   password VARCHAR(100) NOT NULL,
   full_name NVARCHAR(150) NOT NULL,
-  phone VARCHAR(20),
-  email VARCHAR(100) NOT NULL,
-  random_code VARCHAR(20),
-  token VARCHAR(255)
+  phone VARCHAR(20)
+);
+DROP TABLE IF EXISTS `Verify`;
+
+CREATE TABLE Verify (
+  email VARCHAR(100) PRIMARY KEY,
+  token VARCHAR(100) UNIQUE,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 DROP TABLE IF EXISTS `ShoppingCart`;
 
 CREATE TABLE ShoppingCart (
   cart_code VARCHAR(150) PRIMARY KEY,
-  username VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
   total_price DECIMAL(10,2) DEFAULT 0,
   update_latest DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`username`) REFERENCES `Customers`(`username`) ON DELETE CASCADE
+  FOREIGN KEY (`email`) REFERENCES `Customers`(`email`) ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS `CartItems`;
 
@@ -88,9 +92,9 @@ CREATE TABLE Orders (
   order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   state ENUM('pending', 'delivered','delivering', 'cancelled') DEFAULT 'pending',
   total_price DECIMAL(10,2) DEFAULT 0,
-  username VARCHAR(100),
+  email VARCHAR(100),
   address NVARCHAR(150) NOT NULL,
-  FOREIGN KEY (`username`) REFERENCES `Customers`(`username`) ON DELETE CASCADE
+  FOREIGN KEY (`email`) REFERENCES `Customers`(`email`) ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS `OrderItems`;
 
@@ -124,7 +128,7 @@ CREATE TABLE OrdersHistory (
   payment_date DATETIME,
   payment_type ENUM('cash', 'bank_transfer'),
   state ENUM('pending', 'delivered','delivering', 'cancelled'),
-  username VARCHAR(100),
+  email VARCHAR(100),
   address NVARCHAR(150),
   phone VARCHAR(20),
   total_price DECIMAL(10,2)
@@ -339,21 +343,21 @@ INSERT INTO `ProductImages` (`product_code`, `ordinal_number`, `image`) VALUES
 ('SP1701947692', 'second', './public/products/2023/12/07/img1701947694.jpeg'),
 ('SP1701947692', 'third', './public/products/2023/12/07/img1701947695.jpeg');
 
-INSERT INTO `Customers`(`username`, `password`, `full_name`, `phone`, `email`) VALUES ('tuatua','123','Lê Văn Tèo','0707888555','n20dcat011@student.ptithcm.edu.vn');
-INSERT INTO `Customers`(`username`, `password`, `full_name`, `phone`, `email`) VALUES ('sieunhan','123','Lê Siêu Nhân','0707888555','n20dcat011@student.ptithcm.edu.vn');
+INSERT INTO `Customers`(`email`, `password`, `full_name`, `phone`) VALUES ('n20dcat004@student.ptithcm.edu.vn','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lê Văn Tèo','0707888555');
+INSERT INTO `Customers`(`email`, `password`, `full_name`, `phone`) VALUES ('n20dcat017@student.ptithcm.edu.vn','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lê Siêu Nhân','0707888555');
 
-INSERT INTO `ShoppingCart`(`cart_code`, `username`) VALUES ('tuatua_cart_edc3d04ab475f595df9592f977d8dab95a085a53','tuatua');
-INSERT INTO `ShoppingCart`(`cart_code`, `username`) VALUES ('sieunhan_cart_a535da5f10c0d335cad1b6450dfa9737c74bd47a','sieunhan');
+INSERT INTO `ShoppingCart`(`cart_code`, `email`) VALUES ('n20dcat004_9e44200d5e6dc13c6e4f1095a7233f77de4c9f80d8739f099e19f5f67e769aca','n20dcat004@student.ptithcm.edu.vn');
+INSERT INTO `ShoppingCart`(`cart_code`, `email`) VALUES ('n20dcat017_e57c655f053c59890a80bf3106278e8e408f852a7f3fe953774a18bcea3119c0','n20dcat017@student.ptithcm.edu.vn');
 
-INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_2','pending',900,'sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
-INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `username`, `address`) VALUES ('order_4','delivering',1000,'tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `email`, `address`) VALUES ('order_2','pending',900,'n20dcat004@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
+INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `email`, `address`) VALUES ('order_4','delivering',1000,'n20dcat017@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_2','SP1701934808',3,'L',300);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_2','SP1701935173',3,'M',600);
 INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_4','SP1701935684',5,'L',1000);
 
-INSERT INTO `OrdersHistory`(`order_code`, `order_date` ,`payment_code`, `payment_date`, `payment_type`, `state`, `username`, `address`, `phone`, `total_price`) VALUES ('order_1', CURRENT_TIMESTAMP,'payment_1',CURRENT_TIMESTAMP,'bank_transfer','delivered','tuatua','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
-INSERT INTO `OrdersHistory`(`order_code`, `order_date` , `state`, `username`, `address`, `phone`, `total_price`) VALUES ('order_3', CURRENT_TIMESTAMP,'cancelled','sieunhan','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',800);
+INSERT INTO `OrdersHistory`(`order_code`, `order_date` ,`payment_code`, `payment_date`, `payment_type`, `state`, `email`, `address`, `phone`, `total_price`) VALUES ('order_1', CURRENT_TIMESTAMP,'payment_1',CURRENT_TIMESTAMP,'bank_transfer','delivered','n20dcat004@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',400);
+INSERT INTO `OrdersHistory`(`order_code`, `order_date` , `state`, `email`, `address`, `phone`, `total_price`) VALUES ('order_3', CURRENT_TIMESTAMP,'cancelled','n20dcat017@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh','0707888555',800);
 
 INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','SP1701933882',2,'S', 200);
 INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','SP1701934515',2,'L', 200);

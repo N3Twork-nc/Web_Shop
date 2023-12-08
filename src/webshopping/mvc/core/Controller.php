@@ -69,5 +69,88 @@
             $str = trim($str, '-');
             return $str;
         }
+
+        function validateNull($data){
+            foreach($data as $key => $values){
+                if(empty($values) || empty(trim($values))){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function validateSpecialCharacter($data){
+
+            $pattern = '/^[\p{L}a-z A-Z0-9]+$/u';
+
+            foreach($data as $key => $values){
+                if (!preg_match($pattern, $values))
+                    return true;
+            }
+            return false;
+        }
+
+        function validateNumber($data){
+            foreach($data as $key => $values){
+                if (!is_numeric($values) || $values < 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function validateEmail($email) {
+            // Sử dụng hàm filter_var với FILTER_VALIDATE_EMAIL để kiểm tra tính hợp lệ của email
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if(strlen($email) > 100)
+                    return false;
+                return true; // Đúng định dạng email
+            } else {
+                return false; // Không đúng định dạng email
+            }
+        }
+
+        function validateUsername($username){
+                // Kiểm tra username có ít nhất 10 ký tự
+            if (strlen($username) < 10) {
+                return "Username yêu cầu tối thiểu 10 kí tự";
+            }
+
+            if (strlen($username) > 50) {
+                return "Username quá dài";
+            }
+
+            // Kiểm tra username có chứa kí tự không phải chữ hoặc số không
+            if (!preg_match('/^[a-z0-9]+$/', $username)) {
+                return "Username chỉ chứa chữ thường và số";
+            }
+            
+            // Kiểm tra username có chứa ít nhất một kí tự chữ và một số
+            if (!preg_match('/[a-zA-Z]/', $username) || !preg_match('/[0-9]/', $username)) {
+                return "Username hợp lệ: moros12345";
+            }
+            
+            // Kiểm tra username có bắt đầu bằng chữ cái
+            if (!ctype_alpha($username[0])) {
+                return "Username hợp lệ: moros12345";
+            }
+            
+            return "validated";
+
+        }
+
+        function validFullName($fullName) {
+            // Kiểm tra xem tên có chứa ký tự đặc biệt hoặc số không
+            
+            if (!preg_match('/^[\p{L}a-zA-Z ]+$/u', $fullName)) {
+                return "Tên không được chứa kí tự đặc biệt hoặc số";
+            }
+
+            if (strlen($fullName) > 100) {
+                return "Tên quá dài";
+            }
+            
+            return "validated";
+        }
     }
 ?>

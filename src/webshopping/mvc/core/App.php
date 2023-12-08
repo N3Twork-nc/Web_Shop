@@ -53,8 +53,22 @@
 
            // có session chưa
            if(isset($_SESSION['usr'])){
-            // gọi method trong class với params
-            call_user_func([$this->controller, $this->action], $this->params);
+
+                // nếu có session thì không được vào đăng nhập nữa
+                if($controllerStr == "AuthController"){
+                    require_once "./mvc/controllers/HomeController.php";
+
+                    $this->controller = "HomeController";
+                    
+                    $this->controller = new $this->controller();
+
+                    call_user_func([$this->controller, "Show"], $this->params);
+                }
+                else{
+                    // nếu không vào login
+                    // gọi method trong class với params
+                    call_user_func([$this->controller, $this->action], $this->params);
+                }
            }
             else{
 
