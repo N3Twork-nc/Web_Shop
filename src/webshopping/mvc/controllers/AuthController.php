@@ -115,7 +115,7 @@
                     "phone" => $_POST['phone']
                 );
                 $err = $this->validateAccount($account_data);
-                $err = "validated";
+                
                 if($err == "validated"){
 
                     // check xem email đã tồn tại chưa
