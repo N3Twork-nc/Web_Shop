@@ -45,9 +45,9 @@
                         <tr>
                             <th style="width: 120px;"><span class="las la-sort"></span> MÃ ĐƠN</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> NGÀY ĐẶT</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> T.THÁI</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> T.TIỀN</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> USER</th>
+                            <th style="width: 80px;"><span class="las la-sort"></span> T.THÁI</th>
+                            <th style="width: 80px;"><span class="las la-sort"></span> T.TIỀN</th>
+                            <th style="width: 300px;"><span class="las la-sort"></span> EMAIL</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> MÃ TT</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> NGÀY TT</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> LOẠI TT</th>
@@ -82,7 +82,7 @@
                                 <td data-label="NgayDat"><?php echo $order->getOrder_date(); ?></td>
                                 <td data-label="TrangThai"><?php echo $order->getState(); ?></td>
                                 <td data-label="TongTien"><?php echo $order->getTotal_price(); ?></td>
-                                <td data-label="Username"><?php echo $order->getCustomer()->getUsername(); ?></td>
+                                <td data-label="Username"><?php echo $order->getCustomer()->getEmail(); ?></td>
                                 <td data-label="MaThanhToan"><?php echo $order->getPayment_code() == null ? "NONE": $order->getPayment_code(); ?></td>
                                 <td data-label="NgayThanhToan"><?php echo $order->getPayment_date() == null ? "NONE": $order->getPayment_date(); ?></td>
                                 <td data-label="LoaiThanhToan"><?php echo $order->getType() == null ? "NONE" : $order->getType(); ?></td>

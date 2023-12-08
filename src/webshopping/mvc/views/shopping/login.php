@@ -12,6 +12,9 @@
 
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 
@@ -20,13 +23,17 @@
         <div class="form login">
             <div class="form-content">
                 <header>Đăng nhập</header>
-                <form action="#">
+                <form id="loginForm" action="/Auth/Login" method="POST">
+                    <?php if(isset($_SESSION['message'])): ?>
+                        <div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i><?php echo $_SESSION['message']; ?></div>
+                        <?php unset($_SESSION['message']); ?>
+                    <?php endif; ?>
                     <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input">
+                        <input type="email" name="email" placeholder="Email" class="input">
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Password" class="password">
+                        <input type="password" name="password" placeholder="Password" class="password">
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
@@ -67,34 +74,30 @@
         <div class="form signup">
             <div class="form-content">
                 <header>Đăng ký tài khoản</header>
-                <form action="#">
+                <form id="RegisterForm">
                     <div class="field input-field">
-                        <label for="full-name">Họ Tên</label>
-                        <input type="text" id="full-name" placeholder="Enter Full Name" class="input">
-                    </div>
-                    <div class="field input-field">
-                        <label for="username">Tạo tài khoản</label>
-                        <input type="text" id="username" placeholder="Enter Username" class="input">
+                        <label for="full-name">Nhập họ Tên</label>
+                        <input type="text" id="full-name" name="fullname" placeholder="Enter Full Name" class="input">
                     </div>
                     <div class="field input-field">
                         <label for="username">Nhập email</label>
-                        <input type="email" id="username" placeholder="Enter Email" class="input">
+                        <input type="text" id="email" name="email" placeholder="Enter Email" class="input">
                     </div>
                     <div class="field input-field">
-                        <label for="password">Tạo password</label>
-                        <input type="password" id="password" placeholder="Enter Password" class="password">
+                        <label for="password">Nhập password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" class="password">
                     </div>
                     <div class="field input-field">
                         <label for="confirm-password">Xác thực password</label>
-                        <input type="password" id="confirm-password" placeholder="Confirm Password" class="password">
+                        <input type="password" id="confirm-password" name="retype_password" placeholder="Confirm Password" class="password">
                         <i style="margin-top: 24px;" class='bx bx-hide eye-icon'></i>
                     </div>
                     <div class="field input-field">
                         <label for="phone-number">Nhập số điện thoại</label>
-                        <input type="text" id="phone-number" placeholder="Enter Mobile Number" class="input">
+                        <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input">
                     </div>
                     <div class="field button-field">
-                        <button>Đăng ký</button>
+                        <button type="submit">Đăng ký</button>
                     </div>
                 </form>
 
@@ -130,7 +133,49 @@
         links.forEach(link => {
             link.addEventListener("click", e => {
                 e.preventDefault(); //preventing form submit
+                $('#RegisterForm').find('.custom-alert-error').remove();
                 forms.classList.toggle("show-signup");
             })
         })
+
+        function showLoadingSwal() {
+            return Swal.fire({
+                title: 'Loading...',
+                text: 'Vui lòng chờ trong giây lát!',
+                showConfirmButton: false,
+                imageUrl: '/public/img/gif/loading.gif',
+                allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+            });
+        }
+
+    // bấm submit
+    $('#RegisterForm').submit(function(e){
+        e.preventDefault();
+
+        // gửi data
+        var sw = showLoadingSwal();
+            $.ajax({
+                url:'/Auth/Register',
+                method:'POST',
+                data:$(this).serialize(),
+                error:err=>{
+                    console.log(err)
+                },
+                success:function(resp){
+                let token = resp.trim().split(":")[1];
+                if(resp.trim().split(":")[0] == "token" && token != '' && token != null){
+                    $('#RegisterForm').find('.custom-alert-error').remove();
+                    let url = "http://localhost:8092/Auth/Verify/" + token;
+                    
+                    window.location = url;
+                }else{
+                    sw.close();
+
+                    //nhớ thêm cái này cho mấy trang kia
+                    $('#RegisterForm').find('.custom-alert-error').remove();
+                    $('#RegisterForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>'+ resp + '</div>');
+                }
+            }
+        })
+    });
 </script>
