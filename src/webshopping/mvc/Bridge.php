@@ -3,10 +3,13 @@
     require './mvc/core/PHPMailer/src/Exception.php';
     require './mvc/core/PHPMailer/src/PHPMailer.php';
     require './mvc/core/PHPMailer/src/SMTP.php';
+
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     // require_once './mvc/core/SessionIDCustom.php';
     // $sessionID = new SessionIDCustom();
     //session_create_id($sessionID->php_session_create_id());
-    ini_set('session.sid_length', 64);
+    ini_set('session.name', 'ptitshopping');
+    ini_set('session.sid_length', 128);
     ini_set('session.sid_bits_per_character', 6);
     //ini_set('session.sid_length_min', 64);
 

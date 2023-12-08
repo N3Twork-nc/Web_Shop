@@ -6,7 +6,8 @@
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     
     //session_create_id($sessionID->php_session_create_id());
-    ini_set('session.sid_length', 64);
+    ini_set('session.name', 'ptitdashboard');
+    ini_set('session.sid_length', 128);
     ini_set('session.sid_bits_per_character', 6);
     //ini_set('session.sid_length_min', 64);
 

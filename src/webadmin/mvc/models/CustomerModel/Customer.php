@@ -5,7 +5,7 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
         function LoadCustomers(){
                 try {
                     $db = new DB();
-                    $sql = "SELECT C.username, C.full_name, C.phone, C.email 
+                    $sql = "SELECT C.full_name, C.phone, C.email 
                     FROM Customers AS C";
                     $sth = $db->select($sql);
                     $arr = [];
@@ -42,8 +42,8 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
         function EditCustomer($data){
             try {
                 $db = new DB();
-                $sql = "UPDATE `Customers` SET `full_name` = ?, `phone` = ?, `email` = ? WHERE `username` = ?;";
-                $params = array($data['full_name'], $data['phone'], $data['email'], $data['username']);
+                $sql = "UPDATE `Customers` SET `full_name` = ?, `phone` = ? WHERE `email` = ?;";
+                $params = array($data['full_name'], $data['phone'], $data['email']);
                 $db->execute($sql, $params);
 
                 echo "done";
@@ -57,8 +57,8 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
         function DeleteCustomer($data){
             try {
                 $db = new DB();
-                $sql = "DELETE FROM `Customers` WHERE `username` = ?;";
-                $params = array($data['username']);
+                $sql = "DELETE FROM `Customers` WHERE `email` = ?;";
+                $params = array($data['email']);
                 $db->execute($sql, $params);
 
                 echo "done";

@@ -42,26 +42,18 @@
                 <table width="100%" id="myTable">
                     <thead>
                         <tr>
-                            <th style="width: 120px;"><span class="las la-sort"></span> USERNAME</th>
+                            <th style="width: 120px;"><span class="las la-sort"></span> EMAIL</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> HỌ TÊN</th>
                             <th style="width: 150px;"><span class="las la-sort"></span> SĐT</th>
-                            <th style="width: 170px;"><span class="las la-sort"></span> EMAIL</th>
                             <th style="width: 150px;"><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                    <!-- <?php var_dump($data); ?>
-                    <?php foreach($data as $category): ?>
-                            <tr>
-                                <td><?php echo $category->getUsername(); ?></td>
-                            </tr>
-                        <?php endforeach; ?> -->
                         <?php foreach($data as $customer): ?>
                             <tr>
-                                <td data-label="Username"><?php echo $customer->getUsername(); ?></td>
+                                <td data-label="Username"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
                                 <td data-label="SDT"><?php echo $customer->getPhone(); ?></td>
-                                <td data-label="Email"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="Action">
                                     <i class="fa fa-pencil editBtn"></i>
                                 <style>
@@ -90,13 +82,10 @@
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CustomerForm">
 
-                        <input style="color: black" type="text" id="username" name="username" hidden>
+                        <input style="color: black" type="text" id="Email" name="Email" hidden>
 
                         <label for="NameCustomer">Tên khách hàng:</label>
                         <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang">
-
-                        <label for="Email">Email:</label>
-                        <input style="color: black" type="text" id="Email" name="Email">
 
                         <label for="NumberPhoneCustomer">SĐT:</label>
                         <input style="color: black" type="text" id="SDT" name="SDT">
@@ -137,8 +126,6 @@
     const hoTen = modal.querySelector('#TenKhachHang');
     const email = modal.querySelector('#Email');
     const sdt = modal.querySelector('#SDT');
-    const diaChi = modal.querySelector('#DiaChi');
-    const username = modal.querySelector('#username');
 
     let isEditing = false
 
@@ -149,16 +136,14 @@
         action = 'edit';
         submitBtn.innerText = "Lưu";
         const row = event.target.closest('tr');
-        const username_in_table = row.cells[0].textContent.trim();
+        const email_in_table = row.cells[0].textContent.trim();
         const hoTen_in_table = row.cells[1].textContent.trim();
         const sdt_in_table = row.cells[2].textContent.trim();
-        const email_in_table = row.cells[3].textContent.trim();
         
         // Điền dữ liệu vào form
         hoTen.value = hoTen_in_table;
         email.value = email_in_table;
         sdt.value = sdt_in_table;
-        username.value = username_in_table;
         // Hiển thị form
         modal.style.display = "block";
         
