@@ -30,24 +30,47 @@
                 <p>Trang chủ</p><span>&#10230; </span>
                 <p>Nữ</p> <span>&#10230; </span>
                 <p>Hàng nữ mới về</p>
-                <span>&#10230;</span>
-                <p>Áo thun Baby Tee</p>
+                <!-- <span>&#10230;</span>
+                <p>Áo thun Baby Tee</p> -->
             </div>
             <div class="product-content row">
                 <div class="product-content-left row">
-                    <div class="product-content-left-big-img">
-                        <img src="/public/img/aothun_babytee.jpg" alt="">
-                    </div>
-                    <div class="product-content-left-small-img">
-                        <img src="/public/img/aothun_babytee.jpg" alt="">
-                        <img src="/public/img/aothun_babytee_2.jpg" alt="">
-                        <img src="/public/img/aothun_babytee_3.jpg" alt="">
-                        <img src="/public/img/aothun_babytee_4.jpg" alt="">
+                    <?php if (!empty($data["product"])): ?>
+                        <?php $product = $data["product"]; ?>
+                        <div class="product-content-left-big-img">
+                            <img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" alt="">
+                        </div>
+                        <div class="product-content-left-small-img">
+                            <?php $images = $product->getImages(); ?>
+                            <?php $countImages = count($images); ?>
+                            <?php for ($i = 1; $i < min(4, $countImages); $i++): ?>
+                                <?php $imagePath = $images[$i][0] === '.' ? substr($images[$i], 1) : $images[$i]; ?>
+                                <img src="<?php echo $imagePath; ?>" alt="">
+                            <?php endfor; ?>
+                        </div>
 
-                    </div>
+                    <?php endif; ?>
                 </div>
+
+
                 <div class="product-content-right">
-                    <div class="product-content-right-product-name">
+                    <?php if (!empty($data["product"])): ?>
+                    <?php $product = $data["product"]; ?>
+                        <div class="product-content-right-product-name">
+                            <h1 style="padding-right: 10px;"><?php echo $product->getName(); ?></h1>
+                            <p><?php echo $product->getProduct_code(); ?></p>
+                        </div>
+                        <div class="product-content-right-product-price">
+                            <p style="font-weight: bold; font-size: 24px;"><?php echo $product->getPrice(); ?><sup>đ</sup></p>
+                        </div>
+                        <div class="product-content-right-product-color">
+                            <p style="font-weight: bold; font-size: 24px;"><?php echo $product->getColor(); ?></p>
+                            <div class="product-content-right-product-color-img">
+                                <img src="/public/img/<?php echo $product->getColor(); ?>.png" alt="">
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <!-- <div class="product-content-right-product-name">
                         <h1>ÁO THUN BABY TEE</h1>
                         <p>SKU: 57B9489</p>
                     </div>
@@ -59,7 +82,7 @@
                         <div class="product-content-right-product-color-img">
                             <img src="/public/img/color_trang_nga.png" alt="">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="product-content-right-product-size" style="margin-top: 10px;">
                         <div class="size">
                             <span>S</span>
@@ -141,32 +164,41 @@
         </div>
     </section>
 
-    <!-- Product related -->
-    <section class="product-related">
-        <div class="product-related-title">
-            <p>Sản phẩm tương tự</p>
-        </div>
-        <div class="product-content row">
-            <div class="product-related-item">
-                <img src="/public/img/aothun_co_vien_den.jpg" alt="">
-                <img src="/public/img/color_black.png" alt="">
-                <a href="">Áo thun cổ viền đen</a>
-                <p>690.000đ</p>
-            </div>
-            <div class="product-related-item">
-                <img src="/public/img/aothun_co_vien_den.jpg" alt="">
-                <img src="/public/img/color_black.png" alt="">
-                <a href="">Áo thun cổ viền đen</a>
-                <p>690.000đ</p>
-            </div>
-            <div class="product-related-item">
-                <img src="/public/img/aothun_co_vien_den.jpg" alt="">
-                <img src="/public/img/color_black.png" alt="">
-                <a href="">Áo thun cổ viền đen</a>
-                <p>690.000đ</p>
-            </div>
-        </div>
-    </section>
+<!-- Product related -->
+<section class="product-related">
+    <div class="product-related-title">
+        <p>Sản phẩm tương tự</p>
+    </div>
+    <div class="product-content-row-items" style="padding-right: 10px;">
+        <?php if (!empty($data["related_products"]) && is_array($data["related_products"])): ?>
+            <?php 
+                // Lấy mã sản phẩm đã tìm kiếm
+                $searchedProductCode = !empty($data["product"]) ? $data["product"]->getProduct_code() : null;
+
+                // Lọc bỏ sản phẩm đã tìm kiếm
+                $filteredProducts = array_filter($data["related_products"], function($relatedProduct) use ($searchedProductCode) {
+                    return strcasecmp($relatedProduct->getProduct_code(), $searchedProductCode) !== 0;
+                });
+                //Chọn tối đa được 4
+                $maxProductsToShow = 4;
+                $filteredProducts = array_slice($filteredProducts, 0, $maxProductsToShow);
+
+                if (empty($filteredProducts)) {
+                    echo '<p class="no-related-products">KHÔNG CÓ SẢN PHẨM NÀO LIÊN QUAN!!!</p>';
+                }   
+            ?>
+            <?php foreach ($filteredProducts as $relatedProduct): ?>
+                <div class="product-related-item">
+                    <a href="/Product/Show/<?php echo $relatedProduct->getProduct_code(); ?>">
+                        <img src="<?php echo $relatedProduct->getImages()[0][0] === '.' ? substr($relatedProduct->getImages()[0], 1) : $relatedProduct->getImages()[0]; ?>" alt="">
+                        <p style="font-size: 14px;"><?php echo $relatedProduct->getName(); ?></p>
+                        <p><?php echo $relatedProduct->getPrice(); ?><sup>đ</sup></p>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</section>
 
     <?php require_once './mvc/views/shopping/footer.php'; ?>
     
