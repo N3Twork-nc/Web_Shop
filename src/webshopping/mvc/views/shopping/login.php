@@ -102,6 +102,8 @@
                         <button type="submit">Đăng ký</button>
                     </div>
                 </form>
+
+
                 <div class="form-link">
                     <span>Bạn đã có tài khoản? <a href="#" class="link login-link">Đăng nhập</a></span>
                 </div>
