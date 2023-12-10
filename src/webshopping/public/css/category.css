@@ -130,6 +130,7 @@ h1:hover {
 
 .category-right-content-item img {
     width: 100%;
+    padding-left: 5px;
 }
 
 .category-right-content-item p:last-child {
