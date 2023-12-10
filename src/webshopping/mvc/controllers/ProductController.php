@@ -38,7 +38,6 @@
 
                     $data["related_products"] = $model->LoadProducts($category);
                     $data["product"] = $data["product"][0];
-                    //var_dump($data["related_products"]);
                 }
             }
             else{

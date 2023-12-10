@@ -87,6 +87,13 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                         // lấy hình
                         $images = $this->LoadProductImages($obj->getProduct_code());
                         $obj->setImages($images);
+
+                        // lấy size và số lượng
+                        $sizes = $this->LoadProductSizes($obj->getProduct_code());
+                        $obj->setSizes($sizes);
+
+                        // set số lượng
+                        $obj->setQuantity($obj->calculateQuantity());
                         
                         // thêm obj vào mảng
                         $arr[] = $obj;

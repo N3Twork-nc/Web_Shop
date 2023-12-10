@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <?php require_once './mvc/views/shopping/libcss.php'; ?>
-    <link rel="stylesheet" href="/src/webshopping/public/css/confirmUser.css">
+    <link rel="stylesheet" href="/public/css/confirmUser.css">
 </head>
 
 <body>
@@ -44,5 +44,4 @@
     </main>
     <?php require_once './mvc/views/shopping/footer.php'; ?>
 </body>
-
 </html>
