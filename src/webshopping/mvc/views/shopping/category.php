@@ -75,7 +75,7 @@
                         </select>
                     </div>
 
-                    <div class="category-right-content row" style="width: 100% !important;">
+                    <div class="category-right-content row">
                         <div class="category-right-filter" id="filterDiv" style="display: none;">
                             <div class="filter-row">
                                 <div class="filter-row-title">
@@ -122,16 +122,23 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <?php foreach($data["products"] as $product): ?>
-                        <div class="category-right-content-item" style="padding-right: 10px;">
-                            <a href="/Product/Show/<?php echo $product->getProduct_code(); ?>">
-                                <img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" alt="">
-                                <p style="font-size:14px;"><?php echo $product->getName(); ?></p>
-                                <p><?php echo $product->getPrice(); ?><sup>đ</sup></p>
-                            </a>
-                        </div>
+
+                        <?php if (count($data["products"]) > 0): ?>
+                            <?php foreach($data["products"] as $product): ?>
+                                <div class="category-right-content-item">
+                                    <a href="/Product/Show/<?php echo $product->getProduct_code(); ?>">
+                                        <img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" alt="">
+                                        <p style="font-size:14px;"><?php echo $product->getName(); ?></p>
+                                        <p><?php echo $product->getPrice(); ?><sup>đ</sup></p>
+                                    </a>
+                                </div>
                         <?php endforeach; ?>
+                        <?php else: ?>
+                            <div style="display:flex;align-items: center;flex-direction: column;align-content: stretch;justify-content: center;" >
+                                <img style= "width: 50%" src="/public/img/searchfail.png" alt="">
+                                <div style="font-size: 1.125rem">Hiện không có sản phẩm</div>
+                            </div>
+                        <?php endif; ?>
                         <!-- <div class="category-right-content-item">
                             <a href="/Product">
                                 <img src="/public/img/aothun_babytee.jpg" alt="">
@@ -207,6 +214,6 @@
 </body>
 
 </html>
-<script src="/public/js/sroll.js"></script>
+<script src="/public/js/sroll.js"></scrip>
 <script src="/public/js/responsiveMenu.js"></script>
 <script src="/public/js/category.js"></script>
