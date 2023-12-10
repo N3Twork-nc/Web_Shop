@@ -32,6 +32,14 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
             $this->product_state = $row['product_state'];
         }
 
+        public function calculateQuantity(){
+                $total = 0;
+                foreach($this->sizes as $size => $quantity){
+                        $total += $quantity;
+                }
+                return $total;
+        }
+
         public function getProduct_code()
         {
                 return $this->product_code;

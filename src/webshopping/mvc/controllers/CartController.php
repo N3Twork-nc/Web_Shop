@@ -25,8 +25,71 @@
             $this->categories = $data;
         }
 
+        function validateProduct($data){
+            
+            if($this->validateNull($data)){
+                return "Vui lòng nhập đủ thông tin";
+            }
+
+            $arr_Number['quantity'] = $data['quantity'];
+
+            if($this->validateNumber($arr_Number)){
+                //var_dump($arr_Number);
+                return "Số lượng không hợp lệ";
+            }
+
+            $value = $data['size'];
+            $array = array('S', 'M', 'L', 'XL','XXL'); // Mảng cần kiểm tra
+
+            if (!in_array($value, $array)) {
+                return "Size không tồn tại";
+            }
+
+            return "validated";
+        }
+
+        // function Show(){
+        //     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //         if(isset($_SESSION['usr'])){
+        //             $account_data = array(
+        //                 "product_code" => $_POST['product_code'],
+        //                 "size" => $_POST['size'],
+        //                 "quantity" => $_POST['quantity']
+        //             );
+        //             $err = $this->validateProduct($account_data);
+        //             if($err == "validated"){
+
+        //             }else{
+        //                 echo $err;
+        //             }
+        //         }
+        //         else{
+        //             header("Location: /Auth");
+        //         }
+        //     }
+            
+        //     // chuyển data về dạng key value để dễ for
+        //     $tmp = [];
+        //     foreach($this->categories as $key => $value){
+        //         $tmp[$value->getParent_category_name()][$key] =  $value->getName();
+        //     }
+
+        //     $data["categories"] = $tmp;
+            
+        //     $page = $this->view("cart", $data);
+        // }
+
         function Show(){
-                        // chuyển data về dạng key value để dễ for
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if(isset($_SESSION['usr'])){
+                   
+                }
+                else{
+                    header("Location: /Auth");
+                }
+            }
+            
+            // chuyển data về dạng key value để dễ for
             $tmp = [];
             foreach($this->categories as $key => $value){
                 $tmp[$value->getParent_category_name()][$key] =  $value->getName();

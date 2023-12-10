@@ -349,6 +349,12 @@ INSERT INTO `Customers`(`email`, `password`, `full_name`, `phone`) VALUES ('n20d
 INSERT INTO `ShoppingCart`(`cart_code`, `email`) VALUES ('n20dcat004_9e44200d5e6dc13c6e4f1095a7233f77de4c9f80d8739f099e19f5f67e769aca','n20dcat004@student.ptithcm.edu.vn');
 INSERT INTO `ShoppingCart`(`cart_code`, `email`) VALUES ('n20dcat017_e57c655f053c59890a80bf3106278e8e408f852a7f3fe953774a18bcea3119c0','n20dcat017@student.ptithcm.edu.vn');
 
+INSERT INTO `CartItems`(`cart_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('n20dcat004_9e44200d5e6dc13c6e4f1095a7233f77de4c9f80d8739f099e19f5f67e769aca','SP1701933882',3,'S',300);
+INSERT INTO `CartItems`(`cart_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('n20dcat004_9e44200d5e6dc13c6e4f1095a7233f77de4c9f80d8739f099e19f5f67e769aca','SP1701933882',3,'XL',300);
+INSERT INTO `CartItems`(`cart_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('n20dcat004_9e44200d5e6dc13c6e4f1095a7233f77de4c9f80d8739f099e19f5f67e769aca','SP1701935173',1,'L',200);
+
+INSERT INTO `CartItems`(`cart_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('n20dcat017_e57c655f053c59890a80bf3106278e8e408f852a7f3fe953774a18bcea3119c0','SP1701936580',1,'L',400);
+
 INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `email`, `address`) VALUES ('order_2','pending',900,'n20dcat004@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `email`, `address`) VALUES ('order_4','delivering',1000,'n20dcat017@student.ptithcm.edu.vn','Phường Phú Thạnh, Quận Gò Vấp, Thành phố Hồ Chí Minh');
 
