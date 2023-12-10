@@ -52,13 +52,6 @@
         <div class="container-payment">
             <div class="payment-content row">
                 <div class="payment-content-left">
-                    <div class="payment-content-left-method-delivery">
-                        <p style="font-weight: bold; font-size: 16px;">Phương thức giao hàng</p>
-                        <div class="payment-content-left-method-delivery-item">
-                            <input checked type="checkbox">
-                            <label for="">Giao hành chuyển phát nhanh</label>
-                        </div>
-                    </div>
                     <div class="payment-content-left-method-payment">
                         <p style="font-weight: bold; font-size: 16px;">Phương thức thanh toán</p>
                         <div class="payment-content-left-method-payment-item">
@@ -70,34 +63,11 @@
                         </div>
                         <div class="payment-content-left-method-payment-item">
                             <input name="payment" type="radio">
-                            <label for="">Thanh toán bằng thẻ ATM</label>
-                        </div>
-                        <div class="payment-content-left-method-payment-item-img">
-                            <img src="/public/img/vcb.jpg" alt="" style="width: 30%;">
-                        </div>
-                        <div class="payment-content-left-method-payment-item">
-                            <input name="payment" type="radio">
-                            <label for="">Thanh toán Momo</label>
-                        </div>
-                        <div class="payment-content-left-method-payment-item-img">
-                            <img src="/public/img/momo.jpg" alt="" style="width: 15%;">
-                        </div>
-                        <div class="payment-content-left-method-payment-item">
-                            <input name="payment" type="radio">
                             <label for="">Thu tiền khi nhận hàng</label>
                         </div>
                     </div>
                 </div>
                 <div class="payment-content-right">
-                    <div class="payment-content-right-button">
-                        <input type="text" placeholder="Mã giảm giá">
-                        <button><p>ÁP DỤNG</p></button>
-                    </div>
-                    <div class="payment-content-right-button">
-                        <input type="text" placeholder="Mã nhân viên hỗ trợ">
-                        <button><p>ÁP DỤNG</p></button>
-                    </div>
-
                     <table>
                         <tr>
                             <th>Tên sản phẩm</th>
