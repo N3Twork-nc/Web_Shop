@@ -80,13 +80,16 @@
         // }
 
         function Show(){
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                if(isset($_SESSION['usr'])){
-                   
-                }
-                else{
-                    header("Location: /Auth");
-                }
+            $data = [];
+            if(isset($_SESSION['usr']) && isset($_SESSION['usr']['cart_code'])){
+                $tmp['cart_code'] = $_SESSION['usr']['cart_code'];
+                $model = $this->model("CartItem");
+                //var_dump($model);
+                $data['cartItem'] = $model->LoadCartItem($tmp);
+                //var_dump($data['cartItem']);
+            }   
+            else{
+                header("Location: /Auth");
             }
             
             // chuyển data về dạng key value để dễ for
