@@ -277,7 +277,6 @@
     margin-bottom: 20px;
 }
 
-
 .product-related-item {
     width: 18%;
     text-align: left;
@@ -334,8 +333,19 @@
     margin: 0 10px;
 }
 
-
 .product-related-item img {
     width: 100%;
 }
 
+button[disabled] {
+    pointer-events: none;
+}
+
+
+/* CSS bổ sung để chỉnh màu chữ hoặc giao diện khác cho nút đã vô hiệu hóa */
+
+button[disabled] p {
+    color: gray;
+    /* Màu chữ xám khi nút đã vô hiệu hóa */
+    /* Các thuộc tính CSS khác tùy thuộc vào yêu cầu thiết kế của bạn */
+}

@@ -11,6 +11,7 @@
     <!-- Bootstrap CSS -->
     <?php require_once './mvc/views/shopping/libcss.php'; ?>
     <link rel="stylesheet" href="/public/css/product.css">
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -48,10 +49,8 @@
                                 <img src="<?php echo $imagePath; ?>" alt="">
                             <?php endfor; ?>
                         </div>
-
                     <?php endif; ?>
                 </div>
-
 
                 <div class="product-content-right">
                     <?php if (!empty($data["product"])): ?>
@@ -68,40 +67,49 @@
                             <div class="product-content-right-product-color-img">
                                 <img src="/public/img/<?php echo $product->getColor(); ?>.png" alt="">
                             </div>
-                        </div>
+                        </div>     
+                        <?php 
+                            $sizes = $product->getSizes();
+                        ?>
+                        <?php foreach ($sizes as $index => $size): ?>
+                            <p data-label="Size<?= $index ?>" class="size-element" style="display: none;"><?= $size ?></p>
+                        <?php endforeach; ?>            
                     <?php endif; ?>
-                    <!-- <div class="product-content-right-product-name">
-                        <h1>ÁO THUN BABY TEE</h1>
-                        <p>SKU: 57B9489</p>
-                    </div>
-                    <div class="product-content-right-product-price">
-                        <p style="font-weight: bold; font-size: 24px;">590.000<sup>đ</sup></p>
-                    </div>
-                    <div class="product-content-right-product-color">
-                        <p style="font-weight: bold; font-size: 24px;"><span>Màu sắc</span>: Trắng ngà</p>
-                        <div class="product-content-right-product-color-img">
-                            <img src="/public/img/color_trang_nga.png" alt="">
+                    <form method="post" action="">
+                        <!-- Ở dòng này có thêm product_code là vì ở trên là thẻ p dùng để in dữ liệu nên viết thêm này ẩn đi để
+                        backend dễ lấy data đi hơn -->
+                        <input type="hidden" name="product_code" value="<?php echo $product->getProduct_code(); ?>">
+                        <!-- Ở phần này vì chưa có hiệu ứng click để select ra border nên đã viết thêm để ng dùng có thể biết mình đang
+                        chọn size nào chi tiết ở dưới phần js ở phần if(sizeInput) trở xuống nhé -->
+                        <div class="product-content-right-product-size" style="margin-top: 10px;">
+                            <div class="size" onclick="selectSize(event)">
+                                <span data-size="S">S</span>
+                                <span data-size="M">M</span>
+                                <span data-size="L">L</span>
+                                <span data-size="XL">XL</span>
+                                <span data-size="XXL">XXL</span>
+                            </div>
                         </div>
-                    </div> -->
-                    <div class="product-content-right-product-size" style="margin-top: 10px;">
-                        <div class="size">
-                            <span>S</span>
-                            <span>M</span>
-                            <span>L</span>
-                            <span>XL</span>
-                            <span>XXL</span>
+                        <!-- Ở dòng này đã viết js khi click ở trên nó sẽ có giá trị tương ứng với cái nó click size ở trên nên cứ việc lấy
+                        name là ra đúng data-size trển có lỗi thì báo tui -->
+                        <input type="hidden" name="size" id="selectedSize" value="">
+                        <?php 
+
+                        ?>
+                        <div class="quantity">
+                            <p style="font-weight: bold; color: #6C6D70;">Số lượng</p>
+                            <input type="number" min="0" value="1" name="quantity" id="quantityInput" class="custom-number-input">
                         </div>
-                    </div>
-                    <div class="quantity">
-                        <p style="font-weight: bold; color: #6C6D70;">Số lượng</p>
-                        <input type="number" min="0" value="1" class="custom-number-input">
-                    </div>
-                    <p style=" color: red; display: none;">Vui lòng chọn size</p>
+                    </form>
+                    <p id="checkSelectSize" style=" color: red; display: none;">Vui lòng chọn size</p>
                     <div class="product-content-right-product-button">
                         <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
                         <a href="/Cart">
-                            <button><i class="fa fa-shopping-cart"></i><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
-                        </a>
+                            <button><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
+                        </a>  
+                        <button id="outOfStockButton" style="display: none;" disabled>
+                            <p style="margin-bottom: 1%;">HẾT HÀNG</p>
+                        </button>
                     </div>
                     <div class="product-content-right-product-icon">
                         <div class="product-content-right-product-icon-item">
@@ -203,8 +211,151 @@
     <?php require_once './mvc/views/shopping/footer.php'; ?>
     
 </body>
-
+<script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
 </html>
 <script src="/public/js/sroll.js "></script>
 <script src="/public/js/responsiveMenu.js "></script>
 <script src="/public/js/product.js "></script>
+
+
+<!-- Dùng để ẩn hiện border khi bấm vào bất kỳ 1 size nào đó -->
+<!-- Dùng để check nếu size > 0 thì còn hàng còn size < 0 thì hết hàng -->
+<script>
+    function selectSize(event) {
+        var allSizes = document.querySelectorAll('.size span');
+        var outOfStockButton = document.getElementById('outOfStockButton');
+        var addToCartButton = document.querySelector('.product-content-right-product-button button');
+        var buyButton = document.querySelector('.product-content-right-product-button a button');
+        var sizeElements = document.querySelectorAll('.size-element');
+        var sizesArray = Array.from(sizeElements).map(function (element) {
+            return element.textContent;
+        });
+
+        var sizeS = sizesArray[0]; 
+        var sizeM = sizesArray[1];
+        var sizeL = sizesArray[2];
+        var sizeXL = sizesArray[3];
+        var sizeXXL = sizesArray[4];
+
+        allSizes.forEach(function(size) {
+            size.style.border = '1px solid #dddddd';
+        });
+        var selectedSize = event.target;
+        if(selectedSize.tagName === 'SPAN') {
+            selectedSize.style.border = '1px solid black';
+            var sizeInput = document.getElementById('selectedSize');
+            if (sizeInput) {
+                sizeInput.value = selectedSize.getAttribute('data-size');
+                if(sizeInput.value === "S"){
+                    if(sizeS > 0){
+                        showInStockButtons();
+                    }else{
+                        showOutOfStockButton();
+                    }
+                }else if(sizeInput.value === "M"){
+                    if(sizeM > 0){
+                        showInStockButtons();
+                    }else{
+                        showOutOfStockButton();
+                    }
+                }else if(sizeInput.value === "L"){
+                    if(sizeL > 0){
+                        showInStockButtons();
+                    }else{
+                        showOutOfStockButton();
+                    }
+                }else if(sizeInput.value === "XL") {
+                    if(sizeXL > 0){
+                        showInStockButtons();
+                    }else{
+                        showOutOfStockButton();
+                    }
+                }else {
+                    if(sizeXXL > 0){
+                        showInStockButtons();
+                    }else{
+                        showOutOfStockButton();
+                    }
+                }
+            } else {
+                console.log('sizeInput is null');
+            }
+        }
+    }
+
+    // Hàm hiển thị còn hàng
+    function showInStockButtons() {
+      var outOfStockButton = document.getElementById('outOfStockButton');
+      var addToCartButton = document.querySelector('.product-content-right-product-button button:nth-of-type(1)');
+      var buyButton = document.querySelector('.product-content-right-product-button a button');
+
+      outOfStockButton.style.display = 'none';
+      addToCartButton.style.display = 'block';
+      buyButton.style.display = 'block';
+    }
+
+    // Hàm hiểm thị hết hàng
+    function showOutOfStockButton() {
+      var outOfStockButton = document.getElementById('outOfStockButton');
+      var addToCartButton = document.querySelector('.product-content-right-product-button button:nth-of-type(1)');
+      var buyButton = document.querySelector('.product-content-right-product-button a button');
+
+      outOfStockButton.style.display = 'block';
+      addToCartButton.style.display = 'none';
+      buyButton.style.display = 'none';
+    }
+
+    function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: 'Thông báo',
+            text: message,
+            showCloseButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    function handlePurchase(event, action) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
+        var sizeInput = document.getElementById('selectedSize');
+        var quantityInput = document.getElementById('quantityInput');
+        var sizeValue = sizeInput.value;
+        var quantityValue = parseInt(quantityInput.value);
+
+        // Kiểm tra xem size đã chọn chưa 
+        if (!sizeValue) {
+            showSweetAlert('error', 'Vui lòng chọn size.');
+            return;
+        }
+
+        // Kiểm tra số lượng size vừa chọn có > 0 không
+        if (quantityValue <= 0) {
+            showSweetAlert('error', 'Vui lòng chọn số lượng lớn hơn 0.');
+            return;
+        }
+
+        // Ở thằng mua thì nếu đủ thông tin chuyển qua trang khác là /cart nhen
+        if (action === 'buyNow') {
+            window.location.href = '/Cart';
+            return;
+        }
+
+        // Còn ở thằng thêm vào giỏ hàng thì nếu đủ thông tin sẽ hiện dialog là thêm vào giỏ hàng thành công
+        showSweetAlert('success', `Đã ${action === 'buyNow' ? 'mua' : 'thêm vào giỏ hàng'} thành công!`);
+    }
+
+    // Thêm vào giỏ hàng
+    document.querySelector('.product-content-right-product-button button').addEventListener('click', function (event) {
+        handlePurchase(event, 'addToCart');
+    });
+
+    // Mua hàng
+    document.querySelector('.product-content-right-product-button a button').addEventListener('click', function (event) {
+        handlePurchase(event, 'buyNow');
+    });
+
+   
+
+</script>
