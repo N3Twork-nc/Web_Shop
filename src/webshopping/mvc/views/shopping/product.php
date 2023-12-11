@@ -28,9 +28,9 @@
     <section class="product">
         <div class="container-product">
             <div class="product-top row">
-                <p>Trang chủ</p><span>&#10230; </span>
+                <!-- <p>Trang chủ</p><span>&#10230; </span>
                 <p>Nữ</p> <span>&#10230; </span>
-                <p>Hàng nữ mới về</p>
+                <p>Hàng nữ mới về</p> -->
                 <!-- <span>&#10230;</span>
                 <p>Áo thun Baby Tee</p> -->
             </div>
@@ -104,9 +104,9 @@
                     <p id="checkSelectSize" style=" color: red; display: none;">Vui lòng chọn size</p>
                     <div class="product-content-right-product-button">
                         <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
-                        <a href="/Cart">
+                        <!-- <a href="/Cart">
                             <button><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
-                        </a>  
+                        </a>   -->
                         <button id="outOfStockButton" style="display: none;" disabled>
                             <p style="margin-bottom: 1%;">HẾT HÀNG</p>
                         </button>
