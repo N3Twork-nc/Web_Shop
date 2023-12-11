@@ -121,7 +121,7 @@
                         <a href="/Category">
                             <button>TIẾP TỤC MUA SẮM</button>
                         </a>
-                        <a href="/Delivery">
+                        <a href="/Payment/delivery">
                             <button>THANH TOÁN</button>
                         </a>
                     </div>
