@@ -9,13 +9,6 @@ CREATE TABLE Categories (
   parent_category_id INT,
   FOREIGN KEY (`parent_category_id`) REFERENCES `Categories`(`category_id`)
 );
-DROP TABLE IF EXISTS `Discounts`;
-
-CREATE TABLE Discounts (
-  discount_code VARCHAR(30) PRIMARY KEY,
-  percent INT NOT NULL,
-  state_discount_code ENUM('active', 'inactive', 'expire')
-);
 DROP TABLE IF EXISTS `Products`;
 
 CREATE TABLE Products (
@@ -61,7 +54,9 @@ DROP TABLE IF EXISTS `Verify`;
 CREATE TABLE Verify (
   email VARCHAR(100) PRIMARY KEY,
   token VARCHAR(100) UNIQUE,
-  create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+  count INT,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 DROP TABLE IF EXISTS `ShoppingCart`;
 
@@ -172,8 +167,6 @@ INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo khoác nữ'
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Áo len nữ', 3);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần ống loe nữ', 4);
 INSERT INTO `Categories`(`name`, `parent_category_id`) VALUES ('Quần short nữ', 4);
-
-INSERT INTO `Discounts`(discount_code, percent, state_discount_code) VALUES('DCODE', 0, 'active');
 
 INSERT INTO `Products` (`product_code`, `name`, `description`, `price`, `category_id`, `color`, `update_latest`, `product_state`) VALUES
 ('SP1701933882', 'ÁO SƠ MI ĐÍNH HOA', 'Thời tiết sang Thu rất thích hợp để diện những key items sơ mi dài tay. Đến với thiết kế sơ mi lần này, IVY moda giữ nguyên dáng cơ bản, được cách điệu thêm chi tiết đính hoa ở cổ áo và xếp ly ở cổ tay. Áo có khuy cài nhỏ đồng màu. Chất liệu là lụa trơn cao cấp, mềm  mại, tạo cảm giác mặc thoải mái. \r\n\r\nMôt chiếc áo sơ mi với gam màu tươi tắn sẽ hoàn thành bất cứ outfit nào của nàng. Thiết kế cơ bản nhưng không hề nhàm chán luôn sẵn sàng để tôn lên vẻ đẹp của người mặc.\r\n\r\nThông tin mẫu:\r\n\r\nChiều cao: 167 cm\r\n\r\nCân nặng: 50 kg\r\n\r\nSố đo 3 vòng: 83-65-93 cm\r\n\r\nMẫu mặc size M\r\n\r\nLưu ý: Màu sắc sản phẩm thực tế sẽ có sự chênh lệch nhỏ so với ảnh do điều kiện ánh sáng khi chụp và màu sắc hiển thị qua màn hình máy tính/ điện thoại.', 100.00, 11, 'brown', '2023-12-07 14:24:47', 'active'),

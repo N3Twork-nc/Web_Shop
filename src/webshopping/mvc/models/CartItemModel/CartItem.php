@@ -40,6 +40,7 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
 
                         $obj_cartItem = new CartItemObj($row);
 
+                        $row_product['product_code'] = $row['product_code'];
                         $row_product['name'] = $row['name'];
                         $row_product['price'] = $row['price'];
                         $row_product['color'] = $row['color'];

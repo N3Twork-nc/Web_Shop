@@ -168,50 +168,49 @@
 
         // chưa xong
         public function ForgotPassword(){
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            echo $_SERVER['REMOTE_HOST'];
+            // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                $account_data = array(
-                    "email" => $_POST['email']
-                );
+            //     $account_data = array(
+            //         "email" => $_POST['email']
+            //     );
 
-                if (!$this->validateEmail($account_data['email'])) {
-                    echo "Email không hợp lệ!";
-                }
-                else{
+            //     if (!$this->validateEmail($account_data['email'])) {
+            //         echo "Email không hợp lệ!";
+            //     }
+            //     else{
 
-                    // check xem email đã tồn tại chưa
-                    $model = $this->model("Customer");
-                    $customers = $model->FindCustomer($account_data['email']);
+            //         // check xem email đã tồn tại chưa
+            //         $model = $this->model("Customer");
+            //         $customers = $model->FindCustomer($account_data['email']);
  
-                    if($customers == true){
-                        $token = bin2hex(random_bytes(30));
-                         // setup gửi mail kèm mã xác nhận
-                         $data['email'] = $account_data['email'];
-                         $data['fullname'] = $account_data['fullname'];
-                         $data['subject'] = "Mã xác nhận cho SHOP PTIT";
-                         $data['body'] = "Xin chào, " . $account_data['fullname'] ." <br> Bạn có đăng kí tài khoản tại trang web của chúng tôi, đây là mã xác nhận của bạn:
-                         <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $token . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
-                         $res = $this->SendMail($data);
- 
-                         // nếu gửi thành công
-                         if($res == 'sent'){
-                            echo "done";
-                         }
-                         else{
-                             echo "Lỗi khi gửi mail!";
-                         }
-                    }
-                    else{
-                        echo "done";
-                        // hash mật khẩu
-                        $pass_hash = hash('sha256', $account_data['password']);
-                        $account_data['password'] = $pass_hash;
+            //         if($customers == true){
+            //             $token = bin2hex(random_bytes(30));
 
-                        // tạo mã xác nhận
-                        $verify_code = bin2hex(random_bytes(3));
-                    }
-                }
-            }
+            //             // thêm data vào bảng verify
+                        
+
+            //              // setup gửi mail kèm mã xác nhận
+            //              $data['email'] = $account_data['email'];
+            //              $data['fullname'] = $account_data['fullname'];
+            //              $data['subject'] = "Mã xác nhận cho SHOP PTIT";
+            //              $data['body'] = "Xin chào, " . $account_data['fullname'] ." <br> Đây là mã xác nhận của bạn:
+            //              <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $token . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
+            //              $res = $this->SendMail($data);
+ 
+            //              // nếu gửi thành công
+            //              if($res == 'sent'){
+            //                 echo "done";
+            //              }
+            //              else{
+            //                  echo "Lỗi khi gửi mail!";
+            //              }
+            //         }
+            //         else{
+            //             echo "done";
+            //         }
+            //     }
+            // }
         }
 
         public function Logout(){

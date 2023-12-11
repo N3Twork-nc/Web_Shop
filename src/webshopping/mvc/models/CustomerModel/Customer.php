@@ -107,5 +107,34 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 //echo  $sql . "<br>" . $e->getMessage();
             }
         }
+
+        // chưa xong
+        function UpdateVerifyCode($data){
+            try {
+                $db = new DB();
+                $sql = "INSERT INTO `Verify`(`email`, `token`, `count`) VALUES (?,?,?)";
+                $params = array($data['email'], $data['token'], $data['count']);
+                $db->execute($sql, $params);
+                $db->conn->commit();
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi thông tin xác nhận";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function InsertVerifyCode($data){
+            try {
+                $db = new DB();
+                $sql = "INSERT INTO `Verify`(`email`, `token`, `count`) VALUES (?,?,?)";
+                $params = array($data['email'], $data['token'], $data['count']);
+                $db->execute($sql, $params);
+                $db->conn->commit();
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi thông tin xác nhận";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
     }
 ?>
