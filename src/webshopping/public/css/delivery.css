@@ -19,20 +19,15 @@
 }
 
 .lifcycle-delivery p:first-child {
-    padding-left: 14%;
-}
-
-.lifcycle-delivery p:nth-child(2) {
-    padding-left: 8%;
-    color: #0DB7EA;
+    padding-left: 8px;
 }
 
 .lifcycle-delivery p:last-child {
-    padding-left: 7%;
+    padding-left: 255px;
 }
 
 .container-delivery {
-    padding-left: 8%;
+    padding-left: 7%;
 }
 
 .delivery-top-wrap {
@@ -259,7 +254,7 @@
 }
 
 .delivery-content-right table tr:nth-child(4) {
-    border-top: 2px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
 }
 
 .delivery-content-right table tr td:last-child {
