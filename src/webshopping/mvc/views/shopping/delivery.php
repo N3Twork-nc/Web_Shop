@@ -29,10 +29,9 @@
     <section class="delivery">
         <div class="lifcycle-delivery">
             <p>Giỏ hàng</p>
-            <p>Địa chỉ giao hàng</p>
             <p>Thanh toán</p>
         </div>
-        <div class="container-delivery">
+        <div class="container-delivery" style="padding-left: 0% !important;">
             <div class="delivery-top-wrap">
                 <div class="cart-top">
                     <div class="delivery-top-delivery delivery-top-item">
@@ -41,33 +40,14 @@
                     <div class="delivery-top-address delivery-top-item">
                         <i class="fa fa-map-marker"></i>
                     </div>
-                    <div class="delivery-top-payment delivery-top-item">
-                        <i class="fas fa-money-check-alt"></i>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="container-delivery">
-            <div class="delivery-content row">
+            <div class="delivery-content row" style="margin-right: 0px !important;">
                 <div class="delivery-content-left">
                     <p>Địa chỉ giao hàng</p>
-                    <div class="delivery-content-user row">
-                        <div class="delivery-content-left-login">
-                            <button class="btn-login">ĐĂNG NHẬP</button>
-                        </div>
-                        <div class="delivery-content-left-register">
-                            <button class="btn-register">ĐĂNG KÝ</button>
-                        </div>
-                    </div>
-                    <p style="font-weight: normal; margin-top: 10px;">Đăng nhập/ Đăng ký tài khoản để được tích điểm và nhận thêm nhiều ưu đãi từ PTIT-Shop.</p>
-
                     <div class="delivery-content-left-input-top row">
-                        <div class="delivery-content-left-input-top-item">
-                            <input class="form-control" type="text" value="" name="name" placeholder="Họ tên">
-                        </div>
-                        <div class="delivery-content-left-input-top-item">
-                            <input class="form-control" type="text" value="" name="number-phone" placeholder="Số điện thoại">
-                        </div>
                         <div class="delivery-content-left-input-top-item">
                             <input class="form-control" type="text" value="" name="city" placeholder="Tỉnh/Thành phố">
                         </div>
@@ -83,6 +63,10 @@
                             <input class="form-control" type="text" value="" name="address" placeholder="Địa chỉ">
                         </div>
                     </div>
+                    <div class="delivery-content-left-payment">
+                        <input name="payment" type="radio" style="display: inline !important;" checked>
+                        <label for="">Thu tiền khi nhận hàng</label>
+                    </div>
                     <div class="delivery-content-left-button row">
                         <a href="/Cart"><span>&#171;</span><p>Quay lại giỏ hàng</p></a>
                         <a href="/Payment">
@@ -94,42 +78,26 @@
                     <table>
                         <tr>
                             <th>Tên sản phẩm</th>
-                            <th>Giảm giá</th>
                             <th>Số lượng</th>
+                            <th></th>
                             <th>Thành tiền</th>
                         </tr>
-                        <tr>
-                            <td>Áo thun baby tee SKU 57B9489</td>
-                            <td>-25%</td>
-                            <td>1</td>
-                            <td>
-                                <p>590.000 đ</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Áo cổ viền đen SKU 54B8352</td>
-                            <td>-15%</td>
-                            <td>1</td>
-                            <td>
-                                <p>790.000 đ</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;" colspan="3">Tạm tính</td>
-                            <td style="font-weight: bold;">
-                                <p>1.380.000 đ</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;" colspan="3">Thuế VAT</td>
-                            <td style="font-weight: bold;">
-                                <p>50.000 đ</p>
-                            </td>
-                        </tr>
+                        <?php $total = 0; ?>
+                        <?php foreach ($data['cartItem'] as $cartItem): ?>
+                            <tr>
+                                <td data-label="ProductName"><?php echo $cartItem->getProduct()->getName(); ?></td>
+                                <td data-label="ProductNumber"><?php echo $cartItem->getQuantity(); ?></td>
+                                <td></td>
+                                <td>
+                                    <p data-label="ProductMoney"><?php echo $cartItem->getTotal_price(); ?></p>
+                                    <?php $total = $total +  $cartItem->getTotal_price();?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                         <tr>
                             <td style="font-weight: bold;" colspan="3">Tổng tiền</td>
                             <td style="font-weight: bold;">
-                                <p>1.430.000 đ</p>
+                               <p data-label="TotalPrice"><?php echo number_format($total, 0, '.', ',') . ' đ'; ?></p> 
                             </td>
                         </tr>
                     </table>
