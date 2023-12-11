@@ -5,7 +5,6 @@
 
         public function __construct()
         {   
-
             // load product
             $model = $this->model("Product");
             $data_product = $model->LoadProducts();
@@ -34,7 +33,7 @@
             }
 
             $data["categories"] = $tmp;
-            
+
             $page = $this->view("payment", $data);
         }
 
