@@ -63,6 +63,10 @@
                             <input class="form-control" type="text" value="" name="address" placeholder="Địa chỉ">
                         </div>
                     </div>
+                    <div class="delivery-content-left-payment">
+                        <input name="payment" type="radio" style="display: inline !important;" checked>
+                        <label for="">Thu tiền khi nhận hàng</label>
+                    </div>
                     <div class="delivery-content-left-button row">
                         <a href="/Cart"><span>&#171;</span><p>Quay lại giỏ hàng</p></a>
                         <a href="/Payment">
