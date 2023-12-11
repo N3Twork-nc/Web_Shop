@@ -93,7 +93,7 @@
                         <tr>
                             <td style="font-weight: bold;" colspan="3">Tổng tiền</td>
                             <td style="font-weight: bold;">
-                               <p><?php echo number_format($total, 0, '.', ',') . ' đ'; ?></p> 
+                               <p data-label="TotalPrice"><?php echo number_format($total, 0, '.', ',') . ' đ'; ?></p> 
                             </td>
                         </tr>
                     </table>
