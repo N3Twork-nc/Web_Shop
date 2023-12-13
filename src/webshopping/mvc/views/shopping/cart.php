@@ -73,14 +73,21 @@
                                         <p><?php echo $cart->getSize(); ?></p>
                                     </td>
                                     <td>
-                                        <div class="quantity-container">
-                                        <button class="decrement quantity-update" data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>">-</button>
-                                        <div class="quantity" id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>"><?php echo $cart->getQuantity(); ?></div>
-                                        <button class="increment quantity-update" data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>">+</button>
+                                    <div class="quantity-container">
+                                        <button class="decrement quantity-update"
+                                            data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                            data-size="<?php echo $cart->getSize(); ?>">-</button>
+                                        <div class="quantity"
+                                            id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>_<?php echo $cart->getSize(); ?>">
+                                            <?php echo $cart->getQuantity(); ?>
                                         </div>
+                                        <button class="increment quantity-update"
+                                            data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                            data-size="<?php echo $cart->getSize(); ?>">+</button>
+                                    </div>
                                     </td>
                                     <td>
-                                        <p class="total-price"><?php echo $cart->getTotal_price(); ?></p>
+                                        <p class="total-price"><?php echo $cart->getPrice(); ?></p>
                                     </td>
                                     <td class="delete-button-cell"><button>X</button></td>
                             </tr>
@@ -155,46 +162,50 @@
 <script src="/public/js/sroll.js "></script>
 <script src="/public/js/responsiveMenu.js "></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var quantityButtons = document.querySelectorAll('.quantity-update');
+    document.addEventListener('DOMContentLoaded', function () {
+        var quantityButtons = document.querySelectorAll('.quantity-update');
 
-    quantityButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var productCode = button.getAttribute('data-id');
-            var quantityElement = document.getElementById('quantity_' + productCode);
-            var currentQuantity = parseInt(quantityElement.textContent);
+        quantityButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var productCode = button.getAttribute('data-id');
+                var size = button.getAttribute('data-size');
+                var quantityElement = document.getElementById('quantity_' + productCode + '_' + size);
+                var currentQuantity = parseInt(quantityElement.textContent);
 
-            if (button.classList.contains('increment')) {
-                currentQuantity++;
-            } else if (button.classList.contains('decrement') && currentQuantity > 1) {
-                currentQuantity--;
-            }
+                if (button.classList.contains('increment')) {
+                    currentQuantity++;
+                } else if (button.classList.contains('decrement') && currentQuantity > 1) {
+                    currentQuantity--;
+                }
 
-            quantityElement.textContent = currentQuantity;
-            updateCartTotal();
+                quantityElement.textContent = currentQuantity;
+                updateCartTotal();
+            });
         });
+
+        function updateCartTotal() {
+            const totalPrices = document.querySelectorAll('.total-price');
+            const quantities = document.querySelectorAll('.quantity');
+
+            let totalAmount = 0;
+            let totalQuantity = 0;
+
+            totalPrices.forEach(function (priceElement, index) {
+                const price = parseFloat(priceElement.textContent.replace(/\D/g, ''));
+                const quantity = parseInt(quantities[index].textContent);
+
+                totalAmount += price * quantity;
+                totalQuantity += quantity;
+            });
+
+            document.getElementById('total-quantity').textContent = totalQuantity;
+            document.getElementById('total-amount').innerHTML = `<p style="font-size: 15px;">${totalAmount.toLocaleString()} <sup>đ</sup></p>`;
+            document.getElementById('sub-total').innerHTML = `<p style="color: black; font-weight: bold; font-size: 15px;">${totalAmount.toLocaleString()} <sup>đ</sup></p>`;
+        }
+
+        updateCartTotal();
     });
 
-    function updateCartTotal() {
-        const totalPrices = document.querySelectorAll('.total-price');
-        const quantities = document.querySelectorAll('.quantity');
-
-        let totalAmount = 0;
-        let totalQuantity = 0;
-
-        totalPrices.forEach(function (priceElement, index) {
-            const price = parseFloat(priceElement.textContent.replace(/\D/g, ''));
-            const quantity = parseInt(quantities[index].textContent);
-
-            totalAmount += price * quantity;
-            totalQuantity += quantity;
-        });
-
-        document.getElementById('total-quantity').textContent = totalQuantity;
-        document.getElementById('total-amount').innerHTML = `<p style="font-size: 15px;">${totalAmount.toLocaleString()} <sup>đ</sup></p>`;
-        document.getElementById('sub-total').innerHTML = `<p style="color: black; font-weight: bold; font-size: 15px;">${totalAmount.toLocaleString()} <sup>đ</sup></p>`;
-    }
-    updateCartTotal();
-});
+</script>
 
 </script>
