@@ -108,14 +108,12 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
             }
         }
 
-        // chưa xong
-        function UpdateVerifyCode($data){
+        function DeleteToken($data){
             try {
                 $db = new DB();
-                $sql = "INSERT INTO `Verify`(`email`, `token`, `count`) VALUES (?,?,?)";
-                $params = array($data['email'], $data['token'], $data['count']);
+                $sql = "DELETE FROM Verify AS V WHERE V.email = ?";
+                $params = array($data['email']);
                 $db->execute($sql, $params);
-                $db->conn->commit();
                 return "done";
             } catch (PDOException $e) {
                 return "Lỗi khi thông tin xác nhận";
@@ -123,16 +121,86 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
             }
         }
 
-        function InsertVerifyCode($data){
+        function UpdateToken($data){
+            try {
+                $db = new DB();
+                $sql = "UPDATE Verify AS V SET V.token= ?,V.count= ?, V.used = ?, V.update_time = CURRENT_TIMESTAMP WHERE V.email = ? ";
+                $params = array($data['token'], $data['count'], $data['used'], $data['email']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi thông tin xác nhận";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function InsertToken($data){
             try {
                 $db = new DB();
                 $sql = "INSERT INTO `Verify`(`email`, `token`, `count`) VALUES (?,?,?)";
                 $params = array($data['email'], $data['token'], $data['count']);
                 $db->execute($sql, $params);
-                $db->conn->commit();
                 return "done";
             } catch (PDOException $e) {
                 return "Lỗi khi thông tin xác nhận";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function FindCustomerVerify($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                if(!empty($data['email'])){
+                    $sql = "SELECT V.* FROM Verify AS V, Customers AS C 
+                    WHERE V.email = C.email AND V.email = ?";
+                    $params = array($data['email']);
+                }
+                else if(!empty($data['token'])){
+                    $sql = "SELECT V.* FROM Verify AS V 
+                    WHERE V.token = ?";
+                    $params = array($data['token']);
+                }
+                $sth = $db->select($sql, $params);
+
+                if ($sth->rowCount() > 0) {
+                    $row = $sth->fetch();
+                    $obj = new Verify($row);
+                    $arr[] = $obj;
+                }
+                return $arr;
+            } catch (PDOException $e) {
+
+                $a = [];
+                return $a;
+                // return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        
+        function UpdateVerifyTokenStatus($data){
+            try {
+                $db = new DB();
+                $sql = "UPDATE Verify AS V SET V.used=? WHERE V.email = ? ";
+                $params = array($data['used'], $data['email']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi update trạng thái token";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        
+        function ResetPassword($data){
+            try {
+                $db = new DB();
+                $sql = "UPDATE Customers AS C SET C.password= ? WHERE C.email = ?";
+                $params = array($data['password'], $data['email']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi reset password";
                 //echo  $sql . "<br>" . $e->getMessage();
             }
         }
