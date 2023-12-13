@@ -6,6 +6,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
         private $quantity;
         private $size;
         private $total_price;
+        private $price;
 
         public function __construct($row)
         {
@@ -13,6 +14,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             $this->quantity = $row['quantity'];
             $this->size = $row['size'];
             $this->total_price = $row['total_price'];
+            $this->price = $row['price'];
         }
 
         public function getCart_item_id()
@@ -63,6 +65,18 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
         public function setTotal_price($total_price)
         {
                 $this->total_price = $total_price;
+        }
+
+        public function getPrice()
+        {
+                return $this->price;
+        }
+
+        public function setPrice($price)
+        {
+                $this->price = $price;
+
+
         }
     }
 

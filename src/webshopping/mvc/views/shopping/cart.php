@@ -80,7 +80,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="total-price"><?php echo $cart->getTotal_price(); ?></p>
+                                        <p class="total-price"><?php echo $cart->getPrice(); ?></p>
                                     </td>
                                     <td class="delete-button-cell"><button>X</button></td>
                             </tr>
