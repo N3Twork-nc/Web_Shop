@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/public/css/header.css">
+</script>
 <header class="myHeader">
         <label id="check" class="checkbtn"><i class="fa fa-bars" style="position: absolute; left: 12px;"></i></label>
         <div class="logo">
@@ -60,8 +62,45 @@
                 <input placeholder="Search..." type="text">
                 <i class="fa fa-search"></i>
             </li>
-            <li><i class="fa fa-paw"></i></li>
-            <li><i class="fa fa-user"></i></li>
-            <li><i class="fa fa-shopping-bag"></i></li>
+            <div class="item" style="padding-left: 12px;">
+                <li><i class="fa fa-paw"></i></li>
+            </div>
+            <div class="item" style="padding-left: 12px; cursor: pointer;">
+                <li><i class="fa fa-user" id="userIcon"></i></li>
+                <div class="sub-action" style="display: none; margin-top: 15px; margin-right: 78px">
+                    <div class="top-action">
+                        <a class="icon" href=""><h3>Tài khoản của tôi</h3></a>
+                    </div>
+                    <ul>
+                        <li><a href=""><i class="fa fa-user"></i>Thông tin tài khoản</a></li>
+                        <li><a href=""><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>
+                        <li><a href=""><i class="fa fa-key"></i>Đổi mật khẩu</a></li>
+                        <li><a href=""><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="item" style="padding-left: 12px;">
+                <li><i class="fa fa-shopping-bag"></i></li>
+            </div>
         </div>
     </header>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy element của icon
+        var userIcon = document.getElementById('userIcon');
+
+        // Lấy element của sub-action
+        var subAction = document.querySelector('.sub-action');
+
+        // Bắt sự kiện click vào icon
+        userIcon.addEventListener('click', function() {
+            // Kiểm tra trạng thái hiện tại của sub-action và thay đổi nó
+            if (subAction.style.display === 'none' || subAction.style.display === '') {
+                subAction.style.display = 'block';
+            } else {
+                subAction.style.display = 'none';
+            }
+        });
+    });
+</script>
