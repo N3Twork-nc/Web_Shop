@@ -2,6 +2,7 @@
     class CategoryController extends Controller{
         private $categories;
         private $products;
+        private $countItemInCart;
 
         public function __construct()
         {   
@@ -23,6 +24,14 @@
 
             $this->products = $data_product;
             $this->categories = $data;
+
+            if(isset($_SESSION['usr']['cart_code'])){
+                $model = $this->model("CartItem");
+                $data_category = $model->CountItem($_SESSION['usr']['cart_code']);
+                if(!empty($data_category['numberOfItem']) && empty($data_category['err'])){
+                    $this->countItemInCart = $data_category['numberOfItem'];
+                }
+            }
         }
 
 

@@ -2,7 +2,7 @@
     class CartController extends Controller{
         private $categories;
         private $products;
-        private $count_item_in_cart;
+        private $countItemInCart;
 
         public function __construct()
         {   
@@ -26,9 +26,13 @@
             $this->categories = $data;
             if(!isset($_SESSION['usr']) && !isset($_SESSION['usr']['cart_code'])){
                 header("Location: /Auth");
-            }else{
-                $model = $this->model("Cart");
+            }
+            if(isset($_SESSION['usr']['cart_code'])){
+                $model = $this->model("CartItem");
                 $data_category = $model->CountItem($_SESSION['usr']['cart_code']);
+                if(!empty($data_category['numberOfItem']) && empty($data_category['err'])){
+                    $this->countItemInCart = $data_category['numberOfItem'];
+                }
             }
         }
 

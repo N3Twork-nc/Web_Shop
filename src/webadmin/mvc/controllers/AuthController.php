@@ -45,7 +45,7 @@
         public function Logout(){
 			// Hủy tất cả các biến session
 			session_unset();
-
+            session_regenerate_id(true);
 			// Xóa tất cả các session đã lưu trữ trên máy chủ
 			//session_destroy(); // có thể dùng để buộc logout
 

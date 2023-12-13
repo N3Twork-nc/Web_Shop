@@ -65,6 +65,31 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                 }
         }
 
+        function CountItem($cart_code){
+            try {
+                $db = new DB();
+                $sql = "SELECT COUNT(*) AS 'numberOfItem' FROM 
+                (
+                    SELECT CI.* FROM ShoppingCart AS SC, CartItems AS CI 
+                    WHERE SC.cart_code = CI.cart_code AND SC.cart_code = ?
+                    ) AS TMP, Products AS P 
+                    WHERE P.product_code = TMP.product_code";
+                $params = array($cart_code);
+
+                $sth = $db->select($sql, $params);
+
+                $arr = [];
+                $cartItem_from_DB = $sth->fetchAll();
+                $arr['numberOfItem'] = $cartItem_from_DB[0]['numberOfItem'];
+                return $arr;
+            } catch (PDOException $e) {
+                $arr['err'] = "Lỗi khi load số lượng sản phẩm trong đơn hàng";
+                return $arr;
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+    }
+
+
         function FindPrice($product_code){
             try {
                     $db = new DB();

@@ -54,8 +54,8 @@
            // có session chưa
            if(isset($_SESSION['usr'])){
 
-                // nếu có session thì không được vào đăng nhập nữa
-                if($controllerStr == "AuthController"){
+                // nếu có session thì không được vào đăng nhập nữa trừ logout
+                if($controllerStr == "AuthController" && $this->action != 'Logout'){
                     require_once "./mvc/controllers/HomeController.php";
 
                     $this->controller = "HomeController";
