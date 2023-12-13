@@ -124,6 +124,7 @@
 
 .cart-content-left td:first-child img {
     width: 130px;
+    
 }
 
 .cart-content-left td:nth-child(2) {
@@ -131,8 +132,9 @@
 }
 
 .cart-content-left td:nth-child(3) img {
-    width: 30px;
     border-radius: 50%;
+    height: 20px;
+    width: 22px;
 }
 
 .cart-content-right {
@@ -234,3 +236,10 @@
     text-decoration: none;
     opacity: 0.6;
 }
+/* Thêm CSS để tùy chỉnh kích thước của nút "X" */
+.delete-button-cell button {
+    padding: 10px 10px; /* Điều chỉnh kích thước bảng */
+    font-size: 20px;
+}
+
+
