@@ -355,6 +355,7 @@
                 $product_data = array(
                     "product_code" => $_POST['product_code'],
                 );
+                $product_data = array_map('trim', $product_data);
                 $check = $this->validateSpecialCharacter($product_data);
                 if($check == false){
                         $model = $this->model("Order");

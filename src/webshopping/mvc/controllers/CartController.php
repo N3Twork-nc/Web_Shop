@@ -90,6 +90,7 @@
                     'size' => $_POST['size'],
                     'quantity' => $_POST['quantity']
                 ];
+                $product_data = array_map('trim', $product_data);
                 $err = $this->validateProduct($product_data);
                 if($err == 'validated'){
                     $model = $this->model("CartItem");

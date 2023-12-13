@@ -13,6 +13,7 @@
                 $order_data = array(
                     "order_code" => $_POST['order_code']
                 );
+                $order_data = array_map('trim', $order_data);
                 $model = $this->model("Order");
                 $order = $model->FindOrder($order_data['order_code']);
 
@@ -30,7 +31,7 @@
                 $order_data = array(
                     "order_code" => $_POST['order_code']
                 );
-
+                $order_data = array_map('trim', $order_data);
                 $model = $this->model("Order");
                 $order = $model->FindOrder($order_data['order_code']);
 
@@ -53,7 +54,7 @@
                 $order_data = array(
                     "order_code" => $_POST['order_code']
                 );
-
+                $order_data = array_map('trim', $order_data);
                 $model = $this->model("Order");
                 $order = $model->FindOrder($order_data['order_code']);
 
@@ -81,7 +82,7 @@
                 $order_data = array(
                     "order_code" => $_POST['order_code']
                 );
-
+                $order_data = array_map('trim', $order_data);
                 $model = $this->model("Order");
                 $order = $model->FindOrder($order_data['order_code']);
 
