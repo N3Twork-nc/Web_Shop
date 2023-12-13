@@ -168,49 +168,115 @@
 
         // chưa xong
         public function ForgotPassword(){
-            echo $_SERVER['REMOTE_HOST'];
-            // if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $check = true;
+                $verify_data = array(
+                    "email" => $_POST['email']
+                );
+                if (!$this->validateEmail($verify_data['email']) || empty($verify_data['email'])) {
+                    echo "Email không hợp lệ!";
+                }
+                else{
 
-            //     $account_data = array(
-            //         "email" => $_POST['email']
-            //     );
+                    // check xem email đã tồn tại chưa
+                    $model = $this->model("Customer");
+                    $customers = $model->FindCustomer($verify_data['email']);
 
-            //     if (!$this->validateEmail($account_data['email'])) {
-            //         echo "Email không hợp lệ!";
-            //     }
-            //     else{
+                    if($customers == true){
 
-            //         // check xem email đã tồn tại chưa
-            //         $model = $this->model("Customer");
-            //         $customers = $model->FindCustomer($account_data['email']);
- 
-            //         if($customers == true){
-            //             $token = bin2hex(random_bytes(30));
+                        $arrVerify = $model->FindCustomerVerify($verify_data);
 
-            //             // thêm data vào bảng verify
-                        
+                        // tạo mã xác nhận
+                        $token = bin2hex(random_bytes(100));
+                        // nếu chưa gửi mã xác thực lần nào
+                        if(empty($arrVerify)){
+                            $verify_data['token'] = $token;
+                            $verify_data['count'] = 0;
+                            $err = $model->InsertToken($verify_data);
+                            if($err != 'done'){
+                                $check = false;
+                                echo "Lỗi";
+                            }
+                        }else{
+                            $oneDayInSeconds = 24 * 60 * 60; // Số giây trong một ngày
 
-            //              // setup gửi mail kèm mã xác nhận
-            //              $data['email'] = $account_data['email'];
-            //              $data['fullname'] = $account_data['fullname'];
-            //              $data['subject'] = "Mã xác nhận cho SHOP PTIT";
-            //              $data['body'] = "Xin chào, " . $account_data['fullname'] ." <br> Đây là mã xác nhận của bạn:
-            //              <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $token . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
-            //              $res = $this->SendMail($data);
- 
-            //              // nếu gửi thành công
-            //              if($res == 'sent'){
-            //                 echo "done";
-            //              }
-            //              else{
-            //                  echo "Lỗi khi gửi mail!";
-            //              }
-            //         }
-            //         else{
-            //             echo "done";
-            //         }
-            //     }
-            // }
+                            if($arrVerify[0]->getCount() > 3){
+                                $dateTime = new DateTime($arrVerify[0]->getCreate_time());
+                                $timestamp = $dateTime->getTimestamp();
+                                if (time() - $timestamp >= $oneDayInSeconds) {
+                                    $verify_data['token'] = $token;
+                                    $verify_data['count'] = 0;
+                                    $err = $model->DeleteToken($verify_data);
+                                    if($err != 'done'){
+                                        $check = false;
+                                        echo "Lỗi";
+                                    }
+                                    else{
+                                        $err = $model->InsertToken($verify_data);
+                                        if($err != 'done'){
+                                            $check = false;
+                                            echo "Lỗi";
+                                        }
+                                    }
+                                } else{
+                                    $check = false;
+                                    echo "Bạn đã quá số lần gửi mã xác nhận cho hôm nay! Thử lại sau 24 tiếng!";
+                                }
+                            }
+                            else{
+                                //echo $arrVerify[0]->getCreate_time();
+                                $dateTime = new DateTime($arrVerify[0]->getCreate_time());
+                                $timestamp = $dateTime->getTimestamp();
+                                if (time() - $timestamp >= $oneDayInSeconds) {
+                                    $verify_data['token'] = $token;
+                                    $verify_data['count'] = 0;
+                                    $err = $model->DeleteToken($verify_data);
+                                    if($err != 'done'){
+                                        $check = false;
+                                        echo "Lỗi";
+                                    }
+                                    else{
+                                        $err = $model->InsertToken($verify_data);
+                                        if($err != 'done'){
+                                            $check = false;
+                                            echo "Lỗi";
+                                        }
+                                    }
+                                } else {
+                                    $verify_data['token'] = $token;
+                                    $verify_data['count'] = $arrVerify[0]->getCount() + 1;
+                                    $verify_data['used'] = 0;
+                                    $err = $model->UpdateToken($verify_data);
+                                    if($err != 'done'){
+                                        $check = false;
+                                        echo "Lỗi";
+                                    }
+                                }
+                            }
+                        }
+                        if($check){
+                            // setup gửi mail kèm mã xác nhận
+                            //$link = 'localhost:8092/Auth/RestPassword/' . $token;
+                            $link = "<a href='http://localhost:8092/Auth/ResetPassword/$token'>Bấm vào đây để đặt lại mật khẩu</a>";
+                            $data['email'] = $verify_data['email'];
+                            $data['subject'] = "Reset mật khẩu tài khoản SHOP PTIT";
+                            $data['body'] = '<html><body>Bạn vừa gửi yêu cầu đặt lại mật khẩu vài phút trước:<br> ' . $link . '</body></html>';
+                            $res = $this->SendMail($data);
+
+                            // nếu gửi thành công
+                            if($res == 'sent'){
+                                echo "Vui lòng kiểm tra mail của bạn để tiếp tục!";
+                            }
+                            else{
+                                echo "Lỗi khi gửi mail, có thể do lỗi hệ thống hoặc email không đúng. Hãy kiểm tra và submit lại!";
+                            }
+                        }
+                    }
+                    else{
+                        echo "done";
+                    }
+                }
+            }
         }
 
         public function Logout(){
@@ -305,6 +371,87 @@
                     }
                 }
             }               
+            else{
+                header("Location: /Auth");
+            }
+		}
+
+        public function ResetPassword($params){
+
+            $tmp = [];
+            foreach($this->categories as $key => $value){
+                $tmp[$value->getParent_category_name()][$key] =  $value->getName();
+            }
+            
+            $data['categories'] = $tmp;
+            if(!empty($params)){
+
+                $data_token['token'] = $params[0];
+                $model = $this->model("Customer");
+                $arrVerify = $model->FindCustomerVerify($data_token);
+
+                if(empty($arrVerify)){
+                    header("Location: /Auth");
+                }
+                else{
+                    $dateTime = new DateTime($arrVerify[0]->getUpdate_time());
+                    $update_time = $dateTime->getTimestamp();
+                    if(time() - $update_time  > 300 || $arrVerify[0]->getUsed() == 1){
+                        if($arrVerify[0]->getUsed() == 0){
+                            $data_user = [
+                                'email' => $arrVerify[0]->getEmail(),
+                                'used' => 1
+                            ];
+                            $err = $model->UpdateVerifyTokenStatus($data_user);
+                        }
+                        $page = $this->view("404", $data);
+                    }
+                    else{
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            if(empty($_POST['password']) || empty($_POST['retype_password'])){
+                                echo "Vui lòng nhập đủ thông tin";
+                            }
+                            else{
+                                if($_POST['password'] != $_POST['retype_password']){
+                                    echo "Vui lòng nhập cùng một mật khẩu";
+                                }
+                                else{
+                                    if(strlen($_POST['password']) < 10){
+                                        echo "Vui lòng nhập mật khẩu ít nhất 10 kí tự";
+                                    }
+                                    else{
+                                        $password = hash('sha256', $_POST['password']);
+                                        $data_user = [
+                                            'email' => $arrVerify[0]->getEmail(),
+                                            'password' => $password,
+                                            'used' => 1
+                                        ];
+    
+                                        $model = $this->model("Customer");
+                                        $err = $model->ResetPassword($data_user);
+                                        if($err != "done"){
+                                            echo $err;
+                                        }
+                                        else{
+                                            $err = $model->UpdateVerifyTokenStatus($data_user);
+                                            if($err != "done"){
+                                                echo $err;
+                                            }
+                                            else{
+                                                echo  "done";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            $data['token'] = $params[0];
+                            $page = $this->view("changePassword", $data);
+                        }
+                    }   
+                }
+            }              
             else{
                 header("Location: /Auth");
             }

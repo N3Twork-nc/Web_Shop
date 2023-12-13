@@ -22,7 +22,7 @@
                             </h3>
                             <div class="auth__login__content" style="text-align: center;">
                                 <p class="auth__description">
-                                    (Mã xác thực đã được gửi tới số điện thoại của bạn)
+                                    (Mã xác thực đã được gửi tới số email của bạn)
                                 </p>
                                 <!-- in lỗi -->
                                 <?php

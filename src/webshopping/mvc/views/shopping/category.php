@@ -214,6 +214,6 @@
 </body>
 
 </html>
-<script src="/public/js/sroll.js"></scrip>
+<script src="/public/js/sroll.js"></script>
 <script src="/public/js/responsiveMenu.js"></script>
 <script src="/public/js/category.js"></script>

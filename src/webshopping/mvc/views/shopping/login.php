@@ -214,19 +214,18 @@
                     console.log(err)
                 },
                 success:function(resp){
-                if(resp == "done"){
+                let token = resp.trim().split(":")[1];
+                if(resp.trim().split(":")[0] == "token" && token != '' && token != null){
                     $('#RegisterForm').find('.custom-alert-error').remove();
-                    Swal.fire(
-                        'Completed!',
-                        'Link đổi mật khẩu đã được gửi đến mail của bạn!',
-                        'success'
-                    )
+                    let url = "http://localhost:8092/Auth/CheckCodeForChangePassword/" + token;
+                    
+                    window.location = url;
                 }else{
                     sw.close();
 
                     //nhớ thêm cái này cho mấy trang kia
-                    $('#RegisterForm').find('.custom-alert-error').remove();
-                    $('#RegisterForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: inline-block !important; text-align: center; height: auto !important;"><i class="fa fa-times-circle"></i>'+ resp + '</div>');
+                    $('#ForgotPasswordForm').find('.custom-alert-error').remove();
+                    $('#ForgotPasswordForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: inline-block !important; text-align: center; height: auto !important;"><i class="fa fa-times-circle"></i>'+ resp + '</div>');
                 }
             }
         })
