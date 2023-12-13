@@ -80,6 +80,7 @@
                         <!-- Ở dòng này có thêm product_code là vì ở trên là thẻ p dùng để in dữ liệu nên viết thêm này ẩn đi để
                         backend dễ lấy data đi hơn -->
                         <input type="hidden" name="product_code" value="<?php echo $product->getProduct_code(); ?>">
+                        <input type="hidden" id="cart_code" value="<?php echo isset($_SESSION['usr']['cart_code']) ? $_SESSION['usr']['cart_code'] :  ""; ?>">
                         <!-- Ở phần này vì chưa có hiệu ứng click để select ra border nên đã viết thêm để ng dùng có thể biết mình đang
                         chọn size nào chi tiết ở dưới phần js ở phần if(sizeInput) trở xuống nhé -->
                         <div class="product-content-right-product-size" style="margin-top: 10px;">
@@ -321,6 +322,7 @@
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút
         var sizeInput = document.getElementById('selectedSize');
         var quantityInput = document.getElementById('quantityInput');
+        var cart_code = document.getElementById('cart_code');
         var sizeValue = sizeInput.value;
         var quantityValue = parseInt(quantityInput.value);
 
@@ -335,6 +337,7 @@
             showSweetAlert('error', 'Vui lòng chọn số lượng lớn hơn 0.');
             return;
         }
+
         return "validated";
     }
 
@@ -371,7 +374,12 @@
                     }, 1000);
                     }else{
                         sw.close();
-                        showSweetAlert('error', resp);
+                        if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
+                            // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                            window.location.href = '/Auth';
+                        } else {
+                            showSweetAlert('error', resp);
+                        }
                     }
                 }
             })

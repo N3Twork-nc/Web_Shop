@@ -67,20 +67,22 @@
             </div>
             <div class="item" style="padding-left: 12px; cursor: pointer;">
                 <li><i class="fa fa-user" id="userIcon"></i></li>
-                <div class="sub-action" style="display: none; margin-top: 15px; margin-right: 78px">
-                    <div class="top-action">
-                        <a class="icon" href=""><h3>Tài khoản của tôi</h3></a>
+                <?php if(isset($_SESSION['usr'])): ?>
+                    <div class="sub-action" style="display: none; margin-top: 15px; margin-right: 78px">
+                        <div class="top-action">
+                            <a class="icon" href=""><h3>Tài khoản của tôi</h3></a>
+                        </div>
+                        <ul>
+                            <li><a href=""><i class="fa fa-user"></i>Thông tin tài khoản</a></li>
+                            <li><a href=""><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>
+                            <li><a href=""><i class="fa fa-key"></i>Đổi mật khẩu</a></li>
+                            <li><a href="/Auth/Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
+                        </ul>
                     </div>
-                    <ul>
-                        <li><a href=""><i class="fa fa-user"></i>Thông tin tài khoản</a></li>
-                        <li><a href=""><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>
-                        <li><a href=""><i class="fa fa-key"></i>Đổi mật khẩu</a></li>
-                        <li><a href=""><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
+                <?php endif; ?>
             </div>
             <div class="item" style="padding-left: 12px;">
-                <li><i class="fa fa-shopping-bag"></i></li>
+                <a href="<?php echo isset($_SESSION['usr']) ? "/Cart" : "/Auth"; ?>"><li><i class="fa fa-shopping-bag"></i></li></a>
             </div>
         </div>
     </header>
@@ -95,6 +97,10 @@
 
         // Bắt sự kiện click vào icon
         userIcon.addEventListener('click', function() {
+
+            if(!subAction){
+                window.location.href = '/Auth';
+            }
             // Kiểm tra trạng thái hiện tại của sub-action và thay đổi nó
             if (subAction.style.display === 'none' || subAction.style.display === '') {
                 subAction.style.display = 'block';

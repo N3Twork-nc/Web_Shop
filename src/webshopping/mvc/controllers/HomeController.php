@@ -1,6 +1,7 @@
 <?php
     class HomeController extends Controller{
         private $categories;
+        private $countItemInCart;
 
         public function __construct()
         {   
@@ -16,6 +17,13 @@
             }
 
             $this->categories = $data;
+            if(isset($_SESSION['usr']['cart_code'])){
+                $model = $this->model("CartItem");
+                $data_category = $model->CountItem($_SESSION['usr']['cart_code']);
+                if(!empty($data_category['numberOfItem']) && empty($data_category['err'])){
+                    $this->countItemInCart = $data_category['numberOfItem'];
+                }
+            }
         }
         function Show($params){
             // chuyển data về dạng key value để dễ for

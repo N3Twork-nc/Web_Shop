@@ -101,6 +101,24 @@
                 return "Mật khẩu tối thiểu phải 10 kí tự!";
             }
 
+            $uppercase = preg_match('@[A-Z]@', $data['password']); // Ít nhất một ký tự hoa
+            $lowercase = preg_match('@[a-z]@', $data['password']); // Ít nhất một ký tự thường
+            $number    = preg_match('@[0-9]@', $data['password']); // Ít nhất một số
+            $specialChars = preg_match('@[^\w]@', $data['password']); // Ít nhất một ký tự đặc biệt
+
+            if(!$uppercase){
+                return "Mật khẩu cần tối thiểu 1 kí tự hoa";
+            }
+            if(!$lowercase){
+                return "Mật khẩu cần tối thiểu 1 kí tự thường";
+            }
+            if(!$number){
+                return "Mật khẩu cần tối thiểu 1 kí tự số";
+            }
+            if(!$specialChars){
+                return "Mật khẩu cần tối thiểu 1 kí tự đặc biệt";
+            }
+
             return "validated";
         }
 
@@ -132,7 +150,7 @@
                         $account_data['password'] = $pass_hash;
 
                         // tạo mã xác nhận
-                        $verify_code = bin2hex(random_bytes(3));
+                        $verify_code = bin2hex(random_bytes(4));
 
                         // setup gửi mail kèm mã xác nhận
                         $data['email'] = $account_data['email'];
@@ -282,7 +300,7 @@
         public function Logout(){
 			// Hủy tất cả các biến session
 			session_unset();
-
+            session_regenerate_id(true);
 			// Xóa tất cả các session đã lưu trữ trên máy chủ
 			//session_destroy(); // có thể dùng để buộc logout
 
@@ -292,6 +310,8 @@
 		}
 
         public function Verify($params){
+            // đổi id session mỗi lần truy cập
+            session_regenerate_id(true);
 
             $tmp = [];
             foreach($this->categories as $key => $value){
