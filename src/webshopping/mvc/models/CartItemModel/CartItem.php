@@ -64,5 +64,35 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                     return  $sql . "<br>" . $e->getMessage();
                 }
         }
+
+        function FindPrice($product_code){
+            try {
+                    $db = new DB();
+                    $sql = "SELECT P.price FROM Products AS P WHERE P.product_code = ?";
+                    $params = array($product_code);
+                    $sth = $db->select($sql, $params);
+                    while($row = $sth->fetch()) {
+                        $price[] = $row['price'];
+                    }
+                return $price;
+            } catch (PDOException $e) {
+                $a = [];
+                return $a;
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function AddProduct($data){
+            try {
+                $db = new DB();
+                $sql = "INSERT INTO `CartItems`(`cart_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES (?,?,?,?,?)";
+                $params = array($data['cart_code'], $data['product_code'], $data['quantity'], $data['size'], $data['total_price']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi thêm sản phẩm vào giỏ";
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+        }
     }
 ?>

@@ -20,6 +20,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
     <?php require_once './mvc/views/shopping/header.php'; ?>
@@ -75,7 +76,7 @@
                             <p data-label="Size<?= $index ?>" class="size-element" style="display: none;"><?= $size ?></p>
                         <?php endforeach; ?>            
                     <?php endif; ?>
-                    <form method="post" action="">
+                    <form id="ProductForm">
                         <!-- Ở dòng này có thêm product_code là vì ở trên là thẻ p dùng để in dữ liệu nên viết thêm này ẩn đi để
                         backend dễ lấy data đi hơn -->
                         <input type="hidden" name="product_code" value="<?php echo $product->getProduct_code(); ?>">
@@ -100,17 +101,17 @@
                             <p style="font-weight: bold; color: #6C6D70;">Số lượng</p>
                             <input type="number" min="0" value="1" name="quantity" id="quantityInput" class="custom-number-input">
                         </div>
+                        <div class="product-content-right-product-button">
+                            <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
+                            <!-- <a href="/Cart">
+                                <button><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
+                            </a>   -->
+                            <button id="outOfStockButton" style="display: none;" disabled>
+                                <p style="margin-bottom: 1%;">HẾT HÀNG</p>
+                            </button>
+                        </div>
                     </form>
                     <p id="checkSelectSize" style=" color: red; display: none;">Vui lòng chọn size</p>
-                    <div class="product-content-right-product-button">
-                        <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
-                        <!-- <a href="/Cart">
-                            <button><p style="margin-bottom: 1%;">MUA HÀNG</p></button>
-                        </a>   -->
-                        <button id="outOfStockButton" style="display: none;" disabled>
-                            <p style="margin-bottom: 1%;">HẾT HÀNG</p>
-                        </button>
-                    </div>
                     <div class="product-content-right-product-icon">
                         <div class="product-content-right-product-icon-item">
                             <i class="fa fa-phone"></i>
@@ -278,7 +279,7 @@
                     }
                 }
             } else {
-                console.log('sizeInput is null');
+                //console.log('sizeInput is null');
             }
         }
     }
@@ -291,7 +292,6 @@
 
       outOfStockButton.style.display = 'none';
       addToCartButton.style.display = 'block';
-      buyButton.style.display = 'block';
     }
 
     // Hàm hiểm thị hết hàng
@@ -335,27 +335,49 @@
             showSweetAlert('error', 'Vui lòng chọn số lượng lớn hơn 0.');
             return;
         }
+        return "validated";
+    }
 
-        // Ở thằng mua thì nếu đủ thông tin chuyển qua trang khác là /cart nhen
-        if (action === 'buyNow') {
-            window.location.href = '/Cart';
-            return;
-        }
-
-        // Còn ở thằng thêm vào giỏ hàng thì nếu đủ thông tin sẽ hiện dialog là thêm vào giỏ hàng thành công
-        showSweetAlert('success', `Đã ${action === 'buyNow' ? 'mua' : 'thêm vào giỏ hàng'} thành công!`);
+    function showLoadingSwal() {
+    return Swal.fire({
+        title: 'Loading...',
+        text: 'Vui lòng chờ trong giây lát!',
+        showConfirmButton: false,
+        imageUrl: '/public/img/gif/loading.gif',
+        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+    });
     }
 
     // Thêm vào giỏ hàng
     document.querySelector('.product-content-right-product-button button').addEventListener('click', function (event) {
-        handlePurchase(event, 'addToCart');
-    });
+        let err = handlePurchase(event, 'addToCart');
+        
+        //e.preventDefault();
+        //showSweetAlert('success', `Đã ${action === 'buyNow' ? 'mua' : 'thêm vào giỏ hàng'} thành công!`);
+        if(err == 'validated'){
+            var sw = showLoadingSwal();
+            $.ajax({
+                url:'/Cart/AddProduct',
+                method:'POST',
+                data:$('#ProductForm').serialize(),
+                error:err=>{
+                    console.log(err)
+                },
+                success:function(resp){
+                    if(resp.trim() == "done"){
+                    showSweetAlert('success', `Đã thêm vào giỏ hàng thành công!`);
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                    }else{
+                        sw.close();
+                        showSweetAlert('error', resp);
+                    }
+                }
+            })
+        }
 
-    // Mua hàng
-    document.querySelector('.product-content-right-product-button a button').addEventListener('click', function (event) {
-        handlePurchase(event, 'buyNow');
+        // gửi data
     });
-
    
-
 </script>
