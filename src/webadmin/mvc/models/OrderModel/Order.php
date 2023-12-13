@@ -313,7 +313,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
         function CreatePayment($db, $data){
             try {
                 $sql = "INSERT INTO `Payment`(`payment_code`, `order_code`, `type`) 
-                VALUES (?,?,'bank_transfer');";
+                VALUES (?,?,'cash');";
                 $params = array($data['payment_code'], $data['order_code']);
 
                 $db->execute($sql, $params);
@@ -323,7 +323,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
             }
         }
 
-        // hủy đơn hàng
+       
         function PayOrder($data){
             try {
                 $db = new DB();

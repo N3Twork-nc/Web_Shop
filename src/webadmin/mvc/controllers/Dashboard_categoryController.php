@@ -102,7 +102,8 @@
                 );
 
                 $check = $this->validateNumber($category_data);
-
+                $category_data = array_map('trim', $category_data);
+                
                 if($check == false){
                     if($category_data["category_id"] <= 8){
                         echo "Không được xóa danh mục cha";

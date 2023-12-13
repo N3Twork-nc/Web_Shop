@@ -132,6 +132,7 @@
                     "retype_password" => $_POST['retype_password'],
                     "phone" => $_POST['phone']
                 );
+                $account_data = array_map('trim', $account_data);
                 $err = $this->validateAccount($account_data);
                 
                 if($err == "validated"){
@@ -191,6 +192,7 @@
                 $verify_data = array(
                     "email" => $_POST['email']
                 );
+                $verify_data = array_map('trim', $verify_data);
                 if (!$this->validateEmail($verify_data['email']) || empty($verify_data['email'])) {
                     echo "Email không hợp lệ!";
                 }
