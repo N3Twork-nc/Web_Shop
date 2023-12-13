@@ -15,7 +15,7 @@ CREATE TABLE Products (
   product_code VARCHAR(50) PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   description TEXT NOT NULL,
-  price DECIMAL(10,2) NOT NULL,
+  price DECIMAL(10,3) NOT NULL,
   category_id INT NOT NULL,
   color ENUM('red', 'pink', 'yellow', 'green', 'blue', 'beige', 'white', 'black', 'brown', 'gray'),
   update_latest DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -74,7 +74,7 @@ CREATE TABLE CartItems (
   product_code VARCHAR(50),
   quantity INT NOT NULL,
   size ENUM('S', 'M', 'L', 'XL', 'XXL'),
-  total_price DECIMAL(10,2) NOT NULL,
+  total_price DECIMAL(10,3) NOT NULL,
   FOREIGN KEY (`cart_code`) REFERENCES `ShoppingCart`(`cart_code`) ON DELETE CASCADE,
   FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`) ON DELETE CASCADE
 );
@@ -85,7 +85,7 @@ CREATE TABLE Orders (
   order_code VARCHAR(100) PRIMARY KEY,
   order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   state ENUM('pending', 'delivered','delivering', 'cancelled') DEFAULT 'pending',
-  total_price DECIMAL(10,2) DEFAULT 0,
+  total_price DECIMAL(10,3) DEFAULT 0,
   email VARCHAR(100),
   address NVARCHAR(150) NOT NULL,
   FOREIGN KEY (`email`) REFERENCES `Customers`(`email`) ON DELETE CASCADE
@@ -98,7 +98,7 @@ CREATE TABLE OrderItems (
   product_code VARCHAR(50),
   quantity INT NOT NULL,
   size ENUM('S', 'M', 'L', 'XL', 'XXL'),
-  total_price DECIMAL(10,2) NOT NULL,
+  total_price DECIMAL(10,3) NOT NULL,
   FOREIGN KEY (`order_code`) REFERENCES `Orders`(`order_code`) ON DELETE CASCADE,
   FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`) ON DELETE CASCADE
 );
@@ -125,7 +125,7 @@ CREATE TABLE OrdersHistory (
   email VARCHAR(100),
   address NVARCHAR(150),
   phone VARCHAR(20),
-  total_price DECIMAL(10,2)
+  total_price DECIMAL(10,3)
 ); 
 
 DROP TABLE IF EXISTS `OrdersHistoryItems`;
@@ -136,7 +136,7 @@ CREATE TABLE OrdersHistoryItems (
   product_code VARCHAR(50),
   quantity INT,
   size ENUM('S', 'M', 'L', 'XL', 'XXL'),
-  total_price DECIMAL(10,2),
+  total_price DECIMAL(10,3),
   FOREIGN KEY (`order_code`) REFERENCES `OrdersHistory`(`order_code`)
 ); 
 DROP TABLE IF EXISTS `AdminAccounts`;
