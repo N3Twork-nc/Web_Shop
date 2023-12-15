@@ -107,6 +107,23 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
             }
         }
 
+        function FindQuantity($data){
+            try {
+                    $db = new DB();
+                    $sql = "SELECT CI.quantity FROM CartItems CI WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
+                    $params = array($data['cart_code'], $data['product_code'], $data['size']);
+                    $sth = $db->select($sql, $params);
+                    while($row = $sth->fetch()) {
+                        $quantity[] = $row['quantity'];
+                    }
+                return $quantity;
+            } catch (PDOException $e) {
+                $a = [];
+                return $a;
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
         function AddProduct($data){
             try {
                 $db = new DB();
@@ -116,6 +133,32 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                 return "done";
             } catch (PDOException $e) {
                 return "Lỗi khi thêm sản phẩm vào giỏ";
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function AddQuantityAndPrice($data){
+            try {
+                $db = new DB();
+                $sql = "UPDATE CartItems AS CI SET CI.quantity= ? ,total_price=CI.total_price = ? WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
+                $params = array($data['quantity'], $data['total_price'], $data['cart_code'], $data['product_code'], $data['size']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi update số lượng";
+                //return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function DeleteProductInCart($data){
+            try {
+                $db = new DB();
+                $sql = "DELETE FROM CartItems AS CI WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
+                $params = array($data['cart_code'], $data['product_code'], $data['size']);
+                $db->execute($sql, $params);
+                return "done";
+            } catch (PDOException $e) {
+                return "Lỗi khi xóa sản phẩm";
                 //return  $sql . "<br>" . $e->getMessage();
             }
         }

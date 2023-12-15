@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="/public/css/product.css">
     <link rel="stylesheet" href="/public/css/cart.css">
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -21,6 +23,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
     <?php require_once './mvc/views/shopping/header.php'; ?>
@@ -89,7 +92,11 @@
                                     <td>
                                         <p class="total-price"><?php echo $cart->getPrice(); ?></p>
                                     </td>
-                                    <td class="delete-button-cell"><button>X</button></td>
+                                    <td class="delete-button-cell">
+                                        <button class="deleteProduct quantity-update" 
+                                    data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>" 
+                                    data-size="<?php echo $cart->getSize(); ?>">X</button>
+                                    </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -162,6 +169,46 @@
 <script src="/public/js/sroll.js "></script>
 <script src="/public/js/responsiveMenu.js "></script>
 <script>
+    function showLoadingSwal() {
+    return Swal.fire({
+        title: 'Loading...',
+        text: 'Vui lòng chờ trong giây lát!',
+        showConfirmButton: false,
+        imageUrl: '/public/img/gif/loading.gif',
+        allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+    });
+    }
+    // bấm submit
+    function submitForm(data){
+        var sw = showLoadingSwal();
+            $.ajax({
+                url:'/Cart/ProductInCart',
+                method:'POST',
+                data:data,
+                error:err=>{
+                    console.log(err)
+                },
+                success:function(resp){
+                    if(resp.trim() == "done"){
+                    Swal.fire(
+                        'Completed!',
+                        'Thao tác thành công!',
+                        'success'
+                        )
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                    }else{
+                        sw.close();
+                        Swal.fire(
+                            'Oops...',
+                            resp,
+                            'error'
+                        );
+                    }
+                }
+            });
+    }
     document.addEventListener('DOMContentLoaded', function () {
         var quantityButtons = document.querySelectorAll('.quantity-update');
 
@@ -169,17 +216,34 @@
             button.addEventListener('click', function () {
                 var productCode = button.getAttribute('data-id');
                 var size = button.getAttribute('data-size');
-                var quantityElement = document.getElementById('quantity_' + productCode + '_' + size);
-                var currentQuantity = parseInt(quantityElement.textContent);
 
                 if (button.classList.contains('increment')) {
-                    currentQuantity++;
-                } else if (button.classList.contains('decrement') && currentQuantity > 1) {
-                    currentQuantity--;
+                      // Điền dữ liệu vào form
+                    let actionWithProduct = 'increase';
+                    let data = {
+                        product_code: productCode,
+                        sizeOfProduct: size,
+                        actionWithProduct: actionWithProduct
+                    };
+                    submitForm(data);
+                } else if (button.classList.contains('decrement')) {
+                    // Điền dữ liệu vào form
+                    let actionWithProduct = 'decrease';
+                    let data = {
+                        product_code: productCode,
+                        sizeOfProduct: size,
+                        actionWithProduct: actionWithProduct
+                    };
+                    submitForm(data);
+                } else if(button.classList.contains('deleteProduct')){
+                    let actionWithProduct = 'delete';
+                    let data = {
+                        product_code: productCode,
+                        sizeOfProduct: size,
+                        actionWithProduct: actionWithProduct
+                    };
+                    submitForm(data);
                 }
-
-                quantityElement.textContent = currentQuantity;
-                updateCartTotal();
             });
         });
 

@@ -114,5 +114,80 @@
                 }
             }
         }
+
+        function ProductInCart(){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $product_data = [
+                    'cart_code' => $_SESSION['usr']['cart_code'],
+                    'product_code' => $_POST['product_code'],
+                    'size' => $_POST['sizeOfProduct']
+                ];
+                $action = $_POST['actionWithProduct'];
+                $product_data = array_map('trim', $product_data);
+
+                // check size
+                $array = array('S', 'M', 'L', 'XL','XXL'); // Mảng cần kiểm tra
+                
+                if (!in_array($product_data['size'], $array)) {
+                    echo "Size không tồn tại";
+                }
+                else{
+                    // lấy số lượng
+                    $model = $this->model("CartItem");
+                    $quantity = $model->FindQuantity($product_data);
+                    $price = $model->FindPrice($product_data['product_code']);
+                    if(empty($quantity) || empty($price)){
+                        // không tìm thấy giỏ hàng muốn thêm
+                        echo "Lỗi";
+                    }
+                    else{
+                        if($action == 'increase'){
+                            $quantity[0] += 1;
+                            $total_price = $quantity[0] * $price[0];
+                            $product_data['quantity'] = $quantity[0];
+                            $product_data['total_price'] = $total_price;
+                            $err =  $model->AddQuantityAndPrice($product_data);
+                            if($err != "done"){
+                                echo $err;
+                            }
+                            else{
+                                echo "done";
+                            }
+                        }
+                        else if($action == 'decrease'){
+                            if($quantity[0] > 1){
+                                $quantity[0] -= 1;
+                                $total_price = $quantity[0] * $price[0];
+                                $product_data['quantity'] = $quantity[0];
+                                $product_data['total_price'] = $total_price;
+                                $err =  $model->AddQuantityAndPrice($product_data);
+                                if($err != "done"){
+                                    echo $err;
+                                }
+                                else{
+                                    echo "done";
+                                }
+                            }
+                            else{
+                                echo "Không thể giảm số lượng về 0";
+                            }
+                        }
+                        else if($action == 'delete'){
+                            $err =  $model->DeleteProductInCart($product_data);
+                            if($err != "done"){
+                                echo $err;
+                            }
+                            else{
+                                echo "done";
+                            }
+                        }
+                        else{
+                            //Khi không thỏa trường hợp nào
+                            echo "Lỗi";
+                        }
+                    }
+                }
+            }
+        }
     }
 ?>
