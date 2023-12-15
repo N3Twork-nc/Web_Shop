@@ -136,6 +136,7 @@
                     $model = $this->model("CartItem");
                     $quantity = $model->FindQuantity($product_data);
                     $price = $model->FindPrice($product_data['product_code']);
+                    $price[0] = floatval($price[0]);
                     if(empty($quantity) || empty($price)){
                         // không tìm thấy giỏ hàng muốn thêm
                         echo "Lỗi";
@@ -146,7 +147,8 @@
                             $total_price = $quantity[0] * $price[0];
                             $product_data['quantity'] = $quantity[0];
                             $product_data['total_price'] = $total_price;
-                            $err =  $model->AddQuantityAndPrice($product_data);
+
+                            $err =  $model->ChangeQuantityAndPrice($product_data);
                             if($err != "done"){
                                 echo $err;
                             }
@@ -160,7 +162,8 @@
                                 $total_price = $quantity[0] * $price[0];
                                 $product_data['quantity'] = $quantity[0];
                                 $product_data['total_price'] = $total_price;
-                                $err =  $model->AddQuantityAndPrice($product_data);
+
+                                $err =  $model->ChangeQuantityAndPrice($product_data);
                                 if($err != "done"){
                                     echo $err;
                                 }
