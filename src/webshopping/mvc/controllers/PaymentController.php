@@ -52,7 +52,7 @@
                 $model = $this->model("CartItem");
                 //var_dump($model);
                 $data['cartItem'] = $model->LoadCartItem($tmp);
-                //var_dump($data['cartItem']);
+                //var_dump($data['cartItem'][0]);
             }   
             else{
                 header("Location: /Auth");

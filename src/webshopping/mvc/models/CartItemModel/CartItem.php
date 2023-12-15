@@ -137,10 +137,10 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
             }
         }
 
-        function AddQuantityAndPrice($data){
+        function ChangeQuantityAndPrice($data){
             try {
                 $db = new DB();
-                $sql = "UPDATE CartItems AS CI SET CI.quantity= ? ,total_price=CI.total_price = ? WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
+                $sql = "UPDATE CartItems AS CI SET CI.quantity= ? ,CI.total_price = ? WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
                 $params = array($data['quantity'], $data['total_price'], $data['cart_code'], $data['product_code'], $data['size']);
                 $db->execute($sql, $params);
                 return "done";
