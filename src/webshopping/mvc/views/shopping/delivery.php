@@ -47,6 +47,7 @@
             <div class="delivery-content row" style="margin-right: 0px !important;">
                 <div class="delivery-content-left">
                     <p>Địa chỉ giao hàng</p>
+                    
                     <div class="delivery-content-left-input-top row">
                         <div class="delivery-content-left-input-top-item">
                             <input class="form-control" type="text" value="" name="city" placeholder="Tỉnh/Thành phố">

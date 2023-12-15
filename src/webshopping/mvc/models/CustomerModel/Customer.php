@@ -17,7 +17,8 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 }
                 return $arr;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                $a = [];
+                return  $a;
             }
         }
 
@@ -59,6 +60,40 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 return  $sql . "<br>" . $e->getMessage();
             }
         }
+
+        function FindCustomerInfo($email){
+            try {
+                $obj = null;
+                $db = new DB();
+                $sql = "SELECT *
+                FROM Customers AS C WHERE C.email = ?";
+                $params = array($email);
+                $sth = $db->select($sql, $params);
+                if ($sth->rowCount() > 0) {
+                    $row = $sth->fetch();
+                    $obj = new CustomerObj($row);
+                }
+                return $obj;
+            } catch (PDOException $e) {
+                return  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
+        function EditCustomer($data){
+            try {
+                $db = new DB();
+                $sql = "UPDATE `Customers` SET `full_name` = ?, `phone` = ? WHERE `email` = ?;";
+                $params = array($data['full_name'], $data['phone'], $data['email']);
+                $db->execute($sql, $params);
+
+                echo "done";
+            } catch (PDOException $e) {
+
+                echo "Lỗi khi sửa thông tin khách hàng";
+                //echo  $sql . "<br>" . $e->getMessage();
+            }
+        }
+
 
         function InsertCustomerCart($db, $data){
             try {
@@ -204,5 +239,7 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 //echo  $sql . "<br>" . $e->getMessage();
             }
         }
+
+        
     }
 ?>

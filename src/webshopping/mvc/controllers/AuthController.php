@@ -42,7 +42,7 @@
             $model = $this->model("Customer");
             $result = $model->checkAccount($data);
 
-            if($result != null){
+            if(!empty($result)){
 
                 $data['email'] =  $email;
                 $data['full_name'] =  $result['full_name'];
@@ -89,36 +89,13 @@
                 return "Email không hợp lệ!";
             }
 
-            if($data['password'] != $data['retype_password']){
-                return "Vui lòng nhập cùng một mật khẩu!";
-            }
+            $password['password'] = $data['password'];
+            $password['retype_password'] = $data['retype_password'];
 
-            if(strlen($data['password']) > 100){
-                return "Mật khẩu quá dài!";
+            $err = $this->checkStrongPassword($password);
+            if($err != "validated"){
+                return $err;
             }
-
-            if(strlen($data['password']) < 10){
-                return "Mật khẩu tối thiểu phải 10 kí tự!";
-            }
-
-            $uppercase = preg_match('@[A-Z]@', $data['password']); // Ít nhất một ký tự hoa
-            $lowercase = preg_match('@[a-z]@', $data['password']); // Ít nhất một ký tự thường
-            $number    = preg_match('@[0-9]@', $data['password']); // Ít nhất một số
-            $specialChars = preg_match('@[^\w]@', $data['password']); // Ít nhất một ký tự đặc biệt
-
-            if(!$uppercase){
-                return "Mật khẩu cần tối thiểu 1 kí tự hoa";
-            }
-            if(!$lowercase){
-                return "Mật khẩu cần tối thiểu 1 kí tự thường";
-            }
-            if(!$number){
-                return "Mật khẩu cần tối thiểu 1 kí tự số";
-            }
-            if(!$specialChars){
-                return "Mật khẩu cần tối thiểu 1 kí tự đặc biệt";
-            }
-
             return "validated";
         }
 
@@ -434,12 +411,11 @@
                                 echo "Vui lòng nhập đủ thông tin";
                             }
                             else{
-                                if($_POST['password'] != $_POST['retype_password']){
-                                    echo "Vui lòng nhập cùng một mật khẩu";
-                                }
-                                else{
-                                    if(strlen($_POST['password']) < 10){
-                                        echo "Vui lòng nhập mật khẩu ít nhất 10 kí tự";
+                                    $data_pass['password'] = $_POST['password'];
+                                    $data_pass['retype_password'] = $_POST['retype_password'];
+                                    $err = $this->checkStrongPassword($data_pass);
+                                    if($err != "validated"){
+                                        return $err;
                                     }
                                     else{
                                         $password = hash('sha256', $_POST['password']);
@@ -464,7 +440,6 @@
                                             }
                                         }
                                     }
-                                }
                             }
                         }
                         else{
