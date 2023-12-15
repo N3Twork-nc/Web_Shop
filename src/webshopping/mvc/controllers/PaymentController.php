@@ -3,6 +3,7 @@
         private $categories;
         private $products;
         private $countItemInCart;
+        private $province;
 
         public function __construct()
         {   
@@ -23,6 +24,9 @@
 
             $this->products = $data_product;
             $this->categories = $data;
+            if(!isset($_SESSION['usr']) && !isset($_SESSION['usr']['cart_code'])){
+                header("Location: /Auth");
+            }
             if(isset($_SESSION['usr']['cart_code'])){
                 $model = $this->model("CartItem");
                 $data_category = $model->CountItem($_SESSION['usr']['cart_code']);
@@ -30,6 +34,10 @@
                     $this->countItemInCart = $data_category['numberOfItem'];
                 }
             }
+            // load thành phố
+            $model = $this->model("Province");
+            $data_province = $model->LoadProvince();
+            $this->province = $data_province;
         }
 
         function Show(){
@@ -66,6 +74,15 @@
 
             $data["categories"] = $tmp;
             
+            // foreach($this->province as $province){
+            //     foreach($province->getDistricts() as $district){
+            //        foreach($district->getWards() as $ward){
+            //         var_dump($ward);
+            //        }
+            //     }
+            // }
+            $data['province'] = $this->province;
+
             $page = $this->view("delivery", $data);
         }
     }

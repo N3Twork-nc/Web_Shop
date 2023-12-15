@@ -139,6 +139,26 @@ CREATE TABLE OrdersHistoryItems (
   total_price DECIMAL(10,3),
   FOREIGN KEY (`order_code`) REFERENCES `OrdersHistory`(`order_code`)
 ); 
+DROP TABLE IF EXISTS `Province`;
+
+CREATE TABLE `Province` (
+  `province_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL
+);
+DROP TABLE IF EXISTS `District`;
+
+CREATE TABLE `District` (
+  `district_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `province_id` INT NOT NULL,
+  `name` VARCHAR(64) NOT NULL
+);
+DROP TABLE IF EXISTS `Wards`;
+
+CREATE TABLE `Wards` (
+  `wards_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `district_id` INT NOT NULL,
+  `name` VARCHAR(64) NOT NULL
+);
 DROP TABLE IF EXISTS `AdminAccounts`;
 
 CREATE TABLE AdminAccounts (
@@ -149,6 +169,26 @@ CREATE TABLE AdminAccounts (
 
 INSERT INTO AdminAccounts (username, password, role) VALUES('moros', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin');
 INSERT INTO AdminAccounts (username, password, role) VALUES('teo', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'staff');
+
+INSERT INTO `Province` (`name`) VALUES
+('Hồ Chí Minh'),
+('Thủ Đức');
+
+INSERT INTO `District` (`province_id`, `name`) VALUES
+(1, 'Quận 7'),
+(1, 'Quận 5'),
+(2, 'Quận 9'),
+(2, 'Quận 2');
+
+INSERT INTO `wards` (`district_id`, `name`) VALUES
+(1, 'Phường Phú Mỹ'),
+(1, 'Phường Tân Quy'),
+(2, 'Phường 5'),
+(2, 'Phường 6'),
+(3, 'Phường Hiệp Phú'),
+(3, 'Phường Tăng Nhơn Phú A'),
+(4, 'Phường Thảo Điền'),
+(4, 'Phường An Phú');
 
 INSERT INTO `Categories`(`name`) VALUES ('Áo nam');
 INSERT INTO `Categories`(`name`) VALUES ('Quần nam');
