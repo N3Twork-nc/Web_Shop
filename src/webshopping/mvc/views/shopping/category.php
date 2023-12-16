@@ -74,9 +74,9 @@
                             <option value="">Giá thấp đến cao</option>
                         </select>
                     </div>
-
-                    <div class="category-right-content row">
-                        <div class="category-right-filter" id="filterDiv" style="display: none;">
+                    <br>
+                    <div class="category-right-content row" style="width: 100%;">
+                        <div class="category-right-filter" id="filterDiv" style="display: none; height: auto !important;">
                             <div class="filter-row">
                                 <div class="filter-row-title">
                                     <h4>Size</h4>
@@ -117,13 +117,13 @@
                                 </div>
                             </div>
                             <div class="filter-row">
-                                <div class="filter-row-button">
-                                    <button id="applyFilterButton">Lọc</button>
+                                <div class="filter-row-button" >
+                                    <button id="applyFilterButton" style="margin-top: 38px;">Lọc</button>
                                 </div>
                             </div>
                         </div>
-
-                        <?php if (count($data["products"]) > 0): ?>
+                       <?php $checkNone = 0; ?>
+                       <?php if (count($data["products"]) > 0): ?>
                             <?php foreach($data["products"] as $product): ?>
                                 <div class="category-right-content-item">
                                     <a href="/Product/Show/<?php echo $product->getProduct_code(); ?>">
@@ -134,9 +134,9 @@
                                 </div>
                         <?php endforeach; ?>
                         <?php else: ?>
-                            <div style="display:flex;align-items: center;flex-direction: column;align-content: stretch;justify-content: center;" >
-                                <img style= "width: 50%" src="/public/img/searchfail.png" alt="">
-                                <div style="font-size: 1.125rem">Hiện không có sản phẩm</div>
+                            <div class="category-right-content-item" style="width:100%;">                          
+                                    <img style= "width: 30%" src="/public/img/searchfail.png" alt="">
+                                    <p style="font-size: 1.125rem">Hiện không có sản phẩm</p>
                             </div>
                         <?php endif; ?>
                         <!-- <div class="category-right-content-item">
@@ -189,7 +189,7 @@
                             </a>
                         </div> -->
                     </div>
-
+                    
                     <div class="category-right-bottom row">
                         <div class="category-center-bottom-items">
                             <ul class="pagination">
@@ -217,3 +217,8 @@
 <script src="/public/js/sroll.js"></script>
 <script src="/public/js/responsiveMenu.js"></script>
 <script src="/public/js/category.js"></script>
+
+<script>
+   var p = document.getElementById("noneProduct");
+   p.classList.remove("category-right-content");
+</script>
