@@ -52,5 +52,39 @@
                 return false; // Không đúng định dạng email
             }
         }
+
+        function checkStrongPassword($data) {
+            if($data['password'] != $data['retype_password']){
+                return "Vui lòng nhập cùng một mật khẩu!";
+            }
+
+            if(strlen($data['password']) > 100){
+                return "Mật khẩu quá dài!";
+            }
+
+            if(strlen($data['password']) < 10){
+                return "Mật khẩu tối thiểu phải 10 kí tự!";
+            }
+
+            $uppercase = preg_match('@[A-Z]@', $data['password']); // Ít nhất một ký tự hoa
+            $lowercase = preg_match('@[a-z]@', $data['password']); // Ít nhất một ký tự thường
+            $number    = preg_match('@[0-9]@', $data['password']); // Ít nhất một số
+            $specialChars = preg_match('@[^\w]@', $data['password']); // Ít nhất một ký tự đặc biệt
+
+            if(!$uppercase){
+                return "Mật khẩu cần tối thiểu 1 kí tự hoa";
+            }
+            if(!$lowercase){
+                return "Mật khẩu cần tối thiểu 1 kí tự thường";
+            }
+            if(!$number){
+                return "Mật khẩu cần tối thiểu 1 kí tự số";
+            }
+            if(!$specialChars){
+                return "Mật khẩu cần tối thiểu 1 kí tự đặc biệt";
+            }
+            
+            return "validated";
+        }
     }
 ?>
