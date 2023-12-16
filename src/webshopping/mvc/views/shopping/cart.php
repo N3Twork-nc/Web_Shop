@@ -79,14 +79,14 @@
                                     </td>
                                     <td>
                                         <div class="quantity-container">
-                                            <button class="decrement quantity-update"
+                                            <button class="decrement quantity-update" style="width: 30px;border-radius: 5px;background: #f9f5f3;"
                                                 data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
                                                 data-size="<?php echo $cart->getSize(); ?>">-</button>
                                             <div class="quantity"
                                                 id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>_<?php echo $cart->getSize(); ?>">
                                                 <?php echo $cart->getQuantity(); ?>
                                             </div>
-                                            <button class="increment quantity-update"
+                                            <button class="increment quantity-update" style="width: 30px;border-radius: 5px;background: #f9f5f3;"
                                                 data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
                                                 data-size="<?php echo $cart->getSize(); ?>">+</button>
                                         </div>
@@ -95,7 +95,7 @@
                                         <p class="total-price"><?php echo $cart->getPrice(); ?></p>
                                     </td>
                                     <td class="delete-button-cell">
-                                       <p> <button class="deleteProduct quantity-update" 
+                                       <p> <button class="deleteProduct quantity-update" style="font-size: 14px;font-weight: bold;padding: 5px 10px;background: #f00b0b;color: white;border-radius: 4px;border: red;"
                                         data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>" 
                                         data-size="<?php echo $cart->getSize(); ?>">X</button></p>
                                     </td>
