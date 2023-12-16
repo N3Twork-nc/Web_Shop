@@ -62,7 +62,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                         }
                         else if(!empty($data['product_code'])){
                             $sql = "SELECT P.*, C.name AS 'category_name' FROM Products AS P, Categories AS C 
-                            WHERE P.category_id = C.category_id AND p.product_code = ?";
+                            WHERE P.category_id = C.category_id AND P.product_code = ?";
                             $params = array($data['product_code']);
                         }
                         else{
@@ -103,5 +103,43 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     return  $sql . "<br>" . $e->getMessage();
                 }
         }
+
+        function FindProducts($name){
+            try {
+                $db = new DB();
+                $sql = "SELECT P.*, C.name AS 'category_name' FROM Products AS P, Categories AS C 
+                WHERE P.category_id = C.category_id AND P.name LIKE ?;";
+                $params = array("%".$name."%");
+                $sth = $db->select($sql, $params);
+
+                $arr = [];
+                $product_from_DB = $sth->fetchAll();
+               
+                $sth = null;
+
+                foreach ($product_from_DB as $row) {
+
+                    // tạo sản phẩm
+                    $obj = new ProductObj($row);
+
+                    // lấy hình
+                    $images = $this->LoadProductImages($obj->getProduct_code());
+                    $obj->setImages($images);
+
+                    // lấy size và số lượng
+                    $sizes = $this->LoadProductSizes($obj->getProduct_code());
+                    $obj->setSizes($sizes);
+
+                    // set số lượng
+                    $obj->setQuantity($obj->calculateQuantity());
+                    
+                    // thêm obj vào mảng
+                    $arr[] = $obj;
+                }
+                return $arr;
+            } catch (PDOException $e) {
+                return  $sql . "<br>" . $e->getMessage();
+            }
+    }
     }
 ?>

@@ -77,5 +77,29 @@
             //var_dump($data["products"]);
             $page = $this->view("category", $data);
         }
+
+        function Find(){
+            $data = [];
+            if (isset($_POST['product_name'])) {
+                $product_name = $_POST['product_name'];
+                // Sử dụng $keywords để thực hiện công việc tìm kiếm trong cơ sở dữ liệu hoặc xử lý các tác vụ khác
+                $model = $this->model("Product");
+                $data["products"] = $model->FindProducts($product_name);
+            }
+            else{
+                $data["products"] = [];
+            }
+
+            // chuyển data về dạng key value để dễ for
+            $tmp = [];
+            foreach($this->categories as $key => $value){
+                $tmp[$value->getParent_category_name()][$key] =  $value->getName();
+            }
+
+            $data["categories"] = $tmp;
+
+            //var_dump($data["products"]);
+            $page = $this->view("category", $data);
+        }
     }
 ?>

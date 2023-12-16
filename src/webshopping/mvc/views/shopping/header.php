@@ -59,8 +59,10 @@
 
         <div class="orthers">
             <li>
-                <input placeholder="Search..." type="text">
-                <i class="fa fa-search"></i>
+                <form action="/Category/Find" method="post">
+                    <input name="product_name" id="searchInput" placeholder="Search..." type="text">
+                    <i id="searchIcon" type="submit" class="fa fa-search" style="cursor: pointer;"></i>
+                </form>
             </li>
             <div class="item" style="padding-left: 12px;">
                 <li><i class="fa fa-paw"></i></li>
@@ -108,5 +110,19 @@
                 subAction.style.display = 'none';
             }
         });
+    });
+
+    // sự kiện click
+    document.getElementById('searchIcon').addEventListener('click', function() {
+        var searchText = document.getElementById('searchInput').value;
+        window.location.href = '/Category/Show/' + encodeURIComponent(searchText).replaceAll('%20', '+');
+    });
+
+    //sự kiện enter
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            var searchText = document.getElementById('searchInput').value;
+            window.location.href = '/Category/Find/' + encodeURIComponent(searchText).replaceAll('%20', '+');
+        }
     });
 </script>
