@@ -3,6 +3,8 @@
         private $categories;
         private $countItemInCart;
         private $customer;
+        private $order;
+        private  $orderHistory;
 
         public function __construct()
         {   
@@ -28,9 +30,16 @@
                     $this->countItemInCart = $data_category['numberOfItem'];
                 }
             }
+
+            // usr info
             $model = $this->model("Customer");
             $customer = $model->FindCustomerInfo($_SESSION['usr']['email']);
             $this->customer = $customer;
+
+            //order
+            $model = $this->model("Order");
+            $this->order = $model->LoadOrder($_SESSION['usr']['email']);
+            $this->orderHistory = $model->LoadOrderHistory($_SESSION['usr']['email']);
         }
 
         function Show($params){
@@ -56,6 +65,11 @@
             }
 
             $data["categories"] = $tmp;
+
+            $data['order'] = $this->order;
+            $data['orderHistory'] = $this->orderHistory;
+            //var_dump($data['order'][0]);
+            //var_dump($data['orderHistory']);
             $page = $this->view("orderManagement", $data);
         }
 
@@ -67,8 +81,35 @@
             }
 
             $data["categories"] = $tmp;
-            $page = $this->view("detailOrder", $data);
+
+            if(empty($params[0])){
+                $page = $this->view("404", $data);
+            }
+            else{
+                $orderDetail = null;
+                foreach($this->order as $each){
+                    if($params[0] == $each->getOrder_code()){
+                        $orderDetail = $each;
+                    }
+                }
+                foreach($this->orderHistory as $each){
+                    if($params[0] == $each->getOrder_code()){
+                        $orderDetail = $each;
+                    }
+                }
+
+                if($orderDetail == null){
+                    $page = $this->view("404", $data);
+                }
+                else{
+                    $data['order'] = $orderDetail;
+                    //var_dump($data['order']);
+                    //echo substr($data['order']->getOrder_items()[0]->getProduct()[0]->getImages()[0], 1); 
+                    $page = $this->view("detailOrder", $data);
+                }
+            }
         }
+
         function ResetPassword($params){
             // chuyển data về dạng key value để dễ for
             $tmp = [];

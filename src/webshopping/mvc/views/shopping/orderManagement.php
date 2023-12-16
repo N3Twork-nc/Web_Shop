@@ -62,29 +62,42 @@
                                         <th>MÃ ĐƠN HÀNG</th>
                                         <th>NGÀY</th>
                                         <th style="width: 210px">TRẠNG THÁI</th>
-                                        <th>SẢN PHẨM</th>
+                                        <!-- <th>SẢN PHẨM</th> -->
                                         <th>TỔNG TIỀN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in list_order track by $index" class="ng-scope">
-                                        <td>
-                                            <a href="/Customer/OrderDetail" class="ng-binding" style="color: #6c6d70; text-decoration: underline;"> IVM7353885</a>
-                                        </td>
-                                        <td class="ng-binding">13/12/2023 21:35:38</td>
-                                        <td>
-                                            <div class="order__status">
-                                                <span class="icon-ic_reload"></span>
-                                                <span class="ng-binding">Đã hủy đơn hàng</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p ng-repeat="item_product in list_order_product | filter: { order_id: item.order_id }" class="ng-binding ng-scope">
-                                                1x Áo thun trơn Slim fit, Đen
-                                            </p>
-                                        </td>
-                                        <td><span class="price ng-binding">232,000 ₫</span></td>
-                                    </tr>
+                                    <?php //var_dump($data['order'][0]);  ?>
+                                    <?php foreach($data['order'] as $order): ?>
+                                        <tr ng-repeat="item in list_order track by $index" class="ng-scope">
+                                            <td>
+                                                <a href="<?php echo "/Customer/OrderDetail/" . $order->getOrder_code(); ?>" class="ng-binding" style="color: #6c6d70; text-decoration: underline;"><?php echo $order->getOrder_code(); ?></a>
+                                            </td>
+                                            <td class="ng-binding"><?php echo $order->getOrder_date(); ?></td>
+                                            <td>
+                                                <div class="order__status">
+                                                    <span class="icon-ic_reload"></span>
+                                                    <span class="ng-binding"><?php echo $order->getStateVnText(); ?></span>
+                                                </div>
+                                            </td>
+                                            <td><span class="price ng-binding"><?php echo $order->getTotal_price() . " đ"; ?></span></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php foreach($data['orderHistory'] as $order): ?>
+                                        <tr ng-repeat="item in list_order track by $index" class="ng-scope">
+                                            <td>
+                                                <a href="<?php echo "/Customer/OrderDetail/" . $order->getOrder_code(); ?>" class="ng-binding" style="color: #6c6d70; text-decoration: underline;"><?php echo $order->getOrder_code(); ?></a>
+                                            </td>
+                                            <td class="ng-binding"><?php echo $order->getOrder_date(); ?></td>
+                                            <td>
+                                                <div class="order__status">
+                                                    <span class="icon-ic_reload"></span>
+                                                    <span class="ng-binding"><?php echo $order->getStateVnText(); ?></span>
+                                                </div>
+                                            </td>
+                                            <td><span class="price ng-binding"><?php echo $order->getTotal_price() . " đ"; ?></span></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

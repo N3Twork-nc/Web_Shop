@@ -169,7 +169,7 @@
                 }
 
                 $fileName = "img" . time() . $extension;
-
+                
                 // delay để tạo tên file
                 sleep(1);
 
