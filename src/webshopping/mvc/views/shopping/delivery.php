@@ -49,16 +49,25 @@
                     <p>Địa chỉ giao hàng</p>
                     
                     <div class="delivery-content-left-input-top row">
+                        <?php $province = $data['province'] ?>
                         <div class="delivery-content-left-input-top-item">
-                            <input class="form-control" type="text" value="" name="city" placeholder="Tỉnh/Thành phố">
+                            <select id="province" style="width: 733px; padding-left: 10px;margin-left: 12px;height: 39px;background-color: white;margin-bottom: 12px; border-radius: 5px" onchange="loadDistricts()">
+                                <option>Thành phố/ Tỉnh</option>
+                                <option value="1">Hồ Chí Minh</option>
+                                <option value="2">Thủ Đức</option>
+                            </select>
                         </div>
                         <div class="delivery-content-left-input-top-item">
-                            <input class="form-control" type="text" value="" name="district" placeholder="Quận/Huyện">
+                        <select id="district" style="width: 733px; padding-left: 10px; margin-left: 12px; height: 39px; background-color: white; margin-bottom: 12px; border-radius: 5px" onchange="loadWards()">
+                            <option>Quận/Huyện</option>
+                         </select>
                         </div>
                     </div>
                     <div class="delivery-content-left-input-bottom">
                         <div class="delivery-content-left-input-bottom-item">
-                            <input class="form-control" type="text" value="" name="commune" placeholder="Phường xã">
+                        <select id="ward" style="width: 733px; padding-left: 10px; margin-left: -3px; height: 39px; background-color: white; margin-bottom: 12px; border-radius: 5px">
+                            <option>Phường/Xã</option>
+                         </select>
                         </div>
                         <div class="delivery-content-left-input-bottom-item">
                             <input class="form-control" type="text" value="" name="address" placeholder="Địa chỉ">
@@ -114,3 +123,45 @@
 </html>
 <script src="/public/js/sroll.js "></script>
 <script src="/public/js/responsiveMenu.js "></script>
+
+<script>
+    function loadDistricts() {
+        var provinceSelect = document.getElementById("province");
+        var districtSelect = document.getElementById("district");
+        districtSelect.innerHTML = "<option>Quận/Huyện</option>";
+        if (provinceSelect.value == "1") {
+            var districts = ["Quận 7", "Quận 5"];
+        } else if (provinceSelect.value == "2") {
+            var districts = ["Quận 9", "Quận 2"];
+        }
+        for (var i = 0; i < districts.length; i++) {
+            var option = document.createElement("option");
+            option.value = i + 1;
+            option.text = districts[i];
+            districtSelect.add(option);
+        }
+    }
+
+    function loadWards() {
+        var districtSelect = document.getElementById("district");
+        var wardSelect = document.getElementById("ward");
+        wardSelect.innerHTML = "<option>Phường/Xã</option>";
+        var selectedDistrict = districtSelect.options[districtSelect.selectedIndex].text;
+        console.log(selectedDistrict);
+        if (selectedDistrict == "Quận 7") {
+            var wards = ["Phường Phú Mỹ", "Phường Tân Quy"];
+        } else if (selectedDistrict == "Quận 5") {
+            var wards = ["Phường 5", "Phường 6"];
+        } else if (selectedDistrict == "Quận 9") {
+            var wards = ["Phường Hiệp Phú", "Phường Tăng Nhơn Phú A"];
+        } else if (selectedDistrict == "Quận 2") {
+            var wards = ["Phường Thảo Điền", "Phường An Phú"];
+        }
+        for (var i = 0; i < wards.length; i++) {
+            var option = document.createElement("option");
+            option.value = i + 1;
+            option.text = wards[i];
+            wardSelect.add(option);
+        }
+    }
+</script>
