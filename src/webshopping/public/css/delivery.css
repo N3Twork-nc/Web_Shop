@@ -149,7 +149,7 @@
 }
 
 .delivery-content-left-input-top-item {
-    width: calc(50% - 12px)
+    width: 100%;
 }
 
 .delivery-content-left-input-top-item input {
@@ -253,8 +253,8 @@
     padding: 6px 0;
 }
 
-.delivery-content-right table tr:nth-child(4) {
-    border-bottom: 2px solid #dddddd;
+.delivery-content-right table tr:last-child {
+    border-top: 2px solid #dddddd;
 }
 
 .delivery-content-right table tr td:last-child {
