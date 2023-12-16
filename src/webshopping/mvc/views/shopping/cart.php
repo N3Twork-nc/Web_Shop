@@ -32,7 +32,7 @@
     <section class="cart">
         <div class="lifcycle-cart">
             <p>Giỏ hàng</p>
-            <p>Địa chỉ giao hàng</p>
+            <!-- <p>Địa chỉ giao hàng</p> -->
             <p>Thanh toán</p>
         </div>
         <div class="container-cart">
@@ -41,11 +41,11 @@
                     <div class="cart-top-cart cart-top-item">
                         <i class="fa fa-shopping-cart"></i>
                     </div>
-                    <div class="cart-top-address cart-top-item">
+                    <!-- <div class="cart-top-address cart-top-item">
                         <i class="fa fa-map-marker"></i>
-                    </div>
+                    </div> -->
                     <div class="cart-top-payment cart-top-item">
-                        <i class="fas fa-money-check-alt"></i>
+                        <i class="fa fa-map-marker"></i>
                     </div>
                 </div>
             </div>
@@ -68,34 +68,36 @@
                                 <tr>
                                     <td><img src="<?php echo $cart->getProduct()->getImages()[0][0] === '.' ? substr($cart->getProduct()->getImages()[0], 1) : $cart->getProduct()->getImages()[0];  ?>" alt=""></td>
                                     <td>
-                                        <p><?php echo $cart->getProduct()->getName(); ?>
-                                        <?php echo $cart->getProduct()->getProduct_code(); ?></p>
+                                        <p><?php echo $cart->getProduct()->getName(); ?></p>
+                                        <p><?php echo $cart->getProduct()->getProduct_code(); ?></p>
                                     </td>
-                                    <td><img src="/public/img/<?php echo $cart->getProduct()->getColor(); ?>.png" alt=""></td>
+                                    <td>
+                                        <p><img src="/public/img/<?php echo $cart->getProduct()->getColor(); ?>.png" alt=""></p>
+                                    </td>
                                     <td>
                                         <p><?php echo $cart->getSize(); ?></p>
                                     </td>
                                     <td>
-                                    <div class="quantity-container">
-                                        <button class="decrement quantity-update"
-                                            data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
-                                            data-size="<?php echo $cart->getSize(); ?>">-</button>
-                                        <div class="quantity"
-                                            id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>_<?php echo $cart->getSize(); ?>">
-                                            <?php echo $cart->getQuantity(); ?>
+                                        <div class="quantity-container">
+                                            <button class="decrement quantity-update"
+                                                data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                                data-size="<?php echo $cart->getSize(); ?>">-</button>
+                                            <div class="quantity"
+                                                id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>_<?php echo $cart->getSize(); ?>">
+                                                <?php echo $cart->getQuantity(); ?>
+                                            </div>
+                                            <button class="increment quantity-update"
+                                                data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                                data-size="<?php echo $cart->getSize(); ?>">+</button>
                                         </div>
-                                        <button class="increment quantity-update"
-                                            data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
-                                            data-size="<?php echo $cart->getSize(); ?>">+</button>
-                                    </div>
                                     </td>
                                     <td>
                                         <p class="total-price"><?php echo $cart->getPrice(); ?></p>
                                     </td>
                                     <td class="delete-button-cell">
-                                        <button class="deleteProduct quantity-update" 
-                                    data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>" 
-                                    data-size="<?php echo $cart->getSize(); ?>">X</button>
+                                       <p> <button class="deleteProduct quantity-update" 
+                                        data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>" 
+                                        data-size="<?php echo $cart->getSize(); ?>">X</button></p>
                                     </td>
                             </tr>
                             <?php endforeach; ?>

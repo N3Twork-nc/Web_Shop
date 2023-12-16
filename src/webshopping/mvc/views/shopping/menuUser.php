@@ -4,7 +4,7 @@
                                     <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="">
                                 </div>
                                 <div class="order-sidemenu__user-name">
-                                    <p>Lê Bình</p>
+                                    <p><?php echo $_SESSION['usr']['full_name']; ?></p>
                                 </div>
                             </div>
                             <div class="order-sidemenu__menu">

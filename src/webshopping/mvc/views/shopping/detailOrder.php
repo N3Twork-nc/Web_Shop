@@ -40,13 +40,13 @@
                         <div class="order-block__title">
                             <h2>
                                 <span class="icon-ic_back"></span>CHI TIẾT ĐƠN HÀNG
-                                <b>IVM7353885</b>
+                                <b><?php echo $data['order']->getOrder_code(); ?></b>
                             </h2>
                             <div class="order__status order--cancel">
                                 <div style="margin-right: 15px">
                                 </div>
                                 <span style="margin-right: 5px" class="icon-ic_reload"></span>
-                                <span>Đã hủy đơn hàng</span>
+                                <span><?php echo $data['order']->getStateVnText(); ?></span>
                             </div>
                         </div>
                         <div class="order-block row">
@@ -56,36 +56,42 @@
                                         <tbody>
                                             <tr>
                                                 <td>
+                                                    <?php foreach($data['order']->getOrder_items() as $each): ?>
                                                     <div class="cart__product-item">
                                                         <div class="cart__product-item__img">
-                                                            <a href="https://ivymoda.com/sanpham/ao-thun-tron-slim-fit-ms-57e3464-38587"><img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/09/25/e528a39812ba7a0755aefea3f1fb6084.jpg" alt=""></a>
+                                                            <img src="<?php echo substr($each->getProduct()[0]->getImages()[0], 1);  ?>" alt="">
                                                         </div>
                                                         <div class="cart__product-item__content">
                                                             <h3 class="cart__product-item__title">
-                                                                Áo thun trơn Slim fit
+                                                                <?php echo $each->getProduct()[0]->getName();  ?>
                                                             </h3>
-                                                            <div class="cart__product-item__properties">
+                                                            <!-- <div class="cart__product-item__properties">
                                                                 <p>Màu sắc: <span>Đen </span></p>
+                                                            </div> -->
+                                                            <div class="product-content-right-product-color">
+                                                                <p style="font-weight: bold; font-size: 24px;">Màu sắc: <?php echo $each->getProduct()[0]->getColor(); ?></p>
+                                                                <div class="product-content-right-product-color-img">
+                                                                    <img style="border-radius: 50%; height: 20px; width: 22px; important!" src="/public/img/<?php echo $each->getProduct()[0]->getColor(); ?>.png" alt="">
+                                                                </div>
+                                                            </div> 
+                                                            <div class="cart__product-item__properties">
+                                                                <p>Size: <span style="text-transform: uppercase"><?php echo $each->getSize(); ?></span></p>
                                                             </div>
                                                             <div class="cart__product-item__properties">
-                                                                <p>Size: <span style="text-transform: uppercase">s</span></p>
+                                                                <p>Số lượng: <span><?php echo $each->getQuantity(); ?></span></p>
                                                             </div>
                                                             <div class="cart__product-item__properties">
-                                                                <p>Số lượng: <span>1</span></p>
-                                                            </div>
-                                                            <div class="cart__product-item__properties">
-                                                                <p>SKU:<span>(#5710E34640490022)</span></p>
+                                                                <p><span><?php echo $each->getProduct_code(); ?></span></p>
                                                             </div>
                                                             <div class="cart__product-item__btn--save">
-                                                                <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
-                                                                Mua lại
-                                                            </button>
+                                                                <a class="btn btn--outline btn--large repurchase-product" href="<?php echo '/Product/Show/' . $each->getProduct_code() ?>">Mua lại</a>
                                                             </div>
                                                         </div>
                                                         <div class="cart__product-item__price">
-                                                            207.000đ
+                                                            <?php echo $each->getTotal_price(); ?>
                                                         </div>
                                                     </div>
+                                                    <?php endforeach; ?>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -99,25 +105,17 @@
                                         <h3>Tóm tắt đơn hàng</h3>
                                         <div class="cart-summary__overview__item">
                                             <p>Ngày tạo đơn</p>
-                                            <p><span class="price">13/12/2023</span></p>
-                                        </div>
-                                        <div class="cart-summary__overview__item">
-                                            <p>Tạm tính</p>
-                                            <p><span class="price">207.000 <sup>đ</sup></span></p>
-                                        </div>
-                                        <div class="cart-summary__overview__item">
-                                            <p>Phí vận chuyển</p>
-                                            <p>25.000&nbsp;<sup>đ</sup></p>
+                                            <p><span><?php echo $data['order']->getOrder_date(); ?></span></p>
                                         </div>
                                         <div class="cart-summary__overview__item">
                                             <p>Tổng tiền</p>
-                                            <p><b>232.000 <sup>đ</sup></b></p>
+                                            <p><b><?php echo $data['order']->getTotal_price(); ?><sup>đ</sup></b></p>
                                         </div>
                                     </div>
                                     <div class="cart-summary__payment">
                                         <h4>Hình thức thanh toán</h4>
                                         <div class="cart-summary__overview__item">
-                                            <p>Thanh toán khi giao hàng</p>
+                                            <p><?php echo $data['order']->getTypeVnText(); ?></p>
                                             <div class="order__status">
                                                 <span class="icon-ic_radio_active">
                                                     <div class="path1"></div>
@@ -130,16 +128,16 @@
                                     <div class="cart-summary__address">
                                         <h4>Địa chỉ</h4>
                                         <div class="cart-summary__overview__item">
-                                            <p> Lê Bình </p>
+                                            <p> <?php echo $data['order']->getCustomer()->getFull_name(); ?> </p>
                                         </div>
                                         <div class="cart-summary__overview__item">
                                             <p>
-                                                65/2a, ấp 7, xã Xuân Thới Thượng, huyện Hóc Môn, TP.HCM, Xuân Thới Thượng, Hóc Môn, Hồ Chí Minh<br>
+                                                <?php echo $data['order']->getAddress(); ?><br>
                                             </p>
                                         </div>
                                         <div class="cart-summary__overview__item">
                                             <p>
-                                                Điện thoại: 0707427559
+                                            <?php echo "SĐT: " . $data['order']->getCustomer()->getPhone(); ?>
                                             </p>
                                         </div>
                                     </div>
