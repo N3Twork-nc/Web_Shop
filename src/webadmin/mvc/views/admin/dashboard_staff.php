@@ -54,7 +54,7 @@
                                 <td><?php echo $staff->getRole(); ?></td>
                                 <?php if ($staff->getRole() != "admin" ): ?> 
                                 <td>
-                                    <button style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
+                                    <button class="btnResetPW" style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
                                     <i class="fa fa-trash"></i>
                                     <i class="fa fa-pencil editBtn"></i>
                                 </td>
@@ -75,8 +75,8 @@
                         <input style="color: black ; width: 100%;
                         padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" id="password" name="password">
 
-                        <label for="ProductCategory" style="margin-top: 20px">Role:</label>
-                        <select name="role" id="role" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
+                        <label for="Role" id= "LabelRole" style="margin-top: 20px">Role:</label>
+                        <select name="role" id= "role" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
                             <option value="staff">staff</option>
                             <option value="manager">manager</option>
                         </select>   
@@ -114,7 +114,7 @@
     const username = document.getElementById("username");
     const password = document.getElementById("password");
     const role = document.getElementById("role");
-    const tbody = document.getElementById("tbody");                    
+    const tbody = document.getElementById("tbody");;              
     let isEditing = false
 
     const table2 = document.querySelector('#myTable');
@@ -178,8 +178,11 @@
         document.getElementById("labelUsernameID").style.display = "none";
         document.getElementById("username").style.display = "none";
         document.getElementById("labelPasswordID").style.display = "none";
+        document.getElementById("labelPasswordID").innerText = "Password";
         document.getElementById("password").style.display = "none";
-
+        document.getElementById("LabelRole").style.display = "block";
+        document.getElementById("role").style.display = "block";
+        
         submitBtn.innerText = "Lưu";
         const row = event.target.closest('tr');
         const role_in_table = row.cells[1].textContent.trim();
@@ -190,12 +193,38 @@
     }
     });
 
+    //reset password
+    table2.addEventListener('click', function(event) {
+    if (event.target.classList.contains('btnResetPW')) {
+        action = 'edit';
+        document.getElementById("labelUsernameID").style.display = "block";
+        document.getElementById("username").style.display = "block";
+        document.getElementById("labelPasswordID").style.display = "block";
+        document.getElementById("labelPasswordID").innerText = "New Password";
+        document.getElementById("password").style.display = "block";
+        document.getElementById("LabelRole").style.display = "none";
+        document.getElementById("role").style.display = "none";
+        username.setAttribute("readonly", true);
+        submitBtn.innerText = "Lưu";
+        const row = event.target.closest('tr');
+        const username_in_table = row.cells[0].textContent.trim();
+        // Điền dữ liệu vào form
+        username.value = username_in_table;
+        // Hiển thị form
+        modal.style.display = "block";   
+    }
+    });
+
     addBtn.addEventListener('click', function() {
         modal.style.display = "block";
         document.getElementById("labelUsernameID").style.display = "block";
         document.getElementById("username").style.display = "block";
         document.getElementById("labelPasswordID").style.display = "block";
+        document.getElementById("labelPasswordID").innerText = "Password";
         document.getElementById("password").style.display = "block";
+        document.getElementById("LabelRole").style.display = "block";
+        document.getElementById("role").style.display = "block";
+        username.removeAttribute("readonly");
         username.value = '';
         password.value = '';
         role.value = '';
