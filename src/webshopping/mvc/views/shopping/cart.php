@@ -150,7 +150,7 @@
                         <a href="/Category">
                             <button>TIẾP TỤC MUA SẮM</button>
                         </a>
-                        <a href="/Payment/delivery">
+                        <a id="paymentLink" status="<?php echo $data['countItemInCart'] > 0 ? 1 : 0; ?>">
                             <button>THANH TOÁN</button>
                         </a>
                     </div>
@@ -202,11 +202,16 @@
                     }, 1000);
                     }else{
                         sw.close();
-                        Swal.fire(
-                            'Oops...',
-                            resp,
-                            'error'
-                        );
+                        if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
+                            // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                            window.location.href = '/Auth';
+                        } else {
+                            Swal.fire(
+                                'Oops...',
+                                resp,
+                                'error'
+                            );
+                        }
                     }
                 }
             });
@@ -272,6 +277,19 @@
         updateCartTotal();
     });
 
+    document.getElementById('paymentLink').addEventListener('click', function() {
+    var status = parseInt(this.getAttribute('status'));
+
+    if (status === 0) {
+        Swal.fire(
+                'Oops...',
+                "Vui lòng thêm sản phẩm vào giỏ hàng trước khi tiến hành thanh toán",
+                'error'
+                );
+    } else if(status === 1){
+        window.location.href = '/Payment/';
+    }
+});
 </script>
 
 </script>

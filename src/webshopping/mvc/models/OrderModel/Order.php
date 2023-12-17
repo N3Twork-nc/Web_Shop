@@ -496,5 +496,38 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
             }
         }
 
+        function MoveCartToOrder($data){
+            try {
+                $db = new DB();
+                $db->conn->beginTransaction();
+
+                // update trạng thái thành delivered
+                $sql = "INSERT INTO `Orders`(`order_code`, `state`, `total_price`, `email`, `address`) VALUES (?,?,?,?,?);";
+                $params = array($data['order_code'], 'pending', $data['total_price'], $data['email'], $data['address']);
+                $db->execute($sql, $params);
+
+                // // insert orderItem
+                foreach($data['orderItem'] as $each){
+                    $sql = "INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES (?,?,?,?,?);";
+                    $params = array($data['order_code'], $each->getProduct()->getProduct_code(), $each->getQuantity(), $each->getSize(), $each->getTotal_price());
+                    $db->execute($sql, $params);
+                }
+                
+                //di chuyển xóa sản phẩm trong giỏ hàng
+                foreach($data['orderItem'] as $each){
+                    $sql = "DELETE FROM CartItems AS CI WHERE CI.cart_code = ? AND CI.product_code = ? AND CI.size = ?";
+                    $params = array($data['cart_code'], $each->getProduct()->getProduct_code(), $each->getSize());
+                    $db->execute($sql, $params);
+                }
+                
+                $db->conn->commit();
+                echo "done";
+            } catch (PDOException $e) {
+                $db->conn->rollBack();
+                echo "Lỗi khi tạo đơn hàng";
+                //echo $e->getMessage();
+            }
+        }
+
     }
 ?>

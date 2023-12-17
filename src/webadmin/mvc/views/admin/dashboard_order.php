@@ -250,11 +250,17 @@
                     } else {
                         sw.close();
                         // Nếu có lỗi thì hiển thị thông báo lỗi
-                        Swal.fire(
-                        'Oops...',
-                        response,
-                        'error'
-                        )
+
+                        if (response.includes('<!DOCTYPE html>')|| response.lenght > 50) {
+                            // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                            window.location.href = '/Auth';
+                        } else {
+                            Swal.fire(
+                                'Oops...',
+                                response,
+                                'error'
+                            );
+                        }
                     }
                     },
                 });

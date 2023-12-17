@@ -33,6 +33,9 @@
                 if(!empty($data_category['numberOfItem']) && empty($data_category['err'])){
                     $this->countItemInCart = $data_category['numberOfItem'];
                 }
+                else{
+                    $this->countItemInCart = 0;
+                }
             }
         }
 
@@ -70,7 +73,7 @@
             $data['cartItem'] = $model->LoadCartItem($tmp);
             //var_dump($data['cartItem']);
 
-            
+            $data['countItemInCart'] = $this->countItemInCart;
             // chuyển data về dạng key value để dễ for
             $tmp = [];
             foreach($this->categories as $key => $value){

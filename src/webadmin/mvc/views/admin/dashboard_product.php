@@ -424,10 +424,14 @@ $('#ProductForm').submit(function(e){
                     }
                     else {
                         sw.close();
-
-                        //nhớ thêm cái này cho mấy trang kia
                         $('#ProductForm').find('.custom-alert-error').remove();
-                        $('#ProductForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
+                        if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
+                                    // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                            window.location.href = '/Auth';
+                        } else {
+                            $('#ProductForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
+                        }
+                        //nhớ thêm cái này cho mấy trang kia
                     }
             }
 		})
@@ -630,11 +634,17 @@ $(document).ready(function () {
             } else {
                 sw.close();
                 // Nếu có lỗi thì hiển thị thông báo lỗi
-                Swal.fire(
-                'Oops...',
-                response,
-                'error'
-                )
+
+                if (response.includes('<!DOCTYPE html>')|| response.lenght > 50) {
+                            // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                    window.location.href = '/Auth';
+                } else {
+                    Swal.fire(
+                        'Oops...',
+                        response,
+                        'error'
+                    );
+                }
             }
             },
         });
