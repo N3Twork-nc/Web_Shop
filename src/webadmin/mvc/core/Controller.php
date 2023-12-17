@@ -1,5 +1,5 @@
 <?php
-    class Controller extends Middleware {
+    class Controller{
         function model($model){
             
             if(file_exists("./mvc/models/". $model . "Model" ."/" . $model . ".php")){

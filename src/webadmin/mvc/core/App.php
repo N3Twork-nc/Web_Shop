@@ -1,6 +1,6 @@
 <?php
 
-    class App extends Middleware{
+    class App{
         private $controller = "Dashboard_homeController";
         private $controllerStr = "Dashboard_homeController";
         private $action = "Show";

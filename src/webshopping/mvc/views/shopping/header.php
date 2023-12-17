@@ -44,7 +44,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="main-menu-item" style="color: black !important;"><a href="" style="color: black !important;">SALE</a>
+            <!-- <li class="main-menu-item" style="color: black !important;"><a href="" style="color: black !important;">SALE</a>
                 <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
                 <ul class="sub-menu sub-menu-4" class="empty-item-4">
                     <li><a href="" style="color: red;">Đồng giá chỉ từ 99K</a>
@@ -53,8 +53,8 @@
                     <li><a href="" class="lowercase">299k</a></li>
                     <li><a href="" class="lowercase">399k</a></li>
                 </ul>
-            </li>
-            <li style="color: black !important;"><a href="" style="color: black !important;">THÔNG TIN</a></li>
+            </li> -->
+            <!-- <li style="color: black !important;"><a href="" style="color: black !important;">THÔNG TIN</a></li> -->
         </nav>
 
         <div class="orthers">

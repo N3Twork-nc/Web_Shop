@@ -37,7 +37,7 @@
 
         function Show($params){
             $data = [];
-
+            $data['name'] = "None";
             if(!empty($params[0])){
                 //var_dump($this->category);
                 
@@ -47,7 +47,7 @@
                     // Nếu có, lấy giá trị tương ứng
                     $value = $this->categories[$params[0]];
                     $model = $this->model("Product");
-
+                    $data['name'] = $this->categories[$params[0]]->getName();
                     // kiểm tra xem có phải danh mục cha không
                     if(empty($value->getParent_category_name())){
                         $category_data['parent_category'] = $value->getName();
@@ -74,7 +74,6 @@
 
             $data["categories"] = $tmp;
 
-            //var_dump($data["products"]);
             $page = $this->view("category", $data);
         }
 
@@ -97,7 +96,7 @@
             }
 
             $data["categories"] = $tmp;
-
+            $data['name'] = htmlspecialchars($product_name);
             //var_dump($data["products"]);
             $page = $this->view("category", $data);
         }

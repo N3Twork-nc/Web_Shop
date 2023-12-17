@@ -27,16 +27,13 @@
     <section class="category">
         <div class="container-category" style="margin-left: 4% !important;">
             <div class="category-top row">
-                <p>Trang chủ</p><span>&#10230; </span>
-                <p>Nữ</p> <span>&#10230; </span>
-                <p>Hàng nữ mới về</p>
             </div>
         </div>
         <div class="container-category" style="margin-left: 5% !important;">
             <div class="category-fix row">
                 <div class="category-left">
                     <ul>
-                        <li class="category-left-li"><a href="#">NỮ</a>
+                        <!-- <li class="category-left-li"><a href="#">NỮ</a>
                             <ul>
                                 <li>
                                     <a href=""></a>HÀNG NỮ MỚI VỀ</li>
@@ -57,14 +54,31 @@
                             </ul>
                         </li>
                         <li class="category-left-li"><a href="#">TRẺ EM</a></li>
-                        <li class="category-left-li"><a href="#">SALE</a></li>
+                        <li class="category-left-li"><a href="#">SALE</a></li> -->
                     </ul>
                 </div>
                 <div class="category-right row">
                     <div class="category-right-top-item">
-                        <p>HÀNG NỮ MỚI VỀ</p>
+                        <p>
+                            <?php
+                                if(isset($data['name'])){
+                                    if($data['name'] != "None"){
+                                        echo "Đây là các sản phẩm " . mb_strtolower($data['name'], "UTF-8") . " mới nhất";
+                                    }
+                                    else {
+                                        echo "Đây là các sản phẩm mới nhất";
+                                    }
+                                
+                                }
+                                else{
+                                    if($data['findName']){
+                                        echo "Kết quả tìm kiếm theo '" . $data['findName'] . "'";
+                                    }
+                                }
+                            ?>
+                        </p>
                     </div>
-                    <div class="category-right-top-item">
+                    <!-- <div class="category-right-top-item">
                         <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>
                     </div>
                     <div class="category-right-top-item">
@@ -73,7 +87,7 @@
                             <option value="">Giá cao đến thấp</option>
                             <option value="">Giá thấp đến cao</option>
                         </select>
-                    </div>
+                    </div> -->
                     <br>
                     <div class="category-right-content row" style="width: 100%;">
                         <div class="category-right-filter" id="filterDiv" style="display: none; height: auto !important;">

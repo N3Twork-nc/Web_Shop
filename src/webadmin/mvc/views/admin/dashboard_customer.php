@@ -196,9 +196,15 @@
                 }
                 else{
                     sw.close();
-                    //nhớ thêm cái này cho mấy trang kia
+
                     $('#CustomerForm').find('.custom-alert-error').remove();
-                    $('#CustomerForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
+                    if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
+                                // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                        window.location.href = '/Auth';
+                    } else {
+                        $('#CustomerForm').prepend('<div class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>' + resp + '</div>');
+                    }
+                    //nhớ thêm cái này cho mấy trang kia
                 }
             }
         })

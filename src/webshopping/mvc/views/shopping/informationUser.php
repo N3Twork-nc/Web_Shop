@@ -125,11 +125,16 @@
             }, 1000);
             }else{
                 sw.close();
-                Swal.fire(
-                    'Oops...',
-                    resp,
-                    'error'
-                )
+                if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
+                            // Nếu có chứa HTML, điều hướng sang trang đăng nhập
+                    window.location.href = '/Auth';
+                } else {
+                    Swal.fire(
+                        'Oops...',
+                        resp,
+                        'error'
+                    );
+                }
             }
         }
     })
