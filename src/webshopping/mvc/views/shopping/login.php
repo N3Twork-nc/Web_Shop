@@ -31,11 +31,11 @@
                         <?php unset($_SESSION['message']); ?>
                     <?php endif; ?>
                     <div class="field input-field">
-                        <input type="email" name="email" placeholder="Email" class="input">
+                        <input type="email" name="email" placeholder="Email" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" name="password" placeholder="Password" class="password">
+                        <input type="password" name="password" placeholder="Password" class="password" required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
@@ -53,22 +53,6 @@
                 </div>
             </div>
 
-            <div class="line"></div>
-
-            <div class="media-options">
-                <a href="#" class="field facebook">
-                    <i class='bx bxl-facebook facebook-icon'></i>
-                    <span>Đăng nhập bằng Facebook</span>
-                </a>
-            </div>
-
-            <div class="media-options">
-                <a style="margin-top: 25px !important;" href="#" class="field google">
-                    <img src="/public/img/google.png" alt="" class="google-img">
-                    <span>Đăng nhập bằng Google</span>
-                </a>
-            </div>
-
         </div>
 
         <!-- Signup Form -->
@@ -79,24 +63,24 @@
                 <form id="RegisterForm">
                     <div class="field input-field">
                         <label for="full-name">Nhập họ Tên</label>
-                        <input type="text" id="full-name" name="fullname" placeholder="Enter Full Name" class="input">
+                        <input type="text" id="full-name" name="fullname" placeholder="Enter Full Name" class="input" required>
                     </div>
                     <div class="field input-field">
                         <label for="username">Nhập email</label>
-                        <input type="text" id="email" name="email" placeholder="Enter Email" class="input">
+                        <input type="email" id="email" name="email" placeholder="Enter Email" class="input" required>
                     </div>
                     <div class="field input-field">
                         <label for="password">Nhập password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter Password" class="password">
+                        <input type="password" id="password" name="password" placeholder="Enter Password" class="password" required>
                     </div>
                     <div class="field input-field">
                         <label for="confirm-password">Xác thực password</label>
-                        <input type="password" id="confirm-password" name="retype_password" placeholder="Confirm Password" class="password">
+                        <input type="password" id="confirm-password" name="retype_password" placeholder="Confirm Password" class="password" required>
                         <i style="margin-top: 24px;" class='bx bx-hide eye-icon'></i>
                     </div>
                     <div class="field input-field">
                         <label for="phone-number">Nhập số điện thoại</label>
-                        <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input">
+                        <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input" required>
                     </div>
                     <div class="field button-field">
                         <button type="submit">Đăng ký</button>
@@ -116,7 +100,7 @@
                 <form id="ForgotPasswordForm">
                     <div class="field input-field">
                         <label for="username">Nhập email</label>
-                        <input type="text" id="email" name="email" placeholder="Enter Email" class="input">
+                        <input type="email" id="email" name="email" placeholder="Enter Email" class="input" required>
                     </div>
                     <div class="field button-field">
                         <button type="submit">Send</button>

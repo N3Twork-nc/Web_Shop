@@ -11,7 +11,6 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
         private $images;
         private $quantity;
         private $update_latest;
-        private $product_state;
 
         public function __construct($row)
         {
@@ -29,7 +28,6 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
             $this->categoryObj = new CategoryObj($data);
             $this->color = $row['color'];
             $this->update_latest = $row['update_latest'];
-            $this->product_state = $row['product_state'];
         }
 
         public function calculateQuantity(){
@@ -143,16 +141,6 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
         public function setCategoryObj($categoryObj)
         {
                 $this->categoryObj = $categoryObj;
-        }
-
-        public function getProduct_state()
-        {
-                return $this->product_state;
-        }
-
-        public function setProduct_state($product_state)
-        {
-                $this->product_state = $product_state;
         }
     }
 ?>

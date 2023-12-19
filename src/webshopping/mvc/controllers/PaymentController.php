@@ -4,6 +4,14 @@
         private $products;
         private $countItemInCart;
         private $province;
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_category');
+                exit;
+            }
+        }
 
         public function __construct()
         {   
@@ -71,6 +79,7 @@
         }
 
         function validatedStr($data){
+            $this->CheckAccess();
 
             $pattern = '/^[\p{L}a-z A-Z0-9\/]+$/u';
 
@@ -90,7 +99,7 @@
                     'address' => $_POST['address']
                 ];
                 $data = array_map('trim', $data);
-
+                $this->access = true;
                 if($this->validateNull($data)){
                     echo "Vui lòng nhập đủ thông tin";
                 }else{
@@ -121,6 +130,7 @@
 
                             $model = $this->model("Order");
                             $err = $model->MoveCartToOrder($data_order);
+                            echo $err;
                         } else {
                             echo "Lỗi trong quá trình tạo đơn hàng";
                         }
@@ -130,6 +140,7 @@
         }
 
         function generateOrderCode($length = 8) {
+            $this->CheckAccess();
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
             $randomString = '';

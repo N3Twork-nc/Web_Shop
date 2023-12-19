@@ -58,7 +58,6 @@
                             <th style="width: 200px;"><span class="las la-sort "></span> DMSP</th>
                             <th style="width: 80px;"><span class="las la-sort "></span> SL</th>
                             <th style="width: 120px;"><span class="las la-sort "></span> Last Updated</th>
-                            <th style="width: 100px;"><span class="las la-sort "></span>Trạng thái</th>
                             <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
                                 <th><span class="las la-sort"></span> ACTION</th>
                             <?php endif; ?>
@@ -113,7 +112,6 @@
                                 <td data-label="DMSP" style="color: var(--dark);"><?php echo $product->getCategoryObj()->getName(); ?></td>
                                 <td data-label="SLSP" style="color: var(--dark);"><?php echo $product->getQuantity(); ?></td>  
                                 <td data-label="UpdateSP" style="color: var(--dark);"><?php echo $product->getUpdate_lastest(); ?></td>
-                                <td data-label="TrangThaiSP" style="color: var(--dark);"><?php echo $product->getProduct_state(); ?></td>
                                 <!-- Dùng để xử lý chọn img trên form sửa data -->
                                 <td data-label="HinhSP" style="display: none;"><img src="<?php echo $product->getImages()[0][0] === '.' ? substr($product->getImages()[0], 1) : $product->getImages()[0];  ?>" /></td>
                                 <td data-label="HinhSP2" style="display: none;"><img src="<?php echo $product->getImages()[1][0] === '.' ? substr($product->getImages()[1], 1) : $product->getImages()[1]; ?>"/></td>
@@ -267,11 +265,6 @@
                         <button id="save" style="margin-top: 15px">Lưu</button> -->
                         <label for="ProductColor" style="margin-top: 20px">Mô tả sản phẩm:</label>
                         <textarea name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;" placeholder="Mô tả sản phẩm" required></textarea>
-                        <label for="ProductCategory" style="margin-top: 20px">Trạng thái sản phẩm:</label>
-                        <select name="ProductState" id="ProductState" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
-                            <option value="disabled">Disabled</option>
-                            <option value="active">Active</option>
-                        </select>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
                         <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
                     </form>
@@ -340,7 +333,6 @@
         document.getElementById("SoLuongSP_XXL").value = "";
         document.getElementById("MoTa").value="";
         document.getElementById("DMSP").value="";
-        document.getElementById("ProductState").value="";
         document.getElementById("Img").value="";
         $('#ProductForm').find('.custom-alert-error').remove();
         submitBtn.innerText = "Thêm";
@@ -474,7 +466,6 @@ $(document).ready(function () {
             var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
             setFiles(hinhSP, hinhSP2, hinhSP3, hinhSP4);
             var danhMucSP = row.find('td[data-label="DMSP"]').text();
-            var TrangThaiSP = row.find('td[data-label="TrangThaiSP"]').text();
 
             var mauSP = row.find('td[data-label="MauSP"]').find('img').attr('src').split('/')[3].split('.')[0];
             // Thêm các dữ liệu vào form
@@ -490,11 +481,6 @@ $(document).ready(function () {
             // Chọn danh mục sản phẩm trong dropdown
             $('#DMSP option').filter(function () {
                 return $(this).text() == danhMucSP;
-            }).prop('selected', true);
-
-            // chọn trạng thái
-            $('#ProductState option').filter(function () {
-                return $(this).val() == TrangThaiSP;
             }).prop('selected', true);
 
             //Hiển thị mã sản phẩm nhưng disable ko cho thao tác

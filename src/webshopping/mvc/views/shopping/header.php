@@ -64,9 +64,6 @@
                     <i id="searchIcon" type="submit" class="fa fa-search" style="cursor: pointer;"></i>
                 </form>
             </li>
-            <div class="item" style="padding-left: 12px;">
-                <li><i class="fa fa-paw"></i></li>
-            </div>
             <div class="item" style="padding-left: 12px; cursor: pointer;">
                 <li><i class="fa fa-user" id="userIcon"></i></li>
                 <?php if(isset($_SESSION['usr'])): ?>

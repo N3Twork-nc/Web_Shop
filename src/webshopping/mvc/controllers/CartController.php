@@ -3,7 +3,14 @@
         private $categories;
         private $products;
         private $countItemInCart;
+        private $access = false;
 
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_category');
+                exit;
+            }
+        }
         public function __construct()
         {   
 
@@ -40,7 +47,8 @@
         }
 
         function validateProduct($data){
-            
+            $this->CheckAccess();
+
             if($this->validateNull($data)){
                 return "Vui lòng nhập đủ thông tin";
             }
@@ -93,6 +101,7 @@
                     'size' => $_POST['size'],
                     'quantity' => $_POST['quantity']
                 ];
+                $this->access = true;
                 $product_data = array_map('trim', $product_data);
                 $err = $this->validateProduct($product_data);
                 if($err == 'validated'){
@@ -125,6 +134,7 @@
                     'product_code' => $_POST['product_code'],
                     'size' => $_POST['sizeOfProduct']
                 ];
+                $this->access = true;
                 $action = $_POST['actionWithProduct'];
                 $product_data = array_map('trim', $product_data);
 
