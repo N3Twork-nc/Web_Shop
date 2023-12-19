@@ -34,9 +34,11 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
-                            Thêm sản phẩm
-                        </button>
+                        <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
+                                Thêm sản phẩm
+                            </button> 
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -57,8 +59,10 @@
                             <th style="width: 80px;"><span class="las la-sort "></span> SL</th>
                             <th style="width: 120px;"><span class="las la-sort "></span> Last Updated</th>
                             <th style="width: 100px;"><span class="las la-sort "></span>Trạng thái</th>
-                            <th><span class="las la-sort "></span> ACTION</th>
-                            <th></th>
+                            <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                <th><span class="las la-sort"></span> ACTION</th>
+                                <th></th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -115,11 +119,13 @@
                                 <td data-label="HinhSP2" style="display: none;"><img src="<?php echo $product->getImages()[1][0] === '.' ? substr($product->getImages()[1], 1) : $product->getImages()[1]; ?>"/></td>
                                 <td data-label="HinhSP3" style="display: none;"><img src="<?php echo $product->getImages()[2][0] === '.' ? substr($product->getImages()[2], 1) : $product->getImages()[2]; ?>"/></td>
                                 <td data-label="HinhSP4" style="display: none;"><img src="<?php echo $product->getImages()[3][0] === '.' ? substr($product->getImages()[3], 1) : $product->getImages()[3]; ?>"/></td>
-                                <td> 
-                                    <i class="fa fa-trash"></i>
-                                    <i class="fa fa-pencil editBtn"></i>
-                                </td>
-                                <td><button class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
+                                <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                    <td> 
+                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-pencil editBtn"></i>
+                                    </td>
+                                    <td><button class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
+                                <?php endif; ?>
                                 <!-- Dữ liệu để lấy từng size ra đưa lên form -->
                             </tr>
                         <?php endforeach; ?>
