@@ -110,7 +110,7 @@
                                 </td>
                                 <td data-label="MoTaSP" style="color: var(--dark);">
                                     <div class="product-description">
-                                        <?php echo $product->getDescription(); ?>
+                                        <?php echo htmlspecialchars($product->getDescription()); ?>
                                     </div>
                                     <button style="background: var(--primary);border: var(--primary);padding: 3px;color: var(--dark);border-radius: 3px;" class="show-more-btn">Xem thêm</button>
                                 </td>                                
