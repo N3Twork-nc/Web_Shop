@@ -30,9 +30,11 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
+                        <?php if($_SESSION['role'] == 'admin'): ?>
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
                             Thêm staff
                         </button>
+                            <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -44,7 +46,9 @@
                         <tr>
                             <th style="width: 30%;"><span class="las la-sort"></span> USERNAME</th>
                             <th style="width: 30%;"><span class="las la-sort"></span> ROLE</th>
-                            <th style="width: 30%;"><span class="las la-sort"></span> ACTION</th>
+                            <?php if($_SESSION['role'] == 'admin'): ?>
+                                <th style="width: 30%;"><span class="las la-sort"></span> ACTION</th>
+                            <?php endif; ?>  
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -54,9 +58,11 @@
                                 <td><?php echo $staff->getRole(); ?></td>
                                 <?php if ($staff->getRole() != "admin" ): ?> 
                                 <td>
-                                    <button class="btnResetPW" style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
+                                    <?php if($_SESSION['role'] == 'admin'): ?>
+                                        <button class="btnResetPW" style="color: white; padding:10px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; background-color: var(--primary); ">Reset Password</button>
                                     <i class="fa fa-trash"></i>
                                     <i class="fa fa-pencil editBtn"></i>
+                                    <?php endif; ?>
                                 </td>
                                 <?php endif; ?>
                                

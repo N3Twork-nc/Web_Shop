@@ -33,9 +33,12 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
+                        <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
                             Thêm danh mục sản phẩm
                         </button>
+                            <?php endif; ?>
+                        
                     </ul>
                 </div>
             </div>
@@ -130,6 +133,8 @@
         document.getElementById("CategoryID").setAttribute("readonly", true);
         document.getElementById("CategoryName").value = "";
         document.getElementById("CategoryParentID").value = "";
+        let newCategoryName = document.getElementById("CategoryName").value;
+        let CategoryParentName = document.getElementById("CategoryParentID").value;
         modal.style.display = "block";
         BtnEdit.innerText = "Thêm";
         action = "create";
