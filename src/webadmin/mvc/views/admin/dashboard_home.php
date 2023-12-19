@@ -57,6 +57,7 @@
 
 </html>
 <script src="/public/js/dashboard.js"></script>
+<script src="/public/js/pagination.js"></script>
 <script>
     // Khai báo biến
     const link = document.querySelector(".slide-menu-home");

@@ -109,7 +109,12 @@
                                         ?>
                                     <?php endforeach; ?>
                                 </td>
-                                <td data-label="MoTaSP" style="color: var(--dark);"><?php echo $product->getDescription(); ?></td>                                
+                                <td data-label="MoTaSP" style="color: var(--dark);">
+                                    <div class="product-description">
+                                        <?php echo $product->getDescription(); ?>
+                                    </div>
+                                    <button style="background: var(--primary);border: var(--primary);padding: 3px;color: var(--dark);border-radius: 3px;" class="show-more-btn">Xem thêm</button>
+                                </td>                                
                                 <td data-label="DMSP" style="color: var(--dark);"><?php echo $product->getCategoryObj()->getName(); ?></td>
                                 <td data-label="SLSP" style="color: var(--dark);"><?php echo $product->getQuantity(); ?></td>  
                                 <td data-label="UpdateSP" style="color: var(--dark);"><?php echo $product->getUpdate_lastest(); ?></td>
@@ -301,6 +306,7 @@
     </div>
 
     <script src="/public/js/dashboard.js"></script>
+    <script src="/public/js/pagination.js"></script>
 </body>
 
 </html>
@@ -668,4 +674,26 @@ $(document).ready(function () {
         formChiTietSP.style.display = 'none';
     });
 
+    // Hiển thị thêm phần mô tả:
+    document.addEventListener('DOMContentLoaded', function () {
+        const productDescriptions = document.querySelectorAll('.product-description');
+        productDescriptions.forEach(function (descriptionDiv) {
+            const showMoreBtn = descriptionDiv.nextElementSibling;
+            const maxLength = 150;
+            const fullText = descriptionDiv.textContent;
+            const truncatedText = fullText.slice(0, maxLength);
+            descriptionDiv.innerHTML = truncatedText + '<span class="hidden-text">' + fullText.slice(maxLength) + '</span>';
+            const hiddenText = descriptionDiv.querySelector('.hidden-text');
+            hiddenText.style.display = 'none';
+            showMoreBtn.addEventListener('click', function () {
+                if (hiddenText.style.display === 'none' || hiddenText.style.display === '') {
+                    hiddenText.style.display = 'inline';
+                    showMoreBtn.textContent = 'Thu gọn';
+                } else {
+                    hiddenText.style.display = 'none';
+                    showMoreBtn.textContent = 'Xem thêm';
+                }
+            });
+        });
+    });
 </script>
