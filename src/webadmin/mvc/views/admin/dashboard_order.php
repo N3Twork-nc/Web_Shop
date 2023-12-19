@@ -31,9 +31,11 @@
                         /
                         <li><a href="#" class="active">Shop</a></li>
 
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
-                            Thêm đơn hàng
-                        </button>
+                        <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
+                                Thêm sản phẩm
+                            </button> 
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
