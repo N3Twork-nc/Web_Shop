@@ -1,7 +1,6 @@
 <?php 
 include_once "./mvc/models/ProductModel/ProductObj.php";
-    class Product extends DB{
-
+    class Product extends MiddleWare{
         function LoadProductSizes($product_code){
             try {
                     $db = new DB();
@@ -120,8 +119,14 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo "Lỗi khi thêm sản phẩm";
-                //return  $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //echo "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi thêm sản phẩm";
+                }
             }
     }
 
@@ -179,36 +184,16 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             return "done";
         } catch (PDOException $e) {
             $db->conn->rollBack();
-            return "Lỗi khi sửa sản phẩm";
-            // echo  $sql . "<br>" . $e->getMessage();
+            if ($e->getCode() == '42000') {
+                // Xử lý khi có lỗi SQLSTATE 42000
+                return "Bạn không có quyền làm thao tác này";
+            } else {
+                // Xử lý cho các lỗi khác
+                //echo "Lỗi: " . $e->getMessage();
+                return "Lỗi khi sửa sản phẩm";
+            }
         }
     }
-
-    // function DeleteProductSizes($db, $product_code){
-    //     try{
-    //         $sql = "DELETE FROM `ProductSizes` WHERE `product_code` = ?;";
-    //         $params = array($product_code);
-    //         $db->execute($sql, $params);
-    //     }
-    //     catch (PDOException $e) {
-    //         $db->conn->rollBack();
-    //         echo "Lỗi khi xóa size";
-    //         // echo  $sql . "<br>" . $e->getMessage();
-    //     }
-    // }
-
-    // function DeleteProductImages($db, $product_code){
-    //     try{
-    //         $sql = "DELETE FROM `ProductImages` WHERE `product_code` = ?;";
-    //         $params = array($product_code);
-    //         $db->execute($sql, $params);
-    //     }
-    //     catch (PDOException $e) {
-    //         $db->conn->rollBack();
-    //         echo "Lỗi khi xóa ảnh sản phẩm";
-    //         //echo  $sql . "<br>" . $e->getMessage();
-    //     }
-    // }
 
     function FindOrder($db, $product_code){
         try{
@@ -262,12 +247,18 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             $db->execute($sql, $params);
 
             $db->conn->commit();
-            echo "done";
+            return "done";
         } catch (PDOException $e) {
 
             $db->conn->rollBack();
-            echo "Lỗi khi xóa sản phẩm";
-            //echo  $sql . "<br>" . $e->getMessage();
+            if ($e->getCode() == '42000') {
+                // Xử lý khi có lỗi SQLSTATE 42000
+                return "Bạn không có quyền làm thao tác này";
+            } else {
+                // Xử lý cho các lỗi khác
+                //echo "Lỗi: " . $e->getMessage();
+                return "Lỗi khi xóa sản phẩm";
+            }
         }
     }
     }

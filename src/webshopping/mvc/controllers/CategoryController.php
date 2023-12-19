@@ -97,6 +97,7 @@
 
             $data["categories"] = $tmp;
             $data['name'] = htmlspecialchars($product_name);
+            //$data['name'] = $product_name;
             //var_dump($data["products"]);
             $page = $this->view("category", $data);
         }

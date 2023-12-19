@@ -1,10 +1,13 @@
 <?php
     class DB{
         public $conn;
+        private $username =  'db_user';
+        private $password = 'db_password';
+
         public function __construct() {
             //ini_set('display_errors', 'Off');
             $connectionString = "mysql:host=" . getenv('MYSQL_HOSTNAME') . ";dbname=" . getenv('MYSQL_DATABASE');
-            $conn = new \PDO($connectionString, getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
+            $conn = new \PDO($connectionString, $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn = $conn;
         }
@@ -29,6 +32,16 @@
             $res = $connect->prepare($sql);
             $res->execute($params);
             $connect = null;
+        }
+
+        public function getUsername()
+        {
+                return $this->username;
+        }
+
+        public function setUsername($username)
+        {
+                $this->username = $username;
         }
     }
 ?>

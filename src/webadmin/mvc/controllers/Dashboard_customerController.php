@@ -1,5 +1,13 @@
 <?php
     class Dashboard_customerController extends Controller{
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_customer');
+                exit;
+            }
+        }
         function Show(){
             $model = $this->model("Customer");
             $data = $model->LoadCustomers();
@@ -8,6 +16,7 @@
         }
 
         function validationCustomer($data){
+            $this->CheckAccess();
             // check thiếu data
 
             if($this->validateNull($data)){
@@ -44,13 +53,14 @@
                     "email" => $_POST['Email'],
                     "phone" => $_POST['SDT']
                 );
-
+                $this->access = true;
                 $customer_data = array_map('trim', $customer_data);
 
                 $res = $this->validationCustomer($customer_data);
                 if($res == "validated"){
                     $model = $this->model("Customer");
-                    $data = $model->EditCustomer($customer_data);
+                    $err = $model->EditCustomer($customer_data);
+                    echo $err;
                 }
                 else {
                     echo $res;

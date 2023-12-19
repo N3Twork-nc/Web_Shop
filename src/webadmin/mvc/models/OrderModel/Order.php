@@ -1,6 +1,6 @@
 <?php 
 include_once "./mvc/models/OrderModel/OrderObj.php";
-    class Order extends DB{
+    class Order extends MiddleWare{
 
         //check đơn hàng chưa giao xong
         function CheckOrderNotDeliveredYet($data){
@@ -287,11 +287,17 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db->execute($sql, $params);
 
                 $db->conn->commit();
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo "Lỗi khi đổi trạng thái đơn hàng";
-                //echo $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi đổi trạng thái đơn hàng";
+                }
             }
         }
 
@@ -302,11 +308,18 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $params = array($data['order_code']);
                 $db->execute($sql, $params);
                 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
 
-                echo "Lỗi khi đổi trạng thái thành vận chuyển";
-                //echo  $sql . "<br>" . $e->getMessage();
+                
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi đổi trạng thái thành vận chuyển";
+                }
             }
         }
 
@@ -357,11 +370,18 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db->execute($sql, $params);
 
                 $db->conn->commit();
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
                 //echo "Lỗi khi thanh toán";
-                echo $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi thanh toán";
+                }
             }
         }
 
@@ -396,11 +416,17 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 $db->execute($sql, $params);
                 
                 $db->conn->commit();
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo "Lỗi khi đổi trạng thái đơn hàng";
-                //echo $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi đổi trạng thái đơn hàng";
+                }
             }
         }
 

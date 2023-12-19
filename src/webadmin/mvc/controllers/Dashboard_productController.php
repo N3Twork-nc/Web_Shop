@@ -15,7 +15,8 @@
             // load product
             $model = $this->model("Product");
             $data["products"] = $model->LoadProducts();
-
+            // var_dump($data["products"]);
+            // die();
             // load category
             $model = $this->model("Category");
             $data["categories"] = $model->LoadCategories();
@@ -311,11 +312,6 @@
                                     }
                                     else{
     
-                                        // xóa hình cũ
-                                        foreach($old_images as $each){
-                                            unlink($each);
-                                        }
-    
                                         // thêm ảnh vào data
                                         $product_data["product_images"] = $fileNames;
     
@@ -323,6 +319,12 @@
 
                                         if($err != "done"){
                                             foreach($fileNames as $each){
+                                                unlink($each);
+                                            }
+                                        }
+                                        else if($err == "done"){
+                                            // xóa hình cũ
+                                            foreach($old_images as $each){
                                                 unlink($each);
                                             }
                                         }
@@ -370,14 +372,18 @@
     
                             if(is_array($images)){
                                 if($images != null){
-                                    foreach($images as $each){
-                                        unlink($each);
-                                    }
             
-                                    $model->DeleteProduct($product_data);
+                                    $err = $model->DeleteProduct($product_data);
+
+                                    if($err == "done"){
+                                        foreach($images as $each){
+                                            unlink($each);
+                                        }
+                                    }
+                                    echo $err;
                                 }
                                 else {
-                                    var_dump($images);
+                                    // var_dump($images);
                                     echo "Mã sản phẩm " . $product_data["product_code"] . " không tồn tại";
                                 }
                             }

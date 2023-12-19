@@ -19,6 +19,8 @@ services:
       - MYSQL_DATABASE=ptit_shop
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
+      - MYSQL_STAFF=staff
+      - MYSQL_STAFF_PASSWORD=day_la_staff_ptithcm
       - LANG=C.UTF-8
       - LC_ALL=C.UTF-8
       - TZ=Asia/Ho_Chi_Minh
@@ -47,6 +49,12 @@ services:
       - MYSQL_DATABASE=ptit_shop
       - MYSQL_USER=db_user
       - MYSQL_PASSWORD=db_password
+      - MYSQL_STAFF=staff
+      - MYSQL_STAFF_PASSWORD=day_la_staff_ptithcm
+      - MYSQL_MANAGER=manager
+      - MYSQL_MANAGER_PASSWORD=day_la_manager_ptithcm
+      - MYSQL_ADMIN=admin
+      - MYSQL_ADMIN_PASSWORD=day_la_admin_ptithcm
       - TZ=Asia/Ho_Chi_Minh
     volumes:
       - "./src/webadmin:/var/www/html/"

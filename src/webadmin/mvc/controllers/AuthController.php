@@ -26,9 +26,17 @@
             $result = $model->checkAccount($data);
 
             if($result != null){
+                if($result[1] == 1){
+                    $err = $model->EditStatus($data);
+                    if($err != "done"){
+                        $_SESSION['message'] = $err;
+                        header("Location: /Auth");
+                        exit;
+                    }
+                }
                 $_SESSION['usr'] = $username;
-                $_SESSION['role'] = $result;
-
+                $_SESSION['role'] = $result[0];
+                $_SESSION['status_expire'] = $result[1];
                 //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
                 // sinh một id khác nhưng data vẫn giữ nguyên
                 session_regenerate_id(true);

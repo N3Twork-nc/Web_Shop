@@ -116,6 +116,7 @@
     const role = document.getElementById("role");
     const tbody = document.getElementById("tbody");;              
     let isEditing = false
+    let action = '';
 
     const table2 = document.querySelector('#myTable');
         //xóa nv
@@ -175,19 +176,22 @@
     table2.addEventListener('click', function(event) {
     if (event.target.classList.contains('fa-pencil')) {
         action = 'edit';
-        document.getElementById("labelUsernameID").style.display = "none";
-        document.getElementById("username").style.display = "none";
+        document.getElementById("labelUsernameID").style.display = "block";
+        document.getElementById("username").style.display = "block";
         document.getElementById("labelPasswordID").style.display = "none";
-        document.getElementById("labelPasswordID").innerText = "Password";
+        document.getElementById("labelPasswordID").innerText = "none";
         document.getElementById("password").style.display = "none";
         document.getElementById("LabelRole").style.display = "block";
         document.getElementById("role").style.display = "block";
-        
+        username.setAttribute("readonly", true);
         submitBtn.innerText = "Lưu";
         const row = event.target.closest('tr');
+        const username_in_table = row.cells[0].textContent.trim();
         const role_in_table = row.cells[1].textContent.trim();
         // Điền dữ liệu vào form
         role.value = role_in_table;
+        username.value = username_in_table;
+        $('#StaffForm').find('.custom-alert-error').remove();
         // Hiển thị form
         modal.style.display = "block";   
     }
@@ -196,7 +200,7 @@
     //reset password
     table2.addEventListener('click', function(event) {
     if (event.target.classList.contains('btnResetPW')) {
-        action = 'edit';
+        action = 'editPassword';
         document.getElementById("labelUsernameID").style.display = "block";
         document.getElementById("username").style.display = "block";
         document.getElementById("labelPasswordID").style.display = "block";
@@ -210,12 +214,15 @@
         const username_in_table = row.cells[0].textContent.trim();
         // Điền dữ liệu vào form
         username.value = username_in_table;
+        password.value = '';
+        $('#StaffForm').find('.custom-alert-error').remove();
         // Hiển thị form
         modal.style.display = "block";   
     }
     });
 
     addBtn.addEventListener('click', function() {
+        action = "add";
         modal.style.display = "block";
         document.getElementById("labelUsernameID").style.display = "block";
         document.getElementById("username").style.display = "block";
@@ -245,12 +252,29 @@
 
     // bấm submit
     $('#StaffForm').submit(function(e){
+        let method = '';
+        if(action == 'add'){
+            method = "AddStaff";
+        }
+        else if(action == 'edit'){
+            method = "EditStaff";
+        }
+        else if(action == 'editPassword'){
+            method = "ResetPassword";
+        }
+        else {
+            Swal.fire(
+                'Oops...',
+                'Lỗi',
+                'error'
+            );
+        }
         e.preventDefault();
 
         // gửi data
         var sw = showLoadingSwal();
             $.ajax({
-                url:'/Dashboard_staff/AddStaff',
+                url:'/Dashboard_staff/' + method,
                 method:'POST',
                 data: $(this).serialize(),
                 error:err=>{
@@ -260,7 +284,7 @@
                 if(resp.trim() == "done"){
                 Swal.fire(
                     'Completed!',
-                    'Bạn đã nhân viên thành công!',
+                    'Thao tác thành công!',
                     'success'
                     )
                 setTimeout(function() {
@@ -271,7 +295,7 @@
                 else{
                     sw.close();
 
-                    $$('#StaffForm').find('.custom-alert-error').remove();
+                    $('#StaffForm').find('.custom-alert-error').remove();
                     if (resp.includes('<!DOCTYPE html>')|| resp.lenght > 50) {
                                 // Nếu có chứa HTML, điều hướng sang trang đăng nhập
                         window.location.href = '/Auth';

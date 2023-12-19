@@ -511,6 +511,10 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                     $sql = "INSERT INTO `OrderItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES (?,?,?,?,?);";
                     $params = array($data['order_code'], $each->getProduct()->getProduct_code(), $each->getQuantity(), $each->getSize(), $each->getTotal_price());
                     $db->execute($sql, $params);
+
+                    $sql = "UPDATE ProductSizes AS PS SET PS.quantity = PS.quantity - ? WHERE PS.product_code= ? ,PS.size= ?;";
+                    $params = array($each->getQuantity(), $each->getProduct()->getProduct_code(), $each->getSize());
+                    $db->execute($sql, $params);
                 }
                 
                 //di chuyển xóa sản phẩm trong giỏ hàng
