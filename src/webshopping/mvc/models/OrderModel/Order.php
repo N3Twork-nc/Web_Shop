@@ -512,7 +512,7 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                     $params = array($data['order_code'], $each->getProduct()->getProduct_code(), $each->getQuantity(), $each->getSize(), $each->getTotal_price());
                     $db->execute($sql, $params);
 
-                    $sql = "UPDATE ProductSizes AS PS SET PS.quantity = PS.quantity - ? WHERE PS.product_code= ? ,PS.size= ?;";
+                    $sql = "UPDATE ProductSizes AS PS SET PS.quantity = PS.quantity - ? WHERE PS.product_code= ? AND PS.size= ?;";
                     $params = array($each->getQuantity(), $each->getProduct()->getProduct_code(), $each->getSize());
                     $db->execute($sql, $params);
                 }
@@ -525,11 +525,17 @@ include_once "./mvc/models/OrderModel/OrderObj.php";
                 }
                 
                 $db->conn->commit();
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
                 $db->conn->rollBack();
-                echo "Lỗi khi tạo đơn hàng";
-                //echo $e->getMessage();
+                if ($e->errorInfo[1] === 3819) {
+                    return "Lỗi";
+                    // Xử lý lỗi từ CHECK constraint
+                } else {
+                    return "Lỗi khi tạo đơn hàng";
+                    //return $e->getMessage();
+                    // Xử lý các lỗi khác
+                }
             }
         }
 

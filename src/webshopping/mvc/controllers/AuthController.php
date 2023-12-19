@@ -2,6 +2,14 @@
 
     class AuthController extends Controller{
         private $categories;
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_category');
+                exit;
+            }
+        }
 
         public function __construct()
         {   
@@ -63,6 +71,7 @@
         }
 
         public function validateAccount($data){
+            $this->CheckAccess();
 
             if($this->validateNull($data)){
                 return "Vui lòng nhập đủ thông tin";
@@ -109,6 +118,7 @@
                     "retype_password" => $_POST['retype_password'],
                     "phone" => $_POST['phone']
                 );
+                $this->access = true;
                 $account_data = array_map('trim', $account_data);
                 $err = $this->validateAccount($account_data);
                 
@@ -169,6 +179,7 @@
                 $verify_data = array(
                     "email" => $_POST['email']
                 );
+                $this->access = true;
                 $verify_data = array_map('trim', $verify_data);
                 if (!$this->validateEmail($verify_data['email']) || empty($verify_data['email'])) {
                     echo "Email không hợp lệ!";
@@ -270,7 +281,7 @@
                         }
                     }
                     else{
-                        echo "done";
+                        echo "Vui lòng kiểm tra mail của bạn để tiếp tục!";
                     }
                 }
             }

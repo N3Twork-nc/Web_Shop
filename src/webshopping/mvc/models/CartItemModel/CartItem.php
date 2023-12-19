@@ -21,7 +21,7 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
         function LoadCartItem($data){
                 try {
                     $db = new DB();
-                    $sql = "SELECT TMP.*, P.name, P.price, P.color, P.product_state FROM 
+                    $sql = "SELECT TMP.*, P.name, P.price, P.color FROM 
                     (
                         SELECT CI.* FROM ShoppingCart AS SC, CartItems AS CI 
                         WHERE SC.cart_code = CI.cart_code AND SC.cart_code = ?
@@ -44,7 +44,6 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                         $row_product['name'] = $row['name'];
                         $row_product['price'] = $row['price'];
                         $row_product['color'] = $row['color'];
-                        $row_product['product_state'] = $row['product_state'];
 
                         // tạo sản phẩm
                         $obj = new ProductObj($row_product);
@@ -133,7 +132,7 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                 return "done";
             } catch (PDOException $e) {
                 return "Lỗi khi thêm sản phẩm vào giỏ";
-                //return  $sql . "<br>" . $e->getMessage();
+                //return  $sql . "<br>" . $e->getMessage() . "<br>" . $data['cart_code'];
             }
         }
 

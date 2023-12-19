@@ -5,6 +5,15 @@
         private $customer;
         private $order;
         private  $orderHistory;
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_category');
+                exit;
+            }
+        }
+
 
         public function __construct()
         {   
@@ -122,6 +131,7 @@
         }
 
         function validationCustomer($data){
+            $this->CheckAccess();
             // check thiếu data
 
             if($this->validateNull($data)){
@@ -151,6 +161,7 @@
                     'full_name' => $_POST['fullName'],
                     'phone' => $_POST['phone']
                 ];
+                $this->access = true;
                 $customer_data = array_map('trim', $data);
 
                 $res = $this->validationCustomer($customer_data);
