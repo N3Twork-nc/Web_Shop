@@ -1,8 +1,8 @@
 <?php
     class DB{
         public $conn;
-        private $username =  'db_user';
-        private $password = 'db_password';
+        private $username =  'customer';
+        private $password = 'day_la_customer_ptithcm';
 
         public function __construct() {
             //ini_set('display_errors', 'Off');
