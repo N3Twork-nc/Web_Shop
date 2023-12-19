@@ -61,8 +61,8 @@
                             <th style="width: 100px;"><span class="las la-sort "></span>Trạng thái</th>
                             <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
                                 <th><span class="las la-sort"></span> ACTION</th>
-                                <th></th>
                             <?php endif; ?>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -124,8 +124,12 @@
                                         <i class="fa fa-trash"></i>
                                         <i class="fa fa-pencil editBtn"></i>
                                     </td>
-                                    <td><button class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
                                 <?php endif; ?>
+                                <!-- Phải có btn adbtn thì ms nhận mà role staff nó ko hiện nên sẽ lỗi js nên sẽ thêm sau đó display: none spl_autoload -->
+                                <button id="addBtn" style="display: none; font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
+                                    Thêm sản phẩm
+                                </button> 
+                                <td><button class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
                                 <!-- Dữ liệu để lấy từng size ra đưa lên form -->
                             </tr>
                         <?php endforeach; ?>
