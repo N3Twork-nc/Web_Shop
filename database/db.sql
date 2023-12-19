@@ -231,6 +231,20 @@ GRANT EXECUTE ON PROCEDURE ptit_shop.GetImagesProduct TO 'staff'@'%';
 GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'manager'@'%';
 GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'staff'@'%';
 
+CREATE USER 'customer'@'%' IDENTIFIED BY 'day_la_customer_ptithcm';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.CartItems TO 'customer'@'%';
+GRANT SELECT ON ptit_shop.Categories TO 'customer'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Customers TO 'customer'@'%';
+GRANT SELECT, INSERT ON ptit_shop.ShoppingCart TO 'customer'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Verify TO 'customer'@'%';
+GRANT SELECT ON ptit_shop.Orders TO 'customer'@'%';
+GRANT SELECT ON ptit_shop.OrderItems TO 'customer'@'%';
+GRANT SELECT, INSERT ON ptit_shop.Payment TO 'customer'@'%';
+GRANT SELECT, INSERT ON ptit_shop.OrdersHistory TO 'customer'@'%';
+GRANT SELECT, INSERT ON ptit_shop.OrdersHistoryItems TO 'customer'@'%';
+GRANT SELECT ON ptit_shop.Products TO 'customer'@'%';
+GRANT SELECT ON ptit_shop.ProductImages TO 'customer'@'%';
+GRANT SELECT, UPDATE ON ptit_shop.ProductSizes TO 'customer'@'%';
 
 -- Tạo user admin full quyền
 CREATE USER 'admin'@'%' IDENTIFIED BY 'day_la_admin_ptithcm';
