@@ -55,9 +55,7 @@
                             <th style="width: 120px;"><span class="las la-sort"></span> LOẠI TT</th>
                             <th style="width: 180px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> SĐT</th>
-                            <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
-                                <th><span class="las la-sort"></span> ACTION</th>
-                            <?php endif; ?>
+                            <th><span class="las la-sort"></span> ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -92,6 +90,11 @@
                                 <td data-label="LoaiThanhToan"><?php echo $order->getType() == null ? "NONE" : $order->getType(); ?></td>
                                 <td data-label="DiaChi"><?php echo $order->getAddress(); ?></td>
                                 <td data-label="SDT"><?php echo $order->getCustomer()->getPhone(); ?></td>
+                                <?php if($_SESSION['role'] == 'staff'): ?>
+                                    <td>
+                                        <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
+                                    </td>  
+                                <?php endif; ?>
                                 <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
                                     <td>
                                     <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
@@ -124,7 +127,8 @@
                                             echo('<i style="margin-top: 5px; margin-left: 5px;" class="fa fa-check disabled" title="Xác nhận giao hàng"></i>');
                                         }
                                     ?>
-                                </td>                 
+                                </td>   
+                                <?php endif; ?>              
                                 <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
                                     <?php $order_items = $order->getOrder_items(); ?>
                                         <?php foreach ($order_items as $order_item) : ?> 
@@ -135,7 +139,6 @@
                                             <p class="order-data" data-label="TongTien" ><?php echo $order_item->getTotal_price(); ?></p>                                                    
                                         <?php endforeach; ?>
                                 </td>
-                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
