@@ -37,7 +37,6 @@
             $arr_Str["product_name"] = $data['product_name'];
             //$arr_Str["product_description"] = $data['product_description'];
             $arr_Str["product_code"] = $data['product_code'];
-            $arr_Str["product_state"] = $data['product_state'];
 
             if($this->validateSpecialCharacter($arr_Str)){
                 return "Dữ liệu không được chứa kí tự đặc biệt";
@@ -211,16 +210,16 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
-                        "product_state" => $_POST["ProductState"]
                     );
 
-                    
-                    $product_data['product_description'] = htmlspecialchars($product_data['product_description'], ENT_QUOTES, 'UTF-8');
 
                     $product_data = array_map('trim', $product_data);
 
                     $product_data["size_quantities"] = $size_quantities;
 
+                    $tmp = htmlspecialchars($product_data['product_description']);
+                    $product_data['product_description'] = $tmp;
+                    
                     $check = $this->ValidateProductData($product_data);
                     if($check === "validated"){
                         
@@ -280,11 +279,11 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
-                        "product_state" => $_POST["ProductState"]
                     );
 
                     //<script>alert("hehe")</script>
-                    $product_data['product_description'] = htmlspecialchars($product_data['product_description'], ENT_QUOTES, 'UTF-8');
+                    //<script>console.log(1)</script>
+                    $product_data['product_description'] = htmlspecialchars($product_data['product_description']);
 
                     $product_data = array_map('trim', $product_data);
 

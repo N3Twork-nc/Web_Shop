@@ -95,9 +95,9 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             try {
                 $db = new DB();
                 $db->conn->beginTransaction();
-                $sql = "INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`, `product_state`) 
-                VALUES (?,?,?,?,?,?,?);";
-                $params = array($data['product_code'], $data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color'], $data['product_state']);
+                $sql = "INSERT INTO `Products`(`product_code`, `name`, `description`, `price`, `category_id`, `color`) 
+                VALUES (?,?,?,?,?,?);";
+                $params = array($data['product_code'], $data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color']);
                 $res = $db->execute($sql, $params);
                 
                 foreach ($data['size_quantities'] as $size => $quantity) {
@@ -160,8 +160,8 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
             $db = new DB();
             $db->conn->beginTransaction();
 
-            $sql = "UPDATE `Products` SET `name` = ?, `description` = ?, `price` = ?, `category_id` = ?, `color` = ?, product_state = ? WHERE `product_code` = ?;";
-            $params = array($data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color'], $data['product_state'], $data['product_code']);
+            $sql = "UPDATE `Products` SET `name` = ?, `description` = ?, `price` = ?, `category_id` = ?, `color` = ? WHERE `product_code` = ?;";
+            $params = array($data['product_name'], $data['product_description'], $data['product_price'], $data['category_id'], $data['product_color'], $data['product_code']);
             $db->execute($sql, $params);
 
             foreach ($data['size_quantities'] as $size => $quantity) {
