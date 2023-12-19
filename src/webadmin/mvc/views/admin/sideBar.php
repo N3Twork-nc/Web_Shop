@@ -11,7 +11,7 @@
             <li class="slide-menu-discount"><a href="/Dashboard_orderHistory"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
             <li class="slide-menu-order"><a href="/Dashboard_order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
             <li class="slide-menu-customer"><a href="/Dashboard_customer"><i class='bx bx-group'></i>Khách hàng</a></li>
-            <li class="slide-menu-customer"><a href="/Dashboard_staff"><i class='bx bx-group'></i>Nhân viên</a></li>
+            <li class="slide-menu-staff"><a href="/Dashboard_staff"><i class='bx bx-group'></i>Nhân viên</a></li>
             <!-- <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li> -->
         </ul>
         <ul class="side-menu">
