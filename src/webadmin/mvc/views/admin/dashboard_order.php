@@ -53,7 +53,9 @@
                             <th style="width: 120px;"><span class="las la-sort"></span> LOẠI TT</th>
                             <th style="width: 180px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
                             <th style="width: 120px;"><span class="las la-sort"></span> SĐT</th>
-                            <th><span class="las la-sort"></span> ACTION</th>
+                            <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                <th><span class="las la-sort"></span> ACTION</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -88,7 +90,8 @@
                                 <td data-label="LoaiThanhToan"><?php echo $order->getType() == null ? "NONE" : $order->getType(); ?></td>
                                 <td data-label="DiaChi"><?php echo $order->getAddress(); ?></td>
                                 <td data-label="SDT"><?php echo $order->getCustomer()->getPhone(); ?></td>
-                                <td>
+                                <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                    <td>
                                     <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
                                     <?php
                                         if ($order->getState() == 'pending') {
@@ -130,6 +133,7 @@
                                             <p class="order-data" data-label="TongTien" ><?php echo $order_item->getTotal_price(); ?></p>                                                    
                                         <?php endforeach; ?>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
