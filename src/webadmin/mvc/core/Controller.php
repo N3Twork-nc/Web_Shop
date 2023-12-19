@@ -24,6 +24,17 @@
             return false;
         }
 
+        function validateName($data){
+
+            $pattern = '/^[\p{L}a-z A-Z]+$/u';
+
+            foreach($data as $key => $values){
+                if (!preg_match($pattern, $values))
+                    return true;
+            }
+            return false;
+        }
+
         function validateSpecialCharacter($data){
 
             $pattern = '/^[\p{L}a-z A-Z0-9]+$/u';
