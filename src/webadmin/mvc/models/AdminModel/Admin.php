@@ -1,6 +1,7 @@
 <?php 
 include_once "./mvc/models/AdminModel/AdminObj.php";
-    class Admin extends DB{
+    class Admin extends MiddleWare{
+        
         function checkAccount($data){
                 try {
                     $arr = [];
@@ -11,10 +12,11 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     if ($sth->rowCount() > 0) {
                         $row = $sth->fetch();
                         array_push($arr, $row['role']);
+                        array_push($arr, $row['status_expire']);
                     }
                     return $arr;
                 } catch (PDOException $e) {
-                    return  $sql . "<br>" . $e->getMessage();
+                    return  "Lỗi";
                 }
         }
 
@@ -53,7 +55,8 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                 }
                 return $obj;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                // return  $sql . "<br>" . $e->getMessage();
+                return "Lỗi";
             }
         }
 
@@ -66,10 +69,45 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                 $params = array($data['username'], $data['password'], $data['role']);
                 $db->execute($sql, $params);
                 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
-                echo "Đã tồn tại username";
-                //echo $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                }
+                else if ($e->getCode() == '23000') {
+                    // Lỗi ràng buộc duy nhất
+                    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                        // Xử lý trường hợp giá trị bị trùng lặp
+                        return "Đã tồn tại username này";
+                    }
+                } 
+                else {
+                    // Xử lý cho các lỗi khác
+                    return "Lỗi";
+                    //return "Lỗi khi thêm staff";
+                }
+            }
+        }
+
+        function EditStaff($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "UPDATE `AdminAccounts` SET `role` = ?, `status_expire` = 1 WHERE username = ?";
+                $params = array($data['role'], $data['username']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    return "Lỗi khi sửa thông tin staff";
+                    //return "Lỗi khi thêm staff";
+                }
             }
         }
 
@@ -81,25 +119,53 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                 $params = array($data['username']);
                 $db->execute($sql, $params);
                 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
-                echo "Lỗi khi xóa";
-                //echo $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi xóa";
+                }
             }
-    }
-    //     function ResetPassword($data){
-    //         try {
-    //             $arr = [];
-    //             $db = new DB();
-    //             $sql = "UPDATE `AdminAccounts` SET `password` = ? WHERE username = ?";
-    //             $params = array($data['username']);
-    //             $db->execute($sql, $params);
+        }
+
+        function EditStatus($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "CALL ResetStatus(?)";
+                $params = array($data[0]);
+                $db->execute($sql, $params);
                 
-    //             echo "done";
-    //         } catch (PDOException $e) {
-    //             echo "Lỗi khi xóa";
-    //             //echo $sql . "<br>" . $e->getMessage();
-    //         }
-    // }
+                return "done";
+            } catch (PDOException $e) {
+                //return "Lỗi khi sửa trạng thái";
+                return "Lỗi";
+            }
+        }
+
+        function ResetPassword($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "UPDATE `AdminAccounts` SET `password` = ?, `status_expire` = 1 WHERE username = ?";
+                $params = array($data['password'], $data['username']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    return "Lỗi: " . $e->getMessage();
+                    //return "Lỗi khi reset password";
+                }
+            }
+        }
     }
 ?>

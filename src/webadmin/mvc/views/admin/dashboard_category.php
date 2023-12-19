@@ -48,7 +48,9 @@
                             <th>ID</th>
                             <th><span class="las la-sort"></span> TÊN DANH MỤC</th>
                             <th><span class="las la-sort"></span> TÊN DANH MỤC CHA</th>
-                            <th><span class="las la-sort"></span> ACTION</th>
+                            <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                <th><span class="las la-sort"></span> ACTION</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -60,8 +62,10 @@
                                     <?php echo $category->getParent_category_id() == null ? "none" : $category->getParent_category_name(); ?>
                                 </td>
                                 <td>
-                                    <i class="fa fa-trash"></i>
-                                    <i class="fa fa-pencil editBtn"></i>
+                                    <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-pencil editBtn"></i>
+                                    <?php endif; ?>
                                 </td> 
                             </tr>
                         <?php endforeach; ?>
@@ -143,6 +147,7 @@
         document.getElementById("CategoryID").style.background = "#eee";
         
         $('#CategoryForm #submitBtn').text('Lưu');
+        $('#CategoryForm').find('.custom-alert-error').remove();
         const row = event.target.closest('tr');
         const category_id_in_table = row.cells[0].textContent.trim();
         const category_name_in_table = row.cells[1].textContent.trim();
@@ -176,6 +181,7 @@
     //Xử lý button cancel
     cancelBtn.addEventListener('click', function() {
         modal.style.display = "none";
+        $('#CategoryForm').find('.custom-alert-error').remove();
     })
 
     // Active

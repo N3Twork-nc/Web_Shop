@@ -1,6 +1,6 @@
 <?php 
 include_once "./mvc/models/CustomerModel/CustomerObj.php";
-    class Customer extends DB{
+    class Customer extends MiddleWare{
 
         function LoadCustomers(){
                 try {
@@ -24,21 +24,6 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 }
         }
 
-        // function EditCustomerPassword($data){
-        //     try {
-        //         $db = new DB();
-        //         $sql = "UPDATE `Customers` SET `password` = ? WHERE `username` = ?;";
-        //         $params = array($data['password'], $data['username']);
-        //         $db->execute($sql, $params);
-
-        //         echo "done";
-        //     } catch (PDOException $e) {
-
-        //         echo "Lỗi khi sửa thông tin khách hàng";
-        //         //echo  $sql . "<br>" . $e->getMessage();
-        //     }
-        // }
-
         function EditCustomer($data){
             try {
                 $db = new DB();
@@ -46,11 +31,17 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 $params = array($data['full_name'], $data['phone'], $data['email']);
                 $db->execute($sql, $params);
 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
 
-                echo "Lỗi khi sửa thông tin khách hàng";
-                //echo  $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi sửa thông tin khách hàng";
+                }
             }
         }
 
@@ -61,11 +52,16 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 $params = array($data['email']);
                 $db->execute($sql, $params);
 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
-
-                echo "Lỗi khi xóa khách hàng";
-                //echo  $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi xóa khách hàng";
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php 
 include_once "./mvc/models/CategoryModel/CategoryObj.php";
-    class Category extends DB{
+    class Category extends MiddleWare{
 
         function LoadCategories(){
                 try {
@@ -31,11 +31,17 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                 $params = array($data['category_name'], $data['category_parent_id']);
                 $db->execute($sql, $params);
 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
 
-                echo "Lỗi khi thêm danh mục";
-                //echo  $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //echo "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi thêm danh mục";
+                }
             }
         }
 
@@ -46,11 +52,17 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                 $params = array($data['category_name'], $data['category_parent_id'], $data['category_id']);
                 $db->execute($sql, $params);
 
-                echo "done";
+                return "done";
             } catch (PDOException $e) {
 
-                echo "Lỗi khi sửa danh mục";
-                //echo  $sql . "<br>" . $e->getMessage();
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    return "Lỗi: " . $e->getMessage();
+                    //return "Lỗi khi sửa danh mục";
+                }
             }
         }
 
@@ -64,8 +76,18 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                 echo "done";
             } catch (PDOException $e) {
 
-                echo "Tồn tại sản phẩm thuộc danh mục này, không thể xóa";
-                //echo  $sql . "<br>" . $e->getMessage();
+                //echo "Tồn tại sản phẩm thuộc danh mục này, không thể xóa";
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else if($e->getCode() == '23000'){
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Danh mục hiện có sản phẩm tham chiếu, không thể xóa";
+                }
+                else{
+                    return "Lỗi khi xóa danh mục";
+                }
             }
         }
     }

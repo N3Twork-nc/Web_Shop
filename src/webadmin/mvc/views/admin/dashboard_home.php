@@ -39,32 +39,7 @@
 
             <!--********************* Category ***********************-->
             <div style="background: var(--light);color: var(--dark);">
-                <table width="100%">
-                    <thead>
-                        <tr>
-                            <!-- <th>ID</th> -->
-                            <th><span class="las la-sort"></span> Dữ liệu test</th>
-                            <th><span class="las la-sort"></span> Dữ liệu test</th>
-                            <th><span class="las la-sort"></span> Dữ liệu test</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    </tbody>
-                </table>
-            </div>
-            <div id="myModal" class="modal" style="display: none;">
-                <div class="modal-content" style="border-radius: 8px;">
-                    <form id="CategoryForm">
-                        <label for="CategoryCode">Dữ liệu để test:</label>
-                        <input style="color: black" type="text" id="MaDanhMuc" name="MaDanhMuc" required>
-
-                        <label for="OrderName">Dữ liệu để test:</label>
-                        <input style="color: black" type="text" id="TenDanhMuc" name="TenDanhMuc" required>
-
-                        <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
-                        <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
-                    </form>
-                </div>
+                <h1><?php echo  "Xin chào, " . $_SESSION['usr']; ?></h1>
             </div>
             <!-- Confirmation Modal -->
             <div id="confirmationModal">

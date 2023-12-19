@@ -4,7 +4,7 @@
 
         function CheckAccess(){
             if($this->access == false){
-                header('Location: /Dashboard_product');
+                header('Location: /Dashboard_category');
                 exit;
             }
         }
@@ -57,7 +57,8 @@
                 if($check == "validated"){
                     
                         $model = $this->model("Category");
-                        $model->InsertCategory($category_data);
+                        $err = $model->InsertCategory($category_data);
+                        echo $err;
                 }
                 else{
                     echo $check;
@@ -80,12 +81,13 @@
                     
                 $check = $this->ValidateData($category_data);
                 if($check == "validated"){
-                    if($category_data["category_id"] <= 8){
+                    if($category_data["category_id"] <= 4){
                         echo "Không được sửa danh mục cha";
                     }
-                    else if($category_data["category_id"] > 8){
+                    else if($category_data["category_id"] > 4){
                         $model = $this->model("Category");
-                        $model->EditCategory($category_data);
+                        $err = $model->EditCategory($category_data);
+                        echo $err;
                     }
                 }
                 else{
@@ -105,12 +107,14 @@
                 $category_data = array_map('trim', $category_data);
                 
                 if($check == false){
-                    if($category_data["category_id"] <= 8){
+                    if($category_data["category_id"] <= 4){
                         echo "Không được xóa danh mục cha";
                     }
-                    else if($category_data["category_id"] > 8){
+                    else if($category_data["category_id"] > 4){
                         $model = $this->model("Category");
-                        $model->DeleteCategory($category_data);}
+                        $err = $model->DeleteCategory($category_data);
+                        echo $err;
+                    }
                     }
                 else{
                     echo $check;

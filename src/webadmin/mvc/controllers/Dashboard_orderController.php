@@ -1,5 +1,13 @@
 <?php
     class Dashboard_orderController extends Controller{
+        private $access = false;
+
+        function CheckAccess(){
+            if($this->access == false){
+                header('Location: /Dashboard_order');
+                exit;
+            }
+        }
         function Show(){
 
             $model = $this->model("Order");
@@ -18,7 +26,8 @@
                 $order = $model->FindOrder($order_data['order_code']);
 
                 if($order[0]->getState() == 'pending'){
-                    $data = $model->UpdateDelivery($order_data);
+                    $err = $model->UpdateDelivery($order_data);
+                    echo $err;
                 }
                 else{
                     echo "Chỉ được vận chuyển đơn đang chờ xử lý";
@@ -40,7 +49,8 @@
                     echo "Đơn hàng chưa được thanh toán trước nên không thể xác nhận giao hàng!";
                    }
                    else{
-                        $data = $model->ConfirmDelivery($order_data);
+                        $err = $model->ConfirmDelivery($order_data);
+                        echo $err;
                    }
                 }
                 else{
@@ -54,6 +64,7 @@
                 $order_data = array(
                     "order_code" => $_POST['order_code']
                 );
+                $this->access = true;
                 $order_data = array_map('trim', $order_data);
                 $model = $this->model("Order");
                 $order = $model->FindOrder($order_data['order_code']);
@@ -64,7 +75,8 @@
                         sleep(1);
 
                         $order_data['payment_code'] = $payment_code;
-                        $data = $model->PayOrder($order_data);
+                        $err = $model->PayOrder($order_data);
+                        echo $err;
                    }
                    else{
                     echo "Chỉ được thành toán một lần!";
@@ -87,8 +99,8 @@
                 $order = $model->FindOrder($order_data['order_code']);
 
                 if($order[0]->getState() == 'pending'){
-                    $data = $model->CancelOrder($order_data);
-                    //echo "oke";
+                    $err = $model->CancelOrder($order_data);
+                    echo $err;
                 }
                 else{
                     echo "Chỉ được hủy đơn đang chờ xử lý";
@@ -97,6 +109,7 @@
         }
 
         function generatePaymentCode($length = 5) {
+            $this->CheckAccess();
             $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
             $randomString = '';

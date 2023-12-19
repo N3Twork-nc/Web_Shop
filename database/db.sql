@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS ptit_shop;
 
 USE ptit_shop;
+
 DROP TABLE IF EXISTS `Categories`;
 
 CREATE TABLE Categories (
@@ -39,7 +40,8 @@ CREATE TABLE ProductSizes(
   size ENUM('S', 'M', 'L', 'XL', 'XXL'), 
   quantity INT DEFAULT 0,
   PRIMARY KEY (product_code, size),
-  FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`) ON DELETE CASCADE
+  FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`) ON DELETE CASCADE,
+  CHECK (quantity >= 0)
 );
 DROP TABLE IF EXISTS `Customers`;
 
@@ -144,11 +146,100 @@ DROP TABLE IF EXISTS `AdminAccounts`;
 CREATE TABLE AdminAccounts (
   username VARCHAR(50) NOT NULL PRIMARY KEY,
   password VARCHAR(255) NOT NULL, 
-  role ENUM('admin', 'manager', 'staff') NOT NULL
+  role ENUM('admin', 'manager', 'staff') NOT NULL,
+  status_expire TINYINT(1) DEFAULT 0
 );
+
+-- SP LOAD PRODUCT
+DROP PROCEDURE IF EXISTS `GetProducts`;
+
+DELIMITER //
+CREATE PROCEDURE GetProducts()
+BEGIN
+  SELECT P.*, C.name AS 'category_name' FROM Products AS P, Categories AS C 
+  WHERE P.category_id = C.category_id;
+END;
+//
+DELIMITER ;
+
+-- CALL GetProducts();
+DROP PROCEDURE IF EXISTS `GetSizesProduct`;
+
+DELIMITER //
+CREATE PROCEDURE GetSizesProduct(IN product_code VARCHAR(50))
+BEGIN
+  SELECT PS.* FROM Products AS P, ProductSizes AS PS
+  WHERE P.product_code = PS.product_code AND P.product_code = product_code;
+END;
+//
+DELIMITER ;
+
+-- CALL GetSizesProduct('P001');
+DROP PROCEDURE IF EXISTS `GetImagesProduct`;
+
+DELIMITER //
+CREATE PROCEDURE GetImagesProduct(IN product_code VARCHAR(50))
+BEGIN
+  SELECT PI.* FROM Products AS P, ProductImages AS PI 
+  WHERE P.product_code = PI.product_code AND P.product_code = product_code;
+END;
+//
+DELIMITER ;
+
+-- CALL GetImagesProduct('P001');
+
+DROP PROCEDURE IF EXISTS `ResetStatus`;
+
+DELIMITER //
+CREATE PROCEDURE ResetStatus(IN username VARCHAR(50))
+BEGIN
+  UPDATE AdminAccounts AS AA SET AA.status_expire = 0 WHERE AA.username = username;
+END;
+//
+DELIMITER ;
+
+-- Tạo người dùng chỉ đọc
+CREATE USER 'staff'@'%' IDENTIFIED BY 'day_la_staff_ptithcm';
+
+-- Cấp quyền chỉ đọc cho người dùng trên cơ sở dữ liệu cụ thể (thay đổi tên database_name)
+GRANT SELECT ON ptit_shop.* TO 'staff'@'%';
+
+
+-- Tạo manager có thể CRUD mọi bảng trừ Admins
+CREATE USER 'manager'@'%' IDENTIFIED BY 'day_la_manager_ptithcm';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Categories TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Products TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.ProductImages TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.ProductSizes TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Customers TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Verify TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.ShoppingCart TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.CartItems TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Orders TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.OrderItems TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Payment TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.OrdersHistory TO 'manager'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.OrdersHistoryItems TO 'manager'@'%';
+GRANT SELECT ON ptit_shop.AdminAccounts TO 'manager'@'%';
+
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetProducts TO 'manager'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetProducts TO 'staff'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetSizesProduct TO 'manager'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetSizesProduct TO 'staff'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetImagesProduct TO 'manager'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.GetImagesProduct TO 'staff'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'manager'@'%';
+GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'staff'@'%';
+
+
+-- Tạo user admin full quyền
+CREATE USER 'admin'@'%' IDENTIFIED BY 'day_la_admin_ptithcm';
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON ptit_shop.* TO 'admin'@'%';
+-- FLUSH PRIVILEGES;
 
 INSERT INTO AdminAccounts (username, password, role) VALUES('moros', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin');
 INSERT INTO AdminAccounts (username, password, role) VALUES('teo', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'staff');
+INSERT INTO AdminAccounts (username, password, role) VALUES('dat', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'manager');
 
 INSERT INTO `Categories`(`name`) VALUES ('Áo nam');
 INSERT INTO `Categories`(`name`) VALUES ('Quần nam');
@@ -360,41 +451,3 @@ INSERT INTO `OrdersHistory`(`order_code`, `order_date` , `state`, `email`, `addr
 INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','SP1701933882',2,'S', 200);
 INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_1','SP1701934515',2,'L', 200);
 INSERT INTO `OrdersHistoryItems`(`order_code`, `product_code`, `quantity`, `size`, `total_price`) VALUES ('order_3','SP1701935516',4,'L', 800);
-
--- SP LOAD PRODUCT
-DROP PROCEDURE IF EXISTS `GetProducts`;
-
-DELIMITER //
-CREATE PROCEDURE GetProducts()
-BEGIN
-  SELECT P.*, C.name AS 'category_name' FROM Products AS P, Categories AS C 
-  WHERE P.category_id = C.category_id;
-END;
-//
-DELIMITER ;
-
--- CALL GetProducts();
-DROP PROCEDURE IF EXISTS `GetSizesProduct`;
-
-DELIMITER //
-CREATE PROCEDURE GetSizesProduct(IN product_code VARCHAR(50))
-BEGIN
-  SELECT PS.* FROM Products AS P, ProductSizes AS PS
-  WHERE P.product_code = PS.product_code AND P.product_code = product_code;
-END;
-//
-DELIMITER ;
-
--- CALL GetSizesProduct('P001');
-DROP PROCEDURE IF EXISTS `GetImagesProduct`;
-
-DELIMITER //
-CREATE PROCEDURE GetImagesProduct(IN product_code VARCHAR(50))
-BEGIN
-  SELECT PI.* FROM Products AS P, ProductImages AS PI 
-  WHERE P.product_code = PI.product_code AND P.product_code = product_code;
-END;
-//
-DELIMITER ;
-
--- CALL GetImagesProduct('P001');
