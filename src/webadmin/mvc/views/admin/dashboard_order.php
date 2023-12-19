@@ -203,6 +203,7 @@
     </div>
 
     <script src="/public/js/dashboard.js"></script>
+    <script src="/public/js/pagination.js"></script>
 </body>
 
 </html>

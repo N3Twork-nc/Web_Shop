@@ -918,3 +918,34 @@
         border-radius: 1px;
         font-size: 14px;
     }
+    /* CSS cho phần phân trang */
+    
+    .pagination {
+        padding-bottom: 20px !important;
+        padding-top: 20px !important;
+        align-items: center;
+        display: flex;
+        list-style: none;
+        padding: 0;
+        justify-content: center;
+        background: var(--grey);
+    }
+    
+    .pagination a {
+        color: var(--dark);
+        text-decoration: none;
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .pagination a.active {
+        background-color: var(--primary);
+        color: white;
+        border: 1px solid var(--primary);
+    }
+    
+    .pagination a:hover {
+        background-color: #ddd;
+    }

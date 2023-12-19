@@ -130,12 +130,13 @@
     </div>
 
     <script src="/public/js/dashboard.js"></script>
+    <script src="/public/js/pagination.js"></script>
 </body>
 
 </html>
 <script>
     //Khai báo biến tổng quát dùng mọi chỗ
-    const link = document.querySelector(".slide-menu-order");
+    const link = document.querySelector(".slide-menu-discount");
     const modal = document.getElementById("myModal");
     // const cancelBtn = document.getElementById("cancelBtn");
     const tbody = document.getElementById("tbody");

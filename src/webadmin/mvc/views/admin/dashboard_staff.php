@@ -107,13 +107,14 @@
     </div>
 
     <script src="/public/js/dashboard.js"></script>
+    <script src="/public/js/pagination.js"></script>
 </body>
 
 </html>
 
 <script>
     // Khai báo biến
-    const link = document.querySelector(".slide-menu-customer");
+    const link = document.querySelector(".slide-menu-staff");
     const addBtn = document.getElementById("addBtn");
     const modal = document.getElementById("myModal");
     const btnEdit = document.getElementById("submitBtn");
