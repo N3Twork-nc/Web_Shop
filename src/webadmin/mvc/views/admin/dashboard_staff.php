@@ -48,7 +48,8 @@
                             <th style="width: 30%;"><span class="las la-sort"></span> ROLE</th>
                             <?php if($_SESSION['role'] == 'admin'): ?>
                                 <th style="width: 30%;"><span class="las la-sort"></span> ACTION</th>
-                            <?php endif; ?>  
+                            <?php endif; ?>
+                            <th></th>  
                         </tr>
                     </thead>
                     <tbody id="tbody">
