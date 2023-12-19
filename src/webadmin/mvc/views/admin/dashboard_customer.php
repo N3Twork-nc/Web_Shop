@@ -42,10 +42,12 @@
                 <table width="100%" id="myTable">
                     <thead>
                         <tr>
-                            <th style="width: 120px;"><span class="las la-sort"></span> EMAIL</th>
-                            <th style="width: 120px;"><span class="las la-sort"></span> HỌ TÊN</th>
-                            <th style="width: 150px;"><span class="las la-sort"></span> SĐT</th>
-                            <th style="width: 150px;"><span class="las la-sort"></span> ACTION</th>
+                            <th><span class="las la-sort"></span> EMAIL</th>
+                            <th><span class="las la-sort"></span> HỌ TÊN</th>
+                            <th><span class="las la-sort"></span> SĐT</th>
+                            <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                <th><span class="las la-sort"></span> ACTION</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -55,21 +57,10 @@
                                 <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
                                 <td data-label="SDT"><?php echo $customer->getPhone(); ?></td>
                                 <td data-label="Action">
-                                    <i class="fa fa-pencil editBtn"></i>
-                                <style>
-                                    .reset-password-btn {
-                                    background-color: #0066ff;
-                                    color: white;
-                                    padding: 8px 12px;
-                                    border: none;
-                                    border-radius: 4px;
-                                    cursor: pointer;
-                                    transition: background-color 0.3s;
-                                }
-                                .reset-password-btn:hover {
-                                    background-color: #3333cc;
-                                }
-                                </style>
+                                    <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                        <i class="fa fa-pencil editBtn"></i>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
 
