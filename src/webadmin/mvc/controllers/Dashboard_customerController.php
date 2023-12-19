@@ -31,6 +31,10 @@
 
             $arr_Str["full_name"] = $data['full_name'];
 
+            if($this->validateName($arr_Str)){
+                return "Tên khách hàng không được chứa số";
+            }
+
             if($this->validateSpecialCharacter($arr_Str)){
                 return "Dữ liệu không được chứa kí tự đặc biệt";
             }
