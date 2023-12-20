@@ -32,8 +32,16 @@
     // die();
 
     // Kiểm tra nếu origin không hợp lệ, từ chối request
+    // if(!in_array($requested_origin, $allowed_origins)) {
+    //     if (strpos($_SERVER["REQUEST_URI"], "/Auth/Verify") === false) {
+    //         if(!empty($requested_origin) || ($_SERVER['HTTP_SEC_FETCH_SITE'] != "none" && ($_SERVER['HTTP_SEC_FETCH_SITE'] != "same-origin" ))){
+    //             require_once "./mvc/views/shopping/403.php";
+    //             exit;
+    //         }
+    //     }
+    // }
     if(!in_array($requested_origin, $allowed_origins)) {
-        if (strpos($_SERVER["REQUEST_URI"], "/Auth/Verify") === false) {
+        if (strpos($_SERVER["REQUEST_URI"], "/Auth/Verify") === false && strpos($_SERVER["REQUEST_URI"], "/Auth/ResetPassword")) {
             if(!empty($requested_origin) || ($_SERVER['HTTP_SEC_FETCH_SITE'] != "none" && ($_SERVER['HTTP_SEC_FETCH_SITE'] != "same-origin" ))){
                 require_once "./mvc/views/shopping/403.php";
                 exit;
