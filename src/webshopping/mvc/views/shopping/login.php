@@ -42,7 +42,7 @@
                     <div class="form-link">
                         <a href="#" class="forgot-pass" id="forgotPasswordLink">Quên mật khẩu?</a>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>    
+                    <div style="margin-top: 50px; margin-left: 30px;" class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>    
                     <div class="field button-field">
                         <button>Đăng nhập</button>
                     </div>
@@ -82,7 +82,7 @@
                         <label for="phone-number">Nhập số điện thoại</label>
                         <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input" required>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
+                    <div style="margin-top: 50px; margin-left: 30px;" class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
                     <div class="field button-field">
                         <button type="submit">Đăng ký</button>
                     </div>
@@ -103,7 +103,7 @@
                         <label for="username">Nhập email</label>
                         <input type="email" id="email" name="email" placeholder="Enter Email" class="input" required>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
+                    <div style="margin-top: 50px; margin-left: 30px;" class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
                     <div class="field button-field">
                         <button type="submit">Send</button>
                     </div>
