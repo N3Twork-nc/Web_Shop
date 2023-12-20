@@ -21,6 +21,9 @@
             // check thiếu data
 
             if($this->validateNull($data)){
+                if(empty($data["csrf_token_staff"])){
+                    return "Lỗi";
+                }
                 echo "Vui lòng nhập đủ thông tin";
                 return;
             }
@@ -40,7 +43,8 @@
                 $staff_data = array(
                     "username" => $_POST['username'],
                     "password" => $_POST['password'],
-                    "role" => $_POST['role']
+                    "role" => $_POST['role'],
+                    "csrf_token_staff" => $_POST['csrf_token_staff']
                 );
                 $this->access = true;
                 $staff_data = array_map('trim', $staff_data);
@@ -52,17 +56,21 @@
 
                 $check = $this->validationStaff($staff_data);
                 if($check == "validated"){
-                    $data_password['password'] = $staff_data['password'];
-                    $data_password['retype_password'] = $staff_data['password'];
-                    $err = $this->checkStrongPassword($data_password);
-                    if($err != "validated"){
+                    if($staff_data['csrf_token_staff'] == $_SESSION['csrf_token_staff'] && !empty($staff_data['csrf_token_staff'])){
+                        $data_password['password'] = $staff_data['password'];
+                        $data_password['retype_password'] = $staff_data['password'];
+                        $err = $this->checkStrongPassword($data_password);
+                        if($err != "validated"){
+                            echo $err;
+                            return;
+                        }
+                        $staff_data['password'] = hash('sha256', $staff_data['password']);
+                        $model = $this->model("Admin");
+                        $err = $model->AddStaff($staff_data);
                         echo $err;
-                        return;
+                    }else{
+                        echo "Lỗi";
                     }
-                    $staff_data['password'] = hash('sha256', $staff_data['password']);
-                    $model = $this->model("Admin");
-                    $err = $model->AddStaff($staff_data);
-                    echo $err;
                 }
                 else{
                     echo $check;
@@ -75,7 +83,8 @@
     
                 $staff_data = array(
                     "username" => $_POST['username'],
-                    "role" => $_POST['role']
+                    "role" => $_POST['role'],
+                    "csrf_token_staff" => $_POST['csrf_token_staff']
                 );
                 $this->access = true;
                 $staff_data = array_map('trim', $staff_data);
@@ -86,22 +95,26 @@
                     return;
                 }
                 if($check == "validated"){
-                    $model = $this->model("Admin");
+                    if($staff_data['csrf_token_staff'] == $_SESSION['csrf_token_staff'] && !empty($staff_data['csrf_token_staff'])){
+                        $model = $this->model("Admin");
 
-                    $user = $model->FindAdmin($staff_data['username']);
+                        $user = $model->FindAdmin($staff_data['username']);
 
-                    if($user->getRole() == 'admin'){
-                        echo "Không có quyền sửa admin";
-                    }
-                    else{
-                        if(empty($user->getUsername())){
-                            echo "User không tồn tại!";
+                        if($user->getRole() == 'admin'){
+                            echo "Không có quyền sửa admin";
                         }
                         else{
-                            $err = $model->EditStaff($staff_data);
-                            echo $err;
+                            if(empty($user->getUsername())){
+                                echo "User không tồn tại!";
+                            }
+                            else{
+                                $err = $model->EditStaff($staff_data);
+                                echo $err;
+                            }
                         }
-                    }
+                    }else{
+                        echo "Lỗi";
+                    }   
                 }
                 else{
                     echo $check;
@@ -114,7 +127,8 @@
     
                 $staff_data = array(
                     "username" => $_POST['username'],
-                    "password" => $_POST['password']
+                    "password" => $_POST['password'],
+                    "csrf_token_staff" => $_POST['csrf_token_staff']
                 );
                 $this->access = true;
                 $staff_data = array_map('trim', $staff_data);
@@ -122,30 +136,33 @@
                 $check = $this->validationStaff($staff_data);
 
                 if($check == "validated"){
-                    
-                    $model = $this->model("Admin");
+                    if($staff_data['csrf_token_staff'] == $_SESSION['csrf_token_staff'] && !empty($staff_data['csrf_token_staff'])){
+                        $model = $this->model("Admin");
 
-                    $user = $model->FindAdmin($staff_data['username']);
+                        $user = $model->FindAdmin($staff_data['username']);
 
-                    if($user->getRole() == 'admin'){
-                        echo "Không có quyền reset password admin";
-                    }
-                    else{
-                        if(empty($user->getUsername())){
-                            echo "User không tồn tại!";
+                        if($user->getRole() == 'admin'){
+                            echo "Không có quyền reset password admin";
                         }
                         else{
-                            $data_password['password'] = $staff_data['password'];
-                            $data_password['retype_password'] = $staff_data['password'];
-                            $err = $this->checkStrongPassword($data_password);
-                            if($err != "validated"){
-                                echo $err;
-                                return;
+                            if(empty($user->getUsername())){
+                                echo "User không tồn tại!";
                             }
+                            else{
+                                $data_password['password'] = $staff_data['password'];
+                                $data_password['retype_password'] = $staff_data['password'];
+                                $err = $this->checkStrongPassword($data_password);
+                                if($err != "validated"){
+                                    echo $err;
+                                    return;
+                                }
                             $staff_data['password'] = hash('sha256', $staff_data['password']);
                             $err = $model->ResetPassword($staff_data);
                             echo $err;
+                            }
                         }
+                    }else{
+                        echo "Lỗi";
                     }
                 }
                 else{
@@ -159,29 +176,39 @@
     
                 $staff_data = array(
                     "username" => $_POST['username'],
+                    "csrf_token_staff" => $_POST['csrf_token_staff']
                 );
                 $this->access = true;
                 $staff_data = array_map('trim', $staff_data);
 
+                $staff_data['csrf_token_staff'] = $_POST['csrf_token_staff'];
+                if(empty($staff_data['csrf_token_staff'])){
+                    echo "Lỗi";
+                    return;
+                }
+
                 $check = $this->validationStaff($staff_data);
 
                 if($check == "validated"){
-                    
-                    $model = $this->model("Admin");
+                    if($staff_data['csrf_token_staff'] == $_SESSION['csrf_token_staff'] && !empty($staff_data['csrf_token_staff'])){
+                        $model = $this->model("Admin");
 
-                    $user = $model->FindAdmin($staff_data['username']);
+                        $user = $model->FindAdmin($staff_data['username']);
 
-                    if($user->getRole() == 'admin'){
-                        echo "Không có quyền xóa admin";
-                    }
-                    else{
-                        if(empty($user->getUsername())){
-                            echo "User không tồn tại!";
+                        if($user->getRole() == 'admin'){
+                            echo "Không có quyền xóa admin";
                         }
                         else{
-                            $err = $model->DeleteStaff($staff_data);
-                            echo $err;
+                            if(empty($user->getUsername())){
+                                echo "User không tồn tại!";
+                            }
+                            else{
+                                $err = $model->DeleteStaff($staff_data);
+                                echo $err;
+                            }
                         }
+                    }else{
+                        echo "Lỗi";
                     }
                 }
                 else{
