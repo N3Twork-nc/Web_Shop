@@ -186,7 +186,7 @@
                         echo "Lỗi";
                     }
                     else{
-                        if($product_data['csrf_token_cart'] == $_SESSION['csrf_token_cart'] && !empty($data['csrf_token_cart'])){
+                        if($product_data['csrf_token_cart'] == $_SESSION['csrf_token_cart'] && !empty($product_data['csrf_token_cart'])){
                             // unset($_SESSION['csrf_token_cart']);
 
                             if($action == 'increase'){
