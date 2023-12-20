@@ -139,5 +139,8 @@
         }
     })
     });
+
+    const link = document.querySelector(".infomationUser");
+    link.classList.add('active');
    
 </script>

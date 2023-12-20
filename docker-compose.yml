@@ -74,3 +74,10 @@ services:
     volumes:
       - "./src/webshopping:/var/www/html/"
       - "./src/webadmin/public/products:/var/www/html/public/products"
+  vul:
+    build: ./src/vul
+    restart: 'always'
+    ports:
+      - "8099:80"
+    volumes:
+      - "./src/vul:/var/www/html/"

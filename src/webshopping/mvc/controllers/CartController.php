@@ -111,13 +111,29 @@
                         echo "Không tồn tại mã sản phẩm";
                     }
                     else{
-                        $product_data['total_price'] = $price[0] * $product_data['quantity'];
-                        $err = $model->AddProduct($product_data);
-                        if($err != "done"){
-                            echo $err;
+                        $quantity = $model->FindQuantity($product_data);
+                        if(empty($quantity)){
+                            $product_data['total_price'] = $price[0] * $product_data['quantity'];
+                            $err = $model->AddProduct($product_data);
+                            if($err != "done"){
+                                echo $err;
+                            }
+                            else{
+                                echo "done";
+                            }
                         }
                         else{
-                            echo "done";
+                            $quantity[0] += $product_data['quantity'];
+                            $total_price = $quantity[0] * $price[0];
+                            $product_data['quantity'] = $quantity[0];
+                            $product_data['total_price'] = $total_price;
+                            $err =  $model->ChangeQuantityAndPrice($product_data);
+                            if($err != "done"){
+                                echo $err;
+                            }
+                            else{
+                                echo "done";
+                            }
                         }
                     } 
                 }

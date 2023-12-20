@@ -9,13 +9,13 @@
                             </div>
                             <div class="order-sidemenu__menu">
                                 <ul class="menu_side">
-                                    <li class="active">
+                                    <li class="infomationUser">
                                         <a href="/Customer/"><span class="fa fa-user"></span>Thông tin tài khoản</a>
                                     </li>
-                                    <li class="">
+                                    <li class="ManagementUser">
                                         <a href="/Customer/Order"><span class="fa fa-file"></span>Quản lý đơn hàng</a>
                                     </li>
-                                    <li class="">
+                                    <li class="ChangePassword">
                                         <a href="/Customer/ResetPassword"><span class="fa fa-key"></span>Đổi mật khẩu</a>
                                     </li>
                                 </ul>
