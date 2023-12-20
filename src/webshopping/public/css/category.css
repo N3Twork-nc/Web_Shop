@@ -270,34 +270,28 @@ label:focus .custom-square {
 
 .pagination {
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.pagination li {
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.pagination li:last-child {
-    margin-right: 0;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+    left: 38%;
 }
 
 .pagination a {
+    color: #333;
+    padding: 8px 12px;
     text-decoration: none;
-    color: black;
-    border: 1px solid #dddddd;
-    padding: 5px 10px;
-    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 .pagination a:hover {
-    background-color: black;
-    color: white;
+    background-color: #ddd;
 }
 
-.pagination .current {
+.pagination a.active {
     background-color: black;
     color: white;
+    border: 1px solid black;
 }

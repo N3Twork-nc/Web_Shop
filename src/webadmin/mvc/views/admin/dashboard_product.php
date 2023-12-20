@@ -465,7 +465,8 @@ $(document).ready(function () {
             var sizeL = row.find('p[data-label="SizeL"]').text();
             var sizeXL = row.find('p[data-label="SizeXL"]').text();
             var sizeXXL = row.find('p[data-label="SizeXXL"]').text();
-            var moTaSP = row.find('td[data-label="MoTaSP"]').text();
+            var moTaSP = row.find('td[data-label="MoTaSP"]').text().trim();
+            moTaSP = moTaSP.replace(/\s*Xem thêm\s*/g, ''); //
             var hinhSP =  row.find('td[data-label="HinhSP"]').find('img').attr('src');
             var hinhSP2 = row.find('td[data-label="HinhSP2"]').find('img').attr('src');
             var hinhSP3 = row.find('td[data-label="HinhSP3"]').find('img').attr('src');
@@ -671,6 +672,11 @@ $(document).ready(function () {
             descriptionDiv.innerHTML = truncatedText + '<span class="hidden-text">' + fullText.slice(maxLength) + '</span>';
             const hiddenText = descriptionDiv.querySelector('.hidden-text');
             hiddenText.style.display = 'none';
+            if (fullText.length > maxLength) {
+                showMoreBtn.style.display = 'inline'; // Show the button
+            } else {
+                showMoreBtn.style.display = 'none'; // Hide the button
+            }
             showMoreBtn.addEventListener('click', function () {
                 if (hiddenText.style.display === 'none' || hiddenText.style.display === '') {
                     hiddenText.style.display = 'inline';
