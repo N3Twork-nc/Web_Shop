@@ -361,7 +361,7 @@
         orderItemsData.forEach(function(p) {
             var label = p.getAttribute('data-label');
             var value = p.textContent;
-            console.log("Label: " + label + ", Value: " + value);
+            //console.log("Label: " + label + ", Value: " + value);
         });
     });
 });
