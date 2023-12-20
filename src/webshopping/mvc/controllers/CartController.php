@@ -44,12 +44,16 @@
                     $this->countItemInCart = 0;
                 }
             }
+            // parent::__construct();
         }
 
         function validateProduct($data){
             $this->CheckAccess();
 
             if($this->validateNull($data)){
+                //var_dump($data);
+                if(empty($data['csrf_token_product']))
+                    return "Lỗi"; 
                 return "Vui lòng nhập đủ thông tin";
             }
 
@@ -89,7 +93,8 @@
             }
 
             $data["categories"] = $tmp;
-            
+            $data["csrf_token_cart"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_cart"] =  $data["csrf_token_cart"];
             $page = $this->view("cart", $data);
         }
 
@@ -99,43 +104,51 @@
                     'cart_code' => $_SESSION['usr']['cart_code'],
                     'product_code' => $_POST['product_code'],
                     'size' => $_POST['size'],
-                    'quantity' => $_POST['quantity']
+                    'quantity' => $_POST['quantity'],
+                    'csrf_token_product' => $_POST['csrf_token_product']
                 ];
                 $this->access = true;
                 $product_data = array_map('trim', $product_data);
                 $err = $this->validateProduct($product_data);
                 if($err == 'validated'){
-                    $model = $this->model("CartItem");
-                    $price = $model->FindPrice($product_data['product_code']);
-                    if(empty($price)){
-                        echo "Không tồn tại mã sản phẩm";
-                    }
-                    else{
-                        $quantity = $model->FindQuantity($product_data);
-                        if(empty($quantity)){
-                            $product_data['total_price'] = $price[0] * $product_data['quantity'];
-                            $err = $model->AddProduct($product_data);
-                            if($err != "done"){
-                                echo $err;
-                            }
-                            else{
-                                echo "done";
-                            }
+                    if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($data['csrf_token_product'])){
+                        // unset($_SESSION['csrf_token_product']);
+
+                        $model = $this->model("CartItem");
+                        $price = $model->FindPrice($product_data['product_code']);
+                        if(empty($price)){
+                            echo "Không tồn tại mã sản phẩm";
                         }
                         else{
-                            $quantity[0] += $product_data['quantity'];
-                            $total_price = $quantity[0] * $price[0];
-                            $product_data['quantity'] = $quantity[0];
-                            $product_data['total_price'] = $total_price;
-                            $err =  $model->ChangeQuantityAndPrice($product_data);
-                            if($err != "done"){
-                                echo $err;
+                            $quantity = $model->FindQuantity($product_data);
+                            if(empty($quantity)){
+                                $product_data['total_price'] = $price[0] * $product_data['quantity'];
+                                $err = $model->AddProduct($product_data);
+                                if($err != "done"){
+                                    echo $err;
+                                }
+                                else{
+                                    echo "done";
+                                }
                             }
                             else{
-                                echo "done";
+                                $quantity[0] += $product_data['quantity'];
+                                $total_price = $quantity[0] * $price[0];
+                                $product_data['quantity'] = $quantity[0];
+                                $product_data['total_price'] = $total_price;
+                                $err =  $model->ChangeQuantityAndPrice($product_data);
+                                if($err != "done"){
+                                    echo $err;
+                                }
+                                else{
+                                    echo "done";
+                                }
                             }
-                        }
-                    } 
+                        } 
+                    }
+                    else{
+                        echo "Lỗi";
+                    }
                 }
                 else{
                     echo $err;
@@ -148,8 +161,10 @@
                 $product_data = [
                     'cart_code' => $_SESSION['usr']['cart_code'],
                     'product_code' => $_POST['product_code'],
-                    'size' => $_POST['sizeOfProduct']
+                    'size' => $_POST['sizeOfProduct'],
+                    'csrf_token_cart' => $_POST['csrf_token_cart']
                 ];
+
                 $this->access = true;
                 $action = $_POST['actionWithProduct'];
                 $product_data = array_map('trim', $product_data);
@@ -171,27 +186,15 @@
                         echo "Lỗi";
                     }
                     else{
-                        if($action == 'increase'){
-                            $quantity[0] += 1;
-                            $total_price = $quantity[0] * $price[0];
-                            $product_data['quantity'] = $quantity[0];
-                            $product_data['total_price'] = $total_price;
+                        if($product_data['csrf_token_cart'] == $_SESSION['csrf_token_cart'] && !empty($data['csrf_token_cart'])){
+                            // unset($_SESSION['csrf_token_cart']);
 
-                            $err =  $model->ChangeQuantityAndPrice($product_data);
-                            if($err != "done"){
-                                echo $err;
-                            }
-                            else{
-                                echo "done";
-                            }
-                        }
-                        else if($action == 'decrease'){
-                            if($quantity[0] > 1){
-                                $quantity[0] -= 1;
+                            if($action == 'increase'){
+                                $quantity[0] += 1;
                                 $total_price = $quantity[0] * $price[0];
                                 $product_data['quantity'] = $quantity[0];
                                 $product_data['total_price'] = $total_price;
-
+    
                                 $err =  $model->ChangeQuantityAndPrice($product_data);
                                 if($err != "done"){
                                     echo $err;
@@ -200,21 +203,40 @@
                                     echo "done";
                                 }
                             }
-                            else{
-                                echo "Không thể giảm số lượng về 0";
+                            else if($action == 'decrease'){
+                                if($quantity[0] > 1){
+                                    $quantity[0] -= 1;
+                                    $total_price = $quantity[0] * $price[0];
+                                    $product_data['quantity'] = $quantity[0];
+                                    $product_data['total_price'] = $total_price;
+    
+                                    $err =  $model->ChangeQuantityAndPrice($product_data);
+                                    if($err != "done"){
+                                        echo $err;
+                                    }
+                                    else{
+                                        echo "done";
+                                    }
+                                }
+                                else{
+                                    echo "Không thể giảm số lượng về 0";
+                                }
                             }
-                        }
-                        else if($action == 'delete'){
-                            $err =  $model->DeleteProductInCart($product_data);
-                            if($err != "done"){
-                                echo $err;
+                            else if($action == 'delete'){
+                                $err =  $model->DeleteProductInCart($product_data);
+                                if($err != "done"){
+                                    echo $err;
+                                }
+                                else{
+                                    echo "done";
+                                }
                             }
                             else{
-                                echo "done";
+                                //Khi không thỏa trường hợp nào
+                                echo "Lỗi";
                             }
                         }
                         else{
-                            //Khi không thỏa trường hợp nào
                             echo "Lỗi";
                         }
                     }

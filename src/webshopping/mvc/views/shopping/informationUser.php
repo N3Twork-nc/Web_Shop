@@ -46,6 +46,7 @@
                             <p class="alert alert-primary">"Vì chính sách an toàn thẻ, bạn không thể thay đổi gmail."</p>
                             <div class="col-md-7">
                                 <form id="infoForm">
+                                    <input type="hidden" name="csrf_token_informationUser" value="<?php echo $data["csrf_token_informationUser"]; ?>">
                                     <div class="row form-group">
                                         <div class="col col-label">
                                             <label>Họ tên</label>

@@ -51,6 +51,7 @@
                 <div class="delivery-content-left">
                     <p>Địa chỉ giao hàng</p>
                     <form id="MakePaymentForm" action="">
+                        <input type="hidden" name="csrf_token_payment" value="<?php echo $data["csrf_token_payment"]; ?>">
                         <div class="delivery-content-left-input-top row">
                             <?php $province = $data['province'] ?>
                             <div class="delivery-content-left-input-top-item">

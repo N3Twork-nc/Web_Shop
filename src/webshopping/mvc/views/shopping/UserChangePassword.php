@@ -46,6 +46,7 @@
                         <div class="order-block my-account-wrapper row">
                             <div class="col-md-7">
                                 <form id="changePassword">
+                                    <input type="hidden" value="<?php echo $data["csrf_token_resetPassword"]; ?>" name="csrf_token_resetPassword">
                                     <div class="row form-group">
                                         <div class="col col-label">
                                             <label>Nhập mật khẩu cũ</label>

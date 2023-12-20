@@ -59,7 +59,8 @@
             }
 
             $data["categories"] = $tmp;
-
+            $data["csrf_token_product"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_product"] =  $data["csrf_token_product"];
             //var_dump($data["product"]);
             $this->view($page, $data);
         }

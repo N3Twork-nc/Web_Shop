@@ -75,6 +75,8 @@
             $data["categories"] = $tmp;
             $data['countItemInCart'] = $this->countItemInCart;
 
+            $data["csrf_token_payment"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_payment"] =  $data["csrf_token_payment"];
             $page = $this->view("delivery", $data);
         }
 
@@ -96,43 +98,56 @@
                     'provinceText' => $_POST['provinceText'],
                     'districtText' => $_POST['districtText'],
                     'wardText' => $_POST['wardText'],
-                    'address' => $_POST['address']
+                    'address' => $_POST['address'],
+                    'csrf_token_payment' => $_POST['csrf_token_payment']
                 ];
                 $data = array_map('trim', $data);
                 $this->access = true;
                 if($this->validateNull($data)){
-                    echo "Vui lòng nhập đủ thông tin";
+                    if(empty($data['csrf_token_payment'])){
+                        echo "Lỗi";
+                    }
+                    else{
+                        echo "Vui lòng nhập đủ thông tin";
+                    }
                 }else{
                     if($this->validatedStr($data)){
                         echo "Dữ liệu không được chứa kí tự đặc biệt";
                     }
                     else{
-                        $tmp['cart_code'] = $_SESSION['usr']['cart_code'];
-                        $model = $this->model("CartItem");
-                        $data_cart = $model->LoadCartItem($tmp);
+                        if($data['csrf_token_payment'] == $_SESSION['csrf_token_payment'] && !empty($data['csrf_token_payment'])){
+                            // unset($_SESSION['csrf_token_payment']);
 
-                        if (is_array($data_cart)) {
-                            $total_price = 0;
+                            $tmp['cart_code'] = $_SESSION['usr']['cart_code'];
+                            $model = $this->model("CartItem");
+                            $data_cart = $model->LoadCartItem($tmp);
 
-                            foreach($data_cart as $each){
-                                $total_price += $each->getTotal_price();
+                            if (is_array($data_cart)) {
+                                $total_price = 0;
+
+                                foreach($data_cart as $each){
+                                    $total_price += $each->getTotal_price();
+                                }
+
+                                $order_code = $this->generateOrderCode(8) . time();
+
+                                $address = $data['address'] . ", " . $data['wardText'] . ", " . $data['districtText'] . ", " . $data['provinceText'];
+                                $data_order['address'] = $address;
+                                $data_order['email'] = $_SESSION['usr']['email'];
+                                $data_order['cart_code'] = $_SESSION['usr']['cart_code'];
+                                $data_order['order_code'] = $order_code;
+                                $data_order['total_price'] = $total_price;
+                                $data_order['orderItem'] = $data_cart;
+
+                                $model = $this->model("Order");
+                                $err = $model->MoveCartToOrder($data_order);
+                                echo $err;
+                            } else {
+                                echo "Lỗi trong quá trình tạo đơn hàng";
                             }
-
-                            $order_code = $this->generateOrderCode(8) . time();
-
-                            $address = $data['address'] . ", " . $data['wardText'] . ", " . $data['districtText'] . ", " . $data['provinceText'];
-                            $data_order['address'] = $address;
-                            $data_order['email'] = $_SESSION['usr']['email'];
-                            $data_order['cart_code'] = $_SESSION['usr']['cart_code'];
-                            $data_order['order_code'] = $order_code;
-                            $data_order['total_price'] = $total_price;
-                            $data_order['orderItem'] = $data_cart;
-
-                            $model = $this->model("Order");
-                            $err = $model->MoveCartToOrder($data_order);
-                            echo $err;
-                        } else {
-                            echo "Lỗi trong quá trình tạo đơn hàng";
+                        }
+                        else{
+                            echo "Lỗi";
                         }
                     }
                 }
