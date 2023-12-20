@@ -111,7 +111,7 @@
                 $product_data = array_map('trim', $product_data);
                 $err = $this->validateProduct($product_data);
                 if($err == 'validated'){
-                    if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($data['csrf_token_product'])){
+                    if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($product_data['csrf_token_product'])){
                         // unset($_SESSION['csrf_token_product']);
 
                         $model = $this->model("CartItem");
