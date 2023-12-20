@@ -51,7 +51,7 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                        <?php foreach($data as $customer): ?>
+                        <?php foreach($data['customer'] as $customer): ?>
                             <tr>
                                 <td data-label="Username"><?php echo $customer->getEmail(); ?></td>
                                 <td data-label="HoTen"><?php echo $customer->getFull_name(); ?></td>
@@ -72,7 +72,7 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CustomerForm">
-
+                        <input type="hidden" name="csrf_token_customer" value="<?php echo $data['csrf_token_customer']; ?>">
                         <input style="color: black" type="text" id="Email" name="Email" hidden>
 
                         <label for="NameCustomer">Tên khách hàng:</label>

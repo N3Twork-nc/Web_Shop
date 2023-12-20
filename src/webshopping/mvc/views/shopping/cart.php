@@ -81,6 +81,7 @@
                                         <div class="quantity-container">
                                             <button class="decrement quantity-update" style="width: 30px;border-radius: 5px;background: #f9f5f3;"
                                                 data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                                csrf-token="<?php echo $data["csrf_token_cart"]; ?>"
                                                 data-size="<?php echo $cart->getSize(); ?>">-</button>
                                             <div class="quantity"
                                                 id="quantity_<?php echo $cart->getProduct()->getProduct_code(); ?>_<?php echo $cart->getSize(); ?>">
@@ -88,6 +89,7 @@
                                             </div>
                                             <button class="increment quantity-update" style="width: 30px;border-radius: 5px;background: #f9f5f3;"
                                                 data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                                csrf-token="<?php echo $data["csrf_token_cart"]; ?>"
                                                 data-size="<?php echo $cart->getSize(); ?>">+</button>
                                         </div>
                                     </td>
@@ -96,7 +98,8 @@
                                     </td>
                                     <td class="delete-button-cell">
                                        <p> <button class="deleteProduct quantity-update" style="font-size: 14px;font-weight: bold;padding: 5px 10px;background: #f00b0b;color: white;border-radius: 4px;border: red;"
-                                        data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>" 
+                                        data-id="<?php echo $cart->getProduct()->getProduct_code(); ?>"
+                                        csrf-token="<?php echo $data["csrf_token_cart"]; ?>"
                                         data-size="<?php echo $cart->getSize(); ?>">X</button></p>
                                     </td>
                             </tr>
@@ -223,6 +226,7 @@
             button.addEventListener('click', function () {
                 var productCode = button.getAttribute('data-id');
                 var size = button.getAttribute('data-size');
+                var csrf_token_cart = button.getAttribute('csrf-token');
 
                 if (button.classList.contains('increment')) {
                       // Điền dữ liệu vào form
@@ -230,7 +234,8 @@
                     let data = {
                         product_code: productCode,
                         sizeOfProduct: size,
-                        actionWithProduct: actionWithProduct
+                        actionWithProduct: actionWithProduct,
+                        csrf_token_cart: csrf_token_cart
                     };
                     submitForm(data);
                 } else if (button.classList.contains('decrement')) {
@@ -239,7 +244,8 @@
                     let data = {
                         product_code: productCode,
                         sizeOfProduct: size,
-                        actionWithProduct: actionWithProduct
+                        actionWithProduct: actionWithProduct,
+                        csrf_token_cart: csrf_token_cart
                     };
                     submitForm(data);
                 } else if(button.classList.contains('deleteProduct')){
@@ -247,7 +253,8 @@
                     let data = {
                         product_code: productCode,
                         sizeOfProduct: size,
-                        actionWithProduct: actionWithProduct
+                        actionWithProduct: actionWithProduct,
+                        csrf_token_cart: csrf_token_cart
                     };
                     submitForm(data);
                 }

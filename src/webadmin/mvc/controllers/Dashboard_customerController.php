@@ -10,8 +10,9 @@
         }
         function Show(){
             $model = $this->model("Customer");
-            $data = $model->LoadCustomers();
-            //var_dump($data[0]);
+            $data['customer'] = $model->LoadCustomers();
+            $data["csrf_token_customer"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_customer"] =  $data["csrf_token_customer"];
             $page = $this->view("dashboard_customer", $data);
         }
 
@@ -20,6 +21,9 @@
             // check thiếu data
 
             if($this->validateNull($data)){
+                if($data["csrf_token_customer"]){
+                    return "Lỗi";
+                }
                 return "Vui lòng nhập đủ thông tin";
             }
             $arr_Number['phone'] = $data['phone'];
@@ -55,16 +59,22 @@
                 $customer_data = array(
                     "full_name" => $_POST['TenKhachHang'],
                     "email" => $_POST['Email'],
-                    "phone" => $_POST['SDT']
+                    "phone" => $_POST['SDT'],
+                    "csrf_token_customer" => $_POST['csrf_token_customer']
                 );
                 $this->access = true;
                 $customer_data = array_map('trim', $customer_data);
 
                 $res = $this->validationCustomer($customer_data);
                 if($res == "validated"){
-                    $model = $this->model("Customer");
-                    $err = $model->EditCustomer($customer_data);
-                    echo $err;
+                    if($customer_data['csrf_token_customer'] == $_SESSION['csrf_token_customer'] && !empty($customer_data['csrf_token_customer'])){
+                        $model = $this->model("Customer");
+                        $err = $model->EditCustomer($customer_data);
+                        echo $err;
+                    }
+                    else{
+                        echo "Lỗi";
+                    }
                 }
                 else {
                     echo $res;

@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                    <?php foreach($data as $category): ?>
+                    <?php foreach($data['categories'] as $category): ?>
                             <tr>
                                 <td><?php echo $category->getCategory_id(); ?></td>
                                 <td><?php echo $category->getName(); ?> </td>
@@ -78,6 +78,7 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="CategoryForm">
+                        <input type="hidden" id="csrf_token_category" name="csrf_token_category" value="<?php echo $data["csrf_token_category"]; ?>">
                         <label for="CategoryID" id="labelCategoryID" style="display: none;">ID danh mục:</label>
                         <input style="color: black" type="text" id="CategoryID" name="CategoryID" required disabled hidden readonly>
                         
@@ -86,7 +87,7 @@
 
                         <label for="OrderName">Tên danh mục cha:</label>
                         <select name="CategoryParentID" id="CategoryParentID" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
-                            <?php foreach($data as $each): ?>
+                            <?php foreach($data['categories'] as $each): ?>
                                 <?php if($each->getParent_category_id() == null): ?>
                                     <option value="<?php echo $each->getCategory_id(); ?>"><?php echo $each->getName(); ?></option>
                                 <?php endif; ?>
@@ -120,6 +121,8 @@
     const table2 = document.querySelector('#myTable');
     const category_id = modal.querySelector('#CategoryID');
     const category_name = modal.querySelector('#CategoryName');
+    const csrf_token_category_form = modal.querySelector('#csrf_token_category');
+
     const category_parent_id = modal.querySelector('#CategoryParentID');
     const optionCategoryParentID = category_parent_id.querySelectorAll('option');
     let action = ''
@@ -259,6 +262,7 @@ table2.addEventListener('click', function(event) {
     const row = event.target.closest('tr');
     const category_id = row.cells[0].textContent.trim();
     const parent_name = row.cells[2].textContent.trim();
+    const csrf_token_category = csrf_token_category_form.value;
     if(parent_name === 'none'){
         Swal.fire({
             title: 'Bạn không thể xóa danh mục này',
@@ -280,7 +284,9 @@ table2.addEventListener('click', function(event) {
       $.ajax({
         url: '/Dashboard_category/DeleteCategory',
         type: 'POST',
-        data: { category_id: category_id },
+        data: { category_id: category_id,
+            csrf_token_category: csrf_token_category
+        },
         success: function(response) {
           if (response.trim() == "done") {
             Swal.fire(

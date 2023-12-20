@@ -79,6 +79,7 @@
                     <form id="ProductForm">
                         <!-- Ở dòng này có thêm product_code là vì ở trên là thẻ p dùng để in dữ liệu nên viết thêm này ẩn đi để
                         backend dễ lấy data đi hơn -->
+                        <input type="hidden" name="csrf_token_product" value="<?php echo $data['csrf_token_product']; ?>">
                         <input type="hidden" name="product_code" value="<?php echo $product->getProduct_code(); ?>">
                         <input type="hidden" id="cart_code" value="<?php echo isset($_SESSION['usr']['cart_code']) ? $_SESSION['usr']['cart_code'] :  ""; ?>">
                         <!-- Ở phần này vì chưa có hiệu ứng click để select ra border nên đã viết thêm để ng dùng có thể biết mình đang

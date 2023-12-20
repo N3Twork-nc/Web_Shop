@@ -11,7 +11,9 @@
 
         function Show(){
             $model = $this->model("Category");
-            $data = $model->LoadCategories();
+            $data['categories'] = $model->LoadCategories();
+            $data["csrf_token_category"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_category"] =  $data["csrf_token_category"];
             $page = $this->view("dashboard_category", $data);
         }
 
@@ -21,6 +23,8 @@
 
             // check thiếu data
             if($this->validateNull($data)){
+                if(empty($data['csrf_token_category']))
+                    return "Lỗi";
                 return "Vui lòng nhập đủ thông tin";
             }
 
@@ -48,17 +52,22 @@
     
                 $category_data = array(
                     "category_name" => $_POST['CategoryName'],
-                    "category_parent_id" => $_POST['CategoryParentID']
+                    "category_parent_id" => $_POST['CategoryParentID'],
+                    'csrf_token_category' => $_POST['csrf_token_category']
                 );
                 
                 $category_data = array_map('trim', $category_data);
 
                 $check = $this->ValidateData($category_data);
                 if($check == "validated"){
-                    
+                    if($category_data['csrf_token_category'] == $_SESSION['csrf_token_category'] && !empty($category_data['csrf_token_category'])){
                         $model = $this->model("Category");
                         $err = $model->InsertCategory($category_data);
                         echo $err;
+                    }
+                    else{
+                        echo "Lỗi";
+                    }
                 }
                 else{
                     echo $check;
@@ -74,20 +83,26 @@
                 $category_data = array(
                     "category_id" => $_POST['CategoryID'],
                     "category_name" => $_POST['CategoryName'],
-                    "category_parent_id" => $_POST['CategoryParentID']
+                    "category_parent_id" => $_POST['CategoryParentID'],
+                    'csrf_token_category' => $_POST['csrf_token_category']
                 );
 
                 $category_data = array_map('trim', $category_data);
                     
                 $check = $this->ValidateData($category_data);
                 if($check == "validated"){
-                    if($category_data["category_id"] <= 4){
-                        echo "Không được sửa danh mục cha";
+                    if($category_data['csrf_token_category'] == $_SESSION['csrf_token_category'] && !empty($category_data['csrf_token_category'])){
+                        if($category_data["category_id"] <= 4){
+                            echo "Không được sửa danh mục cha";
+                        }
+                        else if($category_data["category_id"] > 4){
+                            $model = $this->model("Category");
+                            $err = $model->EditCategory($category_data);
+                            echo $err;
+                        }
                     }
-                    else if($category_data["category_id"] > 4){
-                        $model = $this->model("Category");
-                        $err = $model->EditCategory($category_data);
-                        echo $err;
+                    else{
+                        echo "Lỗi";
                     }
                 }
                 else{
@@ -105,19 +120,29 @@
 
                 $check = $this->validateNumber($category_data);
                 $category_data = array_map('trim', $category_data);
-                
+
+                $category_data['csrf_token_category'] = $_POST['csrf_token_category'];
+                if(empty($category_data['csrf_token_category'])){
+                    echo "Lỗi";
+                    return;
+                }
                 if($check == false){
-                    if($category_data["category_id"] <= 4){
-                        echo "Không được xóa danh mục cha";
+                    if($category_data['csrf_token_category'] == $_SESSION['csrf_token_category'] && !empty($category_data['csrf_token_category'])){
+                        if($category_data["category_id"] <= 4){
+                            echo "Không được xóa danh mục cha";
+                        }
+                        else if($category_data["category_id"] > 4){
+                            $model = $this->model("Category");
+                            $err = $model->DeleteCategory($category_data);
+                            echo $err;
+                        }
                     }
-                    else if($category_data["category_id"] > 4){
-                        $model = $this->model("Category");
-                        $err = $model->DeleteCategory($category_data);
-                        echo $err;
+                    else{
+                        echo "Lỗi";
                     }
                     }
                 else{
-                    echo $check;
+                    echo "Lỗi";
                 }
             }
         }

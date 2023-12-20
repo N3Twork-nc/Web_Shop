@@ -30,12 +30,6 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-
-                        <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
-                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
-                                Thêm sản phẩm
-                            </button> 
-                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -78,7 +72,7 @@
                                 <i class="fa fa-paypal"></i>
                             </td>
                         </tr> -->
-                        <?php foreach($data as $order): ?>
+                        <?php foreach($data['order'] as $order): ?>
                             <tr>
                                 <td data-label="MaDon"><?php echo $order->getOrder_code(); ?></td>
                                 <td data-label="NgayDat"><?php echo $order->getOrder_date(); ?></td>
@@ -147,6 +141,8 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="OrderForm">
+                        <!-- không xóa phần này -->
+                        <input type="hidden" id="csrf_token_order" value="<?php echo $data["csrf_token_order"]; ?>">
                         <label for="OrderCode">Mã đơn:</label>
                         <input style="color: black" type="text" id="MaDonHang" name="MaDonHang" required>
 
@@ -214,6 +210,7 @@
     const btnEdit = document.getElementById("submitBtn");
     const cancelBtn = document.getElementById("cancelBtn");
     const tbody = document.getElementById("tbody");
+    const csrf_token_form = document.getElementById("csrf_token_order");
 
     const table2 = document.querySelector('#myTable');
     let isEditing = false;
@@ -231,6 +228,7 @@
     function popUp(title, icon, confirmText, cancelText, method, successText){
             const row = event.target.closest('tr');
             const order_code = row.cells[0].textContent.trim();
+            const csrf_token_order = csrf_token_form.value;
             Swal.fire({
                 title: title,
                 icon: icon,
@@ -245,7 +243,9 @@
                 $.ajax({
                     url: '/Dashboard_order/' + method,
                     type: 'POST',
-                    data: { order_code: order_code },
+                    data: { order_code: order_code,
+                        csrf_token_order: csrf_token_order
+                    },
                     success: function(response) {
                     if (response.trim() == "done") {
                         Swal.fire(

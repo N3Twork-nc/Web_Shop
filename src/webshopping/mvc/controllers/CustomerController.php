@@ -62,7 +62,8 @@
 
             //var_dump($this->customer);
             $data['info'] =$this->customer;
-
+            $data["csrf_token_informationUser"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_informationUser"] =  $data["csrf_token_informationUser"];
             $page = $this->view("informationUser", $data);
         }
 
@@ -127,6 +128,8 @@
             }
 
             $data["categories"] = $tmp;
+            $data["csrf_token_resetPassword"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_resetPassword"] =  $data["csrf_token_resetPassword"];
             $page = $this->view("UserChangePassword", $data);
         }
 
@@ -135,6 +138,9 @@
             // check thiếu data
 
             if($this->validateNull($data)){
+                if(empty($data['csrf_token_informationUser'])){
+                    return "Lỗi";
+                }
                 return "Vui lòng nhập đủ thông tin";
             }
             $arr_Number['phone'] = $data['phone'];
@@ -159,7 +165,8 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     'full_name' => $_POST['fullName'],
-                    'phone' => $_POST['phone']
+                    'phone' => $_POST['phone'],
+                    'csrf_token_informationUser' => $_POST['csrf_token_informationUser']
                 ];
                 $this->access = true;
                 $customer_data = array_map('trim', $data);
@@ -167,9 +174,15 @@
                 $res = $this->validationCustomer($customer_data);
 
                 if($res == "validated"){
-                    $customer_data['email'] = $_SESSION['usr']['email'];
-                    $model = $this->model("Customer");
-                    $data = $model->EditCustomer($customer_data);
+                    if($data['csrf_token_informationUser'] == $_SESSION['csrf_token_informationUser'] && !empty($data['csrf_token_informationUser'])){
+
+                        $customer_data['email'] = $_SESSION['usr']['email'];
+                        $model = $this->model("Customer");
+                        $data = $model->EditCustomer($customer_data);
+                    }
+                    else{
+                        echo "Lỗi";
+                    }
                 }
                 else{
                     echo $res;
@@ -182,43 +195,55 @@
                 $data = [
                     'old_password' => $_POST['old_password'],
                     'new_password' => $_POST['new_password'],
-                    'retype_new_password' => $_POST['retype_new_password']
+                    'retype_new_password' => $_POST['retype_new_password'],
+                    'csrf_token_resetPassword' => $_POST['csrf_token_resetPassword']
                 ];
                 $customer_data = array_map('trim', $data);
 
                 if($this->validateNull($data)){
-                    echo "Vui lòng nhập đủ thông tin";
+                    if(empty($data['csrf_token_resetPassword'])){
+                        echo "Lỗi";
+                    }
+                    else{
+                        echo "Vui lòng nhập đủ thông tin";
+                    }
                 }
                 else{
-                    $pass_hash = hash('sha256', $data['old_password']);
-                    $dataAccount[] = $_SESSION['usr']['email'];
-                    $dataAccount[] = $pass_hash;
-                    $model = $this->model("Customer");
-                    $result = $model->checkAccount($dataAccount);
-                    if(!empty($result)){
-                        $data_pass['password'] = $data['new_password'];
-                        $data_pass['retype_password'] = $data['retype_new_password'];
-                        $err = $this->checkStrongPassword($data_pass);
-                        if($err != "validated"){
-                            echo $err;
-                        }
-                        else{
-                            $pass_new_hash = hash('sha256', $data['new_password']);
-                            $data_new['email'] = $_SESSION['usr']['email'];
-                            $data_new['password'] = $pass_new_hash;
-    
-                            $model = $this->model("Customer");
-                            $err = $model->ResetPassword($data_new);
-                            if($err != "done"){
+                    if($data['csrf_token_resetPassword'] == $_SESSION['csrf_token_resetPassword'] && !empty($data['csrf_token_resetPassword'])){
+
+                        $pass_hash = hash('sha256', $data['old_password']);
+                        $dataAccount[] = $_SESSION['usr']['email'];
+                        $dataAccount[] = $pass_hash;
+                        $model = $this->model("Customer");
+                        $result = $model->checkAccount($dataAccount);
+                        if(!empty($result)){
+                            $data_pass['password'] = $data['new_password'];
+                            $data_pass['retype_password'] = $data['retype_new_password'];
+                            $err = $this->checkStrongPassword($data_pass);
+                            if($err != "validated"){
                                 echo $err;
                             }
                             else{
-                                echo "done";
-                            }
-                        }   
+                                $pass_new_hash = hash('sha256', $data['new_password']);
+                                $data_new['email'] = $_SESSION['usr']['email'];
+                                $data_new['password'] = $pass_new_hash;
+        
+                                $model = $this->model("Customer");
+                                $err = $model->ResetPassword($data_new);
+                                if($err != "done"){
+                                    echo $err;
+                                }
+                                else{
+                                    echo "done";
+                                }
+                            }   
+                        }
+                        else{
+                            echo "Sai mật khẩu cũ";
+                        }
                     }
                     else{
-                        echo "Sai mật khẩu cũ";
+                        echo "Lỗi";
                     }
                 }
 
