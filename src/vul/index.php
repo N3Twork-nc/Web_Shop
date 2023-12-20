@@ -39,3 +39,33 @@
 <input style="color: black" type="text" value="07078885551" id="SDT" name="SDT">
 <button type="submit" id="submitBtn">Thêm</button>
 </form>
+<form action="http://localhost:8090/Dashboard_staff/EditStaff" method="post">
+    <input type="text" name="csrf_token_staff" value="csrf_token_staff">
+    <input style="color: black" type="text" value="teo" id="username" name="username">
+    <select name="role" id= "role" required>
+        <option value="staff">staff</option>
+        <option value="manager">manager</option>
+    </select>   
+    <button type="submit" id="submitBtn">Thêm</button>
+</form>
+<form action="http://localhost:8090/Dashboard_staff/AddStaff" method="post">
+    <input type="text" name="csrf_token_staff" value="csrf_token_staff">
+    <input style="color: black" type="text" value="teo2" id="username" name="username">
+    <input style="color: black" type="password" value="1234" id="password" name="password">
+    <select name="role" id= "role" required>
+        <option value="staff">staff</option>
+        <option value="manager">manager</option>
+    </select>   
+    <button type="submit" id="submitBtn">Thêm</button>
+</form>
+<form action="http://localhost:8090/Dashboard_staff/DeleteStaff" method="post">
+    <input type="text" name="csrf_token_staff" value="csrf_token_staff">
+    <input style="color: black" type="text" value="teo2" id="username" name="username">
+    <button type="submit" id="submitBtn">Cập nhật</button>
+</form>
+<form action="http://localhost:8090/Dashboard_staff/ResetPassword" method="post">
+    <input type="text" name="csrf_token_staff" value="csrf_token_staff">
+    <input style="color: black" type="text" value="teo2" id="username" name="username">
+    <input style="color: black" type="password" value="Bb@04122002" id="password" name="password">
+    <button type="submit" id="submitBtn">Cập nhật</button>
+</form>

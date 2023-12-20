@@ -75,6 +75,7 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="StaffForm">
+                        <input type="hidden" id="csrf_token_staff" name="csrf_token_staff" value="<?php echo $data['csrf_token_staff']; ?>">
                         <label for="UsernameID" id = "labelUsernameID">Username</label>
                         <input style="color: black" type="text" id="username" name="username">
 
@@ -122,7 +123,8 @@
     const username = document.getElementById("username");
     const password = document.getElementById("password");
     const role = document.getElementById("role");
-    const tbody = document.getElementById("tbody");;              
+    const tbody = document.getElementById("tbody");
+    const csrf_token_staff_form = modal.querySelector('#csrf_token_staff');           
     let isEditing = false
     let action = '';
 
@@ -132,6 +134,7 @@
         if (event.target.classList.contains('fa-trash')) {
             const row = event.target.closest('tr');
             const username = row.cells[0].textContent.trim();
+            const csrf_token_staff = csrf_token_staff_form.value;
             Swal.fire({
                 title: 'Bạn có chắc là muốn xóa nhân viên này không?',
                 text: "Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
@@ -147,7 +150,8 @@
                 $.ajax({
                     url: '/Dashboard_staff/DeleteStaff',
                     type: 'POST',
-                    data: { username: username },
+                    data: { username: username,
+                        csrf_token_staff: csrf_token_staff},
                     success: function(response) {
                     if (response.trim() == "done") {
                         Swal.fire(
