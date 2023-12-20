@@ -173,7 +173,6 @@
         }
         else{
             for (let i = 0; i < optionCategoryParentID.length; i++) {
-            console.log(optionCategoryParentID);
             if (optionCategoryParentID[i].value === category_parent_id_in_table) {
                 optionCategoryParentID[i].selected = true;
             }
@@ -224,7 +223,7 @@
                 method:'POST',
                 data:$(this).serialize(),
                 error:err=>{
-                    console.log(err)
+                    // console.log(err)
                 },
                 success:function(resp){
             var actionText = action == 'create' ? 'thêm' : 'sửa';
