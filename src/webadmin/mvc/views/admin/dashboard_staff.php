@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                        <?php foreach($data as $staff): ?>
+                        <?php foreach($data['admin'] as $staff): ?>
                             <tr>
                                 <td><?php echo $staff->getUsername(); ?></td>
                                 <td><?php echo $staff->getRole(); ?></td>

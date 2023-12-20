@@ -10,7 +10,7 @@
         }
         function Show(){
             $model = $this->model("Admin");
-            $data = $model->LoadAdmins();
+            $data['admin'] = $model->LoadAdmins();
             $data["csrf_token_staff"] =  bin2hex(random_bytes(50));
             $_SESSION["csrf_token_staff"] =  $data["csrf_token_staff"];
             $page = $this->view("dashboard_staff", $data);
