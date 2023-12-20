@@ -30,9 +30,9 @@
                             </a></li>
                         /
                         <li><a href="#" class="active">Shop</a></li>
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 120px; height: 40px;border-radius: 8px;">
+                        <!-- <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 120px; height: 40px;border-radius: 8px;">
                             Thêm dữ liệu
-                        </button>
+                        </button> -->
                     </ul>
                 </div>
             </div>
