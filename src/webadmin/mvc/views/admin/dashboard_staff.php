@@ -286,7 +286,7 @@
                 method:'POST',
                 data: $(this).serialize(),
                 error:err=>{
-                    console.log(err)
+                    // console.log(err)
                 },
                 success:function(resp){
                 if(resp.trim() == "done"){

@@ -98,3 +98,8 @@
 </body>
 
 </html>
+
+<script>
+    const link = document.querySelector(".ManagementUser");
+    link.classList.add('active');
+</script>
