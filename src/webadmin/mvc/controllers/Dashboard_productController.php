@@ -18,9 +18,10 @@
             // var_dump($data["products"]);
             // die();
             // load category
+            $data["csrf_token_product"] =  bin2hex(random_bytes(50));
+            $_SESSION["csrf_token_product"] = $data["csrf_token_product"];
             $model = $this->model("Category");
             $data["categories"] = $model->LoadCategories();
-
             $page = $this->view("dashboard_product", $data);
         }
 
@@ -31,6 +32,10 @@
             $data['size_quantities'] = "none";
             // check thiếu data
             if($this->validateNull($data)){
+                if(empty($data['csrf_token_product'])){
+                    return "Lỗi";
+                }
+                var_dump($data);
                 return "Vui lòng nhập đủ thông tin";
             }
 
@@ -177,6 +182,7 @@
                 $fileDirs[] = $uploadPath . "/" .  $fileName;
                 move_uploaded_file($file['tmp_name'], $uploadPath . "/" .  $fileName);
             }
+
             return $fileDirs;
         }
 
@@ -210,8 +216,8 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
+                        "csrf_token_product" => $_POST['csrf_token_product']
                     );
-
 
                     $product_data = array_map('trim', $product_data);
 
@@ -222,26 +228,28 @@
                     
                     $check = $this->ValidateProductData($product_data);
                     if($check === "validated"){
-                        
-                        $uploadedFile = $_FILES["fileToUpload"];
+                        if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($product_data['csrf_token_product'])){
+                            $uploadedFile = $_FILES["fileToUpload"];
 
-                        $fileNames = $this->UpLoadFiles($uploadedFile);
-                        if(!is_array($fileNames)){
-                            echo $fileNames;
-                        }
-                        else{
-                            // thêm ảnh vào data
-                            $product_data["product_images"] = $fileNames;
+                            $fileNames = $this->UpLoadFiles($uploadedFile);
+                            if(!is_array($fileNames)){
+                                echo $fileNames;
+                            }else{
+                                // thêm ảnh vào data
+                                $product_data["product_images"] = $fileNames;
 
-                            $model = $this->model("Product");
-                            $err = $model->InsertProduct($product_data);
+                                $model = $this->model("Product");
+                                $err = $model->InsertProduct($product_data);
                             
-                            if($err != "done"){
-                                foreach($fileNames as $each){
-                                    unlink($each);
+                                if($err != "done"){
+                                    foreach($fileNames as $each){
+                                        unlink($each);
+                                    }
                                 }
+                                echo $err;
                             }
-                            echo $err;
+                        }else{
+                            echo "Lỗi";
                         }
                     }
                     else{
@@ -279,6 +287,7 @@
                         "category_id" => $_POST['DanhMucSanPham'],
                         "product_color" => $_POST['color'],
                         "product_description" => $_POST['MoTa'],
+                        "csrf_token_product" => $_POST['csrf_token_product']
                     );
 
                     //<script>alert("hehe")</script>
@@ -293,53 +302,56 @@
                         
                     $check = $this->ValidateProductData($product_data);
                     if($check === "validated"){
+                        if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($product_data['csrf_token_product'])){
+                            $model = $this->model("Order");
 
-                        $model = $this->model("Order");
+                            $res = $model->CheckOrderNotDeliveredYet($product_data);
 
-                        $res = $model->CheckOrderNotDeliveredYet($product_data);
-
-                        if($res === "None"){
-                            $model = $this->model("Product");
-                            $old_images = $model->LoadProductImages($product_data['product_code']);
-                            if(is_array($old_images)){
-                                if($old_images != null){
+                            if($res === "None"){
+                                $model = $this->model("Product");
+                                $old_images = $model->LoadProductImages($product_data['product_code']);
+                                if(is_array($old_images)){
+                                    if($old_images != null){
             
-                                    $uploadedFile = $_FILES["fileToUpload"];
-                                    $fileNames = $this->UpLoadFiles($uploadedFile);
-                                    if(!is_array($fileNames)){
+                                        $uploadedFile = $_FILES["fileToUpload"];
+                                        $fileNames = $this->UpLoadFiles($uploadedFile);
+                                        if(!is_array($fileNames)){
                                         echo $fileNames;
-                                    }
-                                    else{
+                                        }
+                                        else{
     
-                                        // thêm ảnh vào data
-                                        $product_data["product_images"] = $fileNames;
+                                            // thêm ảnh vào data
+                                            $product_data["product_images"] = $fileNames;
     
-                                        $err = $model->EditProduct($product_data);
+                                            $err = $model->EditProduct($product_data);
 
-                                        if($err != "done"){
-                                            foreach($fileNames as $each){
-                                                unlink($each);
+                                            if($err != "done"){
+                                                foreach($fileNames as $each){
+                                                    unlink($each);
+                                                }
                                             }
-                                        }
-                                        else if($err == "done"){
+                                            else if($err == "done"){
                                             // xóa hình cũ
-                                            foreach($old_images as $each){
-                                                unlink($each);
+                                                foreach($old_images as $each){
+                                                    unlink($each);
+                                                }
                                             }
-                                        }
-                                        echo $err;
-                                    }   
+                                            echo $err;
+                                        }   
+                                    }
+                                    else {
+                                        echo "Mã sản phẩm không tồn tại";
+                                    }
                                 }
                                 else {
-                                    echo "Mã sản phẩm không tồn tại";
+                                echo $old_images;
                                 }
                             }
-                            else {
-                                echo $old_images;
+                            else{
+                                echo $res;
                             }
-                        }
-                        else{
-                            echo $res;
+                        }else{
+                            echo "Lỗi";
                         }
                         // lấy đường dẫn hình và xóa nó đi
                     }
@@ -355,10 +367,19 @@
     
                 $product_data = array(
                     "product_code" => $_POST['product_code'],
+                    "csrf_token_product" => $_POST['csrf_token_product']
                 );
                 $product_data = array_map('trim', $product_data);
+
+                if(empty($product_data['csrf_token_product'])){
+                    echo "Lỗi";
+                    return;
+                }
+
                 $check = $this->validateSpecialCharacter($product_data);
                 if($check == false){
+                    
+                    if($product_data['csrf_token_product'] == $_SESSION['csrf_token_product'] && !empty($product_data['csrf_token_product'])){
                         $model = $this->model("Order");
 
                         $res = $model->CheckOrderNotDeliveredYet($product_data);
@@ -393,9 +414,12 @@
                         else{
                             echo $res;
                         }
+                    }else{
+                        echo "Lỗi";
                     }
+                }
                 else{
-                    echo $check;
+                    echo "Lỗi kí tự dặc biệt";
                 }
             }
         }
