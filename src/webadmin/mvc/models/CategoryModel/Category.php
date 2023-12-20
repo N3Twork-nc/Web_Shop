@@ -38,7 +38,9 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                     // Xử lý khi có lỗi SQLSTATE 42000
                     return "Bạn không có quyền làm thao tác này";
                 } else {
-                    // Xử lý cho các lỗi khác
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
                     //echo "Lỗi: " . $e->getMessage();
                     return "Lỗi khi thêm danh mục";
                 }
@@ -59,7 +61,9 @@ include_once "./mvc/models/CategoryModel/CategoryObj.php";
                     // Xử lý khi có lỗi SQLSTATE 42000
                     return "Bạn không có quyền làm thao tác này";
                 } else {
-                    // Xử lý cho các lỗi khác
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
                     return "Lỗi: " . $e->getMessage();
                     //return "Lỗi khi sửa danh mục";
                 }

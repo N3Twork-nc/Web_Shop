@@ -75,7 +75,7 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
                 }
                 return $obj;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                return  "Lỗi";
             }
         }
 
@@ -88,8 +88,12 @@ include_once "./mvc/models/CustomerModel/CustomerObj.php";
 
                 echo "done";
             } catch (PDOException $e) {
-
-                echo "Lỗi khi sửa thông tin khách hàng";
+                if($e->getCode() == '22001'){
+                    echo "Dữ liệu quá dài";
+                }
+                else{
+                    echo "Lỗi khi sửa thông tin khách hàng";
+                }
                 //echo  $sql . "<br>" . $e->getMessage();
             }
         }

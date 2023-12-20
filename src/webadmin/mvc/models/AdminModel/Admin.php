@@ -84,7 +84,9 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     }
                 } 
                 else {
-                    // Xử lý cho các lỗi khác
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
                     return "Lỗi";
                     //return "Lỗi khi thêm staff";
                 }
@@ -105,7 +107,9 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     // Xử lý khi có lỗi SQLSTATE 42000
                     return "Bạn không có quyền làm thao tác này";
                 } else {
-                    // Xử lý cho các lỗi khác
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
                     return "Lỗi khi sửa thông tin staff";
                     //return "Lỗi khi thêm staff";
                 }
@@ -162,8 +166,10 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                     // Xử lý khi có lỗi SQLSTATE 42000
                     return "Bạn không có quyền làm thao tác này";
                 } else {
-                    // Xử lý cho các lỗi khác
-                    return "Lỗi: " . $e->getMessage();
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
+                    return "Lỗi";
                     //return "Lỗi khi reset password";
                 }
             }
