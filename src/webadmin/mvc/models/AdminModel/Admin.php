@@ -14,6 +14,7 @@ include_once "./mvc/models/AdminModel/AdminObj.php";
                         array_push($arr, $row['role']);
                         array_push($arr, $row['status_expire']);
                     }
+
                     return $arr;
                 } catch (PDOException $e) {
                     return  "Lỗi";

@@ -39,6 +39,14 @@
         }
     }
 
+    // cấu hinh tgian session hết hạn ở server
+    $sessionLifetime = 30 * 60; // 30 phút
+    ini_set('session.gc_maxlifetime', $sessionLifetime);
+
+    // ở client
+    $sessionLifetime = 30 * 60; // 30 phút
+    session_set_cookie_params($sessionLifetime);
+
     //ini_set('session.sid_length_min', 64);
 
     // Thiết lập độ dài Session ID tối đa là 128 ký tự  
