@@ -146,6 +146,7 @@
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content" style="border-radius: 8px;">
                     <form id="ProductForm" enctype="multipart/form-data">
+                        <input type="hidden" id="csrf_token_product" name="csrf_token_product" value="<?php echo $data['csrf_token_product']; ?>">
                         <label for="ProductName">Tên sản phẩm:</label>
                         <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
                         <label for="ProductValue">Giá sản phẩm:</label>
@@ -310,7 +311,7 @@
     const modal = document.getElementById("myModal");
     const cancelBtn = document.getElementById("cancelBtn");
     const submitBtn = document.getElementById("submitBtn");
-
+    const csrf_token_product_form = modal.querySelector('#csrf_token_product');                                 
     const table2 = document.querySelector('#myTable');
     const inputFiles = document.getElementById("Img");
     // Dùng để check là đang vào sửa hay là thêm
@@ -606,7 +607,7 @@ $(document).ready(function () {
     if (event.target.classList.contains('fa-trash')) {
         const row = event.target.closest('tr');
         const product_code = row.cells[0].textContent.trim();
-
+        const csrf_token_product = csrf_token_product_form.value;
         Swal.fire({
             title: 'Bạn có chắc là muốn xóa sản phẩm này không?',
             text: "Mọi đơn hàng và thanh toán liên quan cũng sẽ bị xóa. Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
@@ -622,7 +623,8 @@ $(document).ready(function () {
         $.ajax({
             url: '/Dashboard_product/DeleteProduct',
             type: 'POST',
-            data: { product_code: product_code },
+            data: { product_code: product_code,
+                    csrf_token_product: csrf_token_product },
             success: function(response) {
             if (response.trim() == "done") {
                 Swal.fire(
