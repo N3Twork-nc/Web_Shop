@@ -13,6 +13,7 @@
             $data['customer'] = $model->LoadCustomers();
             $data["csrf_token_customer"] =  bin2hex(random_bytes(50));
             $_SESSION["csrf_token_customer"] =  $data["csrf_token_customer"];
+            //echo $data["csrf_token_customer"];
             $page = $this->view("dashboard_customer", $data);
         }
 
@@ -21,7 +22,7 @@
             // check thiếu data
 
             if($this->validateNull($data)){
-                if($data["csrf_token_customer"]){
+                if(empty($data["csrf_token_customer"])){
                     return "Lỗi";
                 }
                 return "Vui lòng nhập đủ thông tin";

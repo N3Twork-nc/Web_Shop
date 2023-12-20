@@ -14,19 +14,23 @@
 
     ini_set('session.cookie_samesite','Strict');
 
-    $allowed_origins = array(
-        'http://localhost:8090',
-        'http://localhost:8092',
-        'http://localhost:8091'
-    );
+    // $allowed_origins = array(
+    //     'http://localhost:8090',
+    //     'http://localhost:8092',
+    //     'http://localhost:8091'
+    // );
     
-    $requested_origin = $_SERVER['HTTP_ORIGIN'];
+    // $requested_origin = $_SERVER['HTTP_ORIGIN'];
+    // echo $_SERVER['HTTP_ORIGIN'];
+    // die();
+    // // Kiểm tra nếu origin không hợp lệ, từ chối request
+    // if(!in_array($requested_origin, $allowed_origins)) {
+    //     require_once "./mvc/views/shopping/403.php";
+    //     exit;
+    // }
 
-    // Kiểm tra nếu origin không hợp lệ, từ chối request
-    if(!in_array($requested_origin, $allowed_origins)) {
-        require_once "./mvc/views/shopping/403.php";
-        exit;
-    }
+        var_dump($_SERVER);
+        die();
 
     //ini_set('session.sid_length_min', 64);
 
