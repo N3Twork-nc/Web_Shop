@@ -140,5 +140,8 @@
         }
     })
     });
+
+    const link = document.querySelector(".ChangePassword");
+    link.classList.add('active');
    
 </script>
