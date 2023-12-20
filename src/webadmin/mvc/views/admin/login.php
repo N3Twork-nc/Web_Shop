@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper" style="width: 382px !important;">
       <h1>Login</h1>
         <form id="loginForm" action="/Auth/Login" method="POST">
             <?php if(isset($_SESSION['message'])): ?>
@@ -33,8 +33,8 @@
                 <i class="fa fa-lock"></i>
             </div>
             <br>
-            <div class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
-            <button type="submit" class="btn">Login</button>
+            <div style="margin-left: 10px;" class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
+            <button style="margin-top: 20px;" type="submit" class="btn">Login</button>
         </form>
     </div>
 
