@@ -7,16 +7,16 @@ itemSlider.forEach(function(menu, index) {
 })
 
 /******************Filter Category *********************** */
-const filterButton = document.getElementById('filterButton');
-const filterDiv = document.getElementById('filterDiv');
+// const filterButton = document.getElementById('filterButton');
+// const filterDiv = document.getElementById('filterDiv');
 
-filterButton.addEventListener('click', () => {
-    // Kiểm tra trạng thái hiện tại của "filterDiv"
-    if (filterDiv.style.display === 'none' || filterDiv.style.display === '') {
-        // Nếu đang ẩn, thì hiển thị "filterDiv"
-        filterDiv.style.display = 'block';
-    } else {
-        // Nếu đang hiển thị, thì ẩn "filterDiv"
-        filterDiv.style.display = 'none';
-    }
-});
+// filterButton.addEventListener('click', () => {
+//     // Kiểm tra trạng thái hiện tại của "filterDiv"
+//     if (filterDiv.style.display === 'none' || filterDiv.style.display === '') {
+//         // Nếu đang ẩn, thì hiển thị "filterDiv"
+//         filterDiv.style.display = 'block';
+//     } else {
+//         // Nếu đang hiển thị, thì ẩn "filterDiv"
+//         filterDiv.style.display = 'none';
+//     }
+// });
