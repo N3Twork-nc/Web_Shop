@@ -17,37 +17,53 @@
                 $password = $_POST['password'];
             }
 
-            array_push($data, $username);
-            $pass_hash = hash('sha256', $password);
-            array_push($data, $pass_hash);
-
-            // gọi model xử lý data
-            $model = $this->model("Admin");
-            $result = $model->checkAccount($data);
-
-            if($result != null){
-                if($result[1] == 1){
-                    $err = $model->EditStatus($data);
-                    if($err != "done"){
-                        $_SESSION['message'] = $err;
+            if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+            {
+                  $secret = '6Ld6ijcpAAAAACKaMc5Aj023Y2LGsN2rqPZSHcpu'; //Thay thế bằng mã Secret Key của bạn
+                  $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                  $response_data = json_decode($verify_response);
+                  if($response_data->success)
+                  {
+                    array_push($data, $username);
+                    $pass_hash = hash('sha256', $password);
+                    array_push($data, $pass_hash);
+        
+                    // gọi model xử lý data
+                    $model = $this->model("Admin");
+                    $result = $model->checkAccount($data);
+        
+                    if($result != null){
+                        if($result[1] == 1){
+                            $err = $model->EditStatus($data);
+                            if($err != "done"){
+                                $_SESSION['message'] = $err;
+                                header("Location: /Auth");
+                                exit;
+                            }
+                        }
+                        $_SESSION['usr'] = $username;
+                        $_SESSION['role'] = $result[0];
+                        $_SESSION['status_expire'] = $result[1];
+                        //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
+                        // sinh một id khác nhưng data vẫn giữ nguyên
+                        session_regenerate_id(true);
+                        header("Location: /Dashboard_home");
+                    }
+                    else{
+                        $_SESSION['message'] = "Wrong username or password";
                         header("Location: /Auth");
                         exit;
                     }
-                }
-                $_SESSION['usr'] = $username;
-                $_SESSION['role'] = $result[0];
-                $_SESSION['status_expire'] = $result[1];
-                //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
-                // sinh một id khác nhưng data vẫn giữ nguyên
-                session_regenerate_id(true);
-                header("Location: /Dashboard_home");
-            }
-            else{
-                $_SESSION['message'] = "Wrong username or password";
+                  }
+                  else
+                  {
+                      $message = 'Không thể xác thực, vui lòng thử lại';
+                  }
+             }else{
+                $_SESSION['message'] = 'Không thể xác thực, vui lòng thử lại';
                 header("Location: /Auth");
                 exit;
-            }
-
+             }
         }
 
         public function Logout(){

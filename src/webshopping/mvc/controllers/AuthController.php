@@ -42,32 +42,51 @@
                 $password = $_POST['password'];
             }
 
-            array_push($data, $email);
-            $pass_hash = hash('sha256', $password);
-            array_push($data, $pass_hash);
+            if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+            {
+                    $secret = '6Ld6ijcpAAAAACKaMc5Aj023Y2LGsN2rqPZSHcpu'; //Thay thế bằng mã Secret Key của bạn
+                    $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                    $response_data = json_decode($verify_response);
+                    if($response_data->success)
+                    {
+                        array_push($data, $email);
+                        $pass_hash = hash('sha256', $password);
+                        array_push($data, $pass_hash);
 
-            // gọi model xử lý data
-            $model = $this->model("Customer");
-            $result = $model->checkAccount($data);
+                        // gọi model xử lý data
+                        $model = $this->model("Customer");
+                        $result = $model->checkAccount($data);
 
-            if(!empty($result)){
+                        if(!empty($result)){
 
-                $data['email'] =  $email;
-                $data['full_name'] =  $result['full_name'];
-                $data['cart_code'] =  $result['cart_code'];
-                $_SESSION['usr'] = $data;
+                            $data['email'] =  $email;
+                            $data['full_name'] =  $result['full_name'];
+                            $data['cart_code'] =  $result['cart_code'];
+                            $_SESSION['usr'] = $data;
 
-                //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
-                // sinh một id khác nhưng data vẫn giữ nguyên
-                session_regenerate_id(true);
-                header("Location: /Category/Show/");
+                            //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
+                            // sinh một id khác nhưng data vẫn giữ nguyên
+                            session_regenerate_id(true);
+                            header("Location: /Category/Show/");
+                        }
+                        else{
+                            $_SESSION['message'] = "Wrong username or password";
+                            header("Location: /Auth");
+                            exit;
+                        }
+                    }
+                    else
+                    {
+                        $_SESSION['message'] = 'Không thể xác thực, vui lòng thử lại';
+                        header("Location: /Auth");
+                        exit;
+                    }
             }
             else{
-                $_SESSION['message'] = "Wrong username or password";
+                $_SESSION['message'] = 'Không thể xác thực, vui lòng thử lại';
                 header("Location: /Auth");
                 exit;
             }
-
         }
 
         public function validateAccount($data){
@@ -123,47 +142,62 @@
                 $err = $this->validateAccount($account_data);
                 
                 if($err == "validated"){
+                    if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+                    {
+                        $secret = '6Ld6ijcpAAAAACKaMc5Aj023Y2LGsN2rqPZSHcpu'; //Thay thế bằng mã Secret Key của bạn
+                        $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                        $response_data = json_decode($verify_response);
+                        if($response_data->success)
+                        {
+                                                // check xem email đã tồn tại chưa
+                            $model = $this->model("Customer");
+                            $customers = $model->FindCustomer($account_data['email']);
+        
+                            if($customers == true){
+                                echo "Email đã tồn tại";
+                            }
+                            else{
+                                
+                                // hash mật khẩu
+                                $pass_hash = hash('sha256', $account_data['password']);
+                                $account_data['password'] = $pass_hash;
 
-                    // check xem email đã tồn tại chưa
-                    $model = $this->model("Customer");
-                    $customers = $model->FindCustomer($account_data['email']);
- 
-                    if($customers == true){
-                        echo "Email đã tồn tại";
+                                // tạo mã xác nhận
+                                $verify_code = bin2hex(random_bytes(4));
+
+                                // setup gửi mail kèm mã xác nhận
+                                $data['email'] = $account_data['email'];
+                                $data['fullname'] = $account_data['fullname'];
+                                $data['subject'] = "Mã xác nhận cho SHOP PTIT";
+                                $data['body'] = "Xin chào, " . $account_data['fullname'] ." <br> Bạn có đăng kí tài khoản tại trang web của chúng tôi, đây là mã xác nhận của bạn:
+                                <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $verify_code . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
+                                $res = $this->SendMail($data);
+
+                                // nếu gửi thành công
+                                if($res == 'sent'){
+
+                                    // tạo session về thông tin khách hàng cũng như mã xác nhận
+                                    $_SESSION['account_data'] =  $account_data;
+                                    $token = bin2hex(random_bytes(20));
+                                    $_SESSION['token'] = $token;
+                                    $_SESSION['create_time'] = time();
+                                    $_SESSION['count'] = 0;
+                                    $_SESSION['verify_code'] = $verify_code;
+                                    echo "token:" . $token;
+
+                                }
+                                else{
+                                    echo "Lỗi khi gửi mã xác nhận, có thể do lỗi hệ thống hoặc email không đúng. Hãy kiểm tra và submit lại!";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            echo 'Không thể xác thực, vui lòng thử lại';
+                        }
                     }
                     else{
-                        
-                        // hash mật khẩu
-                        $pass_hash = hash('sha256', $account_data['password']);
-                        $account_data['password'] = $pass_hash;
-
-                        // tạo mã xác nhận
-                        $verify_code = bin2hex(random_bytes(4));
-
-                        // setup gửi mail kèm mã xác nhận
-                        $data['email'] = $account_data['email'];
-                        $data['fullname'] = $account_data['fullname'];
-                        $data['subject'] = "Mã xác nhận cho SHOP PTIT";
-                        $data['body'] = "Xin chào, " . $account_data['fullname'] ." <br> Bạn có đăng kí tài khoản tại trang web của chúng tôi, đây là mã xác nhận của bạn:
-                        <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $verify_code . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
-                        $res = $this->SendMail($data);
-
-                        // nếu gửi thành công
-                        if($res == 'sent'){
-
-                            // tạo session về thông tin khách hàng cũng như mã xác nhận
-                            $_SESSION['account_data'] =  $account_data;
-                            $token = bin2hex(random_bytes(20));
-                            $_SESSION['token'] = $token;
-                            $_SESSION['create_time'] = time();
-                            $_SESSION['count'] = 0;
-                            $_SESSION['verify_code'] = $verify_code;
-                            echo "token:" . $token;
-
-                        }
-                        else{
-                            echo "Lỗi khi gửi mã xác nhận, có thể do lỗi hệ thống hoặc email không đúng. Hãy kiểm tra và submit lại!";
-                        }
+                        echo 'Không thể xác thực, vui lòng thử lại';
                     }
                 }
                 else{
@@ -185,103 +219,118 @@
                     echo "Email không hợp lệ!";
                 }
                 else{
+                    if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+                    {
+                        $secret = '6Ld6ijcpAAAAACKaMc5Aj023Y2LGsN2rqPZSHcpu'; //Thay thế bằng mã Secret Key của bạn
+                        $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                        $response_data = json_decode($verify_response);
+                        if($response_data->success)
+                        {
+                            // check xem email đã tồn tại chưa
+                            $model = $this->model("Customer");
+                            $customers = $model->FindCustomer($verify_data['email']);
 
-                    // check xem email đã tồn tại chưa
-                    $model = $this->model("Customer");
-                    $customers = $model->FindCustomer($verify_data['email']);
+                            if($customers == true){
 
-                    if($customers == true){
+                                $arrVerify = $model->FindCustomerVerify($verify_data);
 
-                        $arrVerify = $model->FindCustomerVerify($verify_data);
-
-                        // tạo mã xác nhận
-                        $token = bin2hex(random_bytes(100));
-                        // nếu chưa gửi mã xác thực lần nào
-                        if(empty($arrVerify)){
-                            $verify_data['token'] = $token;
-                            $verify_data['count'] = 0;
-                            $err = $model->InsertToken($verify_data);
-                            if($err != 'done'){
-                                $check = false;
-                                echo "Lỗi";
-                            }
-                        }else{
-                            $oneDayInSeconds = 24 * 60 * 60; // Số giây trong một ngày
-
-                            if($arrVerify[0]->getCount() > 3){
-                                $dateTime = new DateTime($arrVerify[0]->getCreate_time());
-                                $timestamp = $dateTime->getTimestamp();
-                                if (time() - $timestamp >= $oneDayInSeconds) {
+                                // tạo mã xác nhận
+                                $token = bin2hex(random_bytes(100));
+                                // nếu chưa gửi mã xác thực lần nào
+                                if(empty($arrVerify)){
                                     $verify_data['token'] = $token;
                                     $verify_data['count'] = 0;
-                                    $err = $model->DeleteToken($verify_data);
+                                    $err = $model->InsertToken($verify_data);
                                     if($err != 'done'){
                                         $check = false;
                                         echo "Lỗi";
                                     }
-                                    else{
-                                        $err = $model->InsertToken($verify_data);
-                                        if($err != 'done'){
+                                }else{
+                                    $oneDayInSeconds = 24 * 60 * 60; // Số giây trong một ngày
+
+                                    if($arrVerify[0]->getCount() > 3){
+                                        $dateTime = new DateTime($arrVerify[0]->getCreate_time());
+                                        $timestamp = $dateTime->getTimestamp();
+                                        if (time() - $timestamp >= $oneDayInSeconds) {
+                                            $verify_data['token'] = $token;
+                                            $verify_data['count'] = 0;
+                                            $err = $model->DeleteToken($verify_data);
+                                            if($err != 'done'){
+                                                $check = false;
+                                                echo "Lỗi";
+                                            }
+                                            else{
+                                                $err = $model->InsertToken($verify_data);
+                                                if($err != 'done'){
+                                                    $check = false;
+                                                    echo "Lỗi";
+                                                }
+                                            }
+                                        } else{
                                             $check = false;
-                                            echo "Lỗi";
+                                            echo "Bạn đã quá số lần gửi mã xác nhận cho hôm nay! Thử lại sau 24 tiếng!";
                                         }
                                     }
-                                } else{
-                                    $check = false;
-                                    echo "Bạn đã quá số lần gửi mã xác nhận cho hôm nay! Thử lại sau 24 tiếng!";
+                                    else{
+                                        //echo $arrVerify[0]->getCreate_time();
+                                        $dateTime = new DateTime($arrVerify[0]->getCreate_time());
+                                        $timestamp = $dateTime->getTimestamp();
+                                        if (time() - $timestamp >= $oneDayInSeconds) {
+                                            $verify_data['token'] = $token;
+                                            $verify_data['count'] = 0;
+                                            $err = $model->DeleteToken($verify_data);
+                                            if($err != 'done'){
+                                                $check = false;
+                                                echo "Lỗi";
+                                            }
+                                            else{
+                                                $err = $model->InsertToken($verify_data);
+                                                if($err != 'done'){
+                                                    $check = false;
+                                                    echo "Lỗi";
+                                                }
+                                            }
+                                        } else {
+                                            $verify_data['token'] = $token;
+                                            $verify_data['count'] = $arrVerify[0]->getCount() + 1;
+                                            $verify_data['used'] = 0;
+                                            $err = $model->UpdateToken($verify_data);
+                                            if($err != 'done'){
+                                                $check = false;
+                                                echo "Lỗi";
+                                            }
+                                        }
+                                    }
+                                }
+                                if($check){
+                                    // setup gửi mail kèm mã xác nhận
+                                    //$link = 'localhost:8092/Auth/RestPassword/' . $token;
+                                    $link = "<a href='http://localhost:8092/Auth/ResetPassword/$token'>Bấm vào đây để đặt lại mật khẩu</a>";
+                                    $data['email'] = $verify_data['email'];
+                                    $data['subject'] = "Reset mật khẩu tài khoản SHOP PTIT";
+                                    $data['body'] = '<html><body>Bạn vừa gửi yêu cầu đặt lại mật khẩu vài phút trước:<br> ' . $link . '</body></html>';
+                                    $res = $this->SendMail($data);
+
+                                    // nếu gửi thành công
+                                    if($res == 'sent'){
+                                        echo "Vui lòng kiểm tra mail của bạn để tiếp tục!";
+                                    }
+                                    else{
+                                        echo "Lỗi khi gửi mail, có thể do lỗi hệ thống hoặc email không đúng. Hãy kiểm tra và submit lại!";
+                                    }
                                 }
                             }
                             else{
-                                //echo $arrVerify[0]->getCreate_time();
-                                $dateTime = new DateTime($arrVerify[0]->getCreate_time());
-                                $timestamp = $dateTime->getTimestamp();
-                                if (time() - $timestamp >= $oneDayInSeconds) {
-                                    $verify_data['token'] = $token;
-                                    $verify_data['count'] = 0;
-                                    $err = $model->DeleteToken($verify_data);
-                                    if($err != 'done'){
-                                        $check = false;
-                                        echo "Lỗi";
-                                    }
-                                    else{
-                                        $err = $model->InsertToken($verify_data);
-                                        if($err != 'done'){
-                                            $check = false;
-                                            echo "Lỗi";
-                                        }
-                                    }
-                                } else {
-                                    $verify_data['token'] = $token;
-                                    $verify_data['count'] = $arrVerify[0]->getCount() + 1;
-                                    $verify_data['used'] = 0;
-                                    $err = $model->UpdateToken($verify_data);
-                                    if($err != 'done'){
-                                        $check = false;
-                                        echo "Lỗi";
-                                    }
-                                }
-                            }
-                        }
-                        if($check){
-                            // setup gửi mail kèm mã xác nhận
-                            //$link = 'localhost:8092/Auth/RestPassword/' . $token;
-                            $link = "<a href='http://localhost:8092/Auth/ResetPassword/$token'>Bấm vào đây để đặt lại mật khẩu</a>";
-                            $data['email'] = $verify_data['email'];
-                            $data['subject'] = "Reset mật khẩu tài khoản SHOP PTIT";
-                            $data['body'] = '<html><body>Bạn vừa gửi yêu cầu đặt lại mật khẩu vài phút trước:<br> ' . $link . '</body></html>';
-                            $res = $this->SendMail($data);
-
-                            // nếu gửi thành công
-                            if($res == 'sent'){
                                 echo "Vui lòng kiểm tra mail của bạn để tiếp tục!";
                             }
-                            else{
-                                echo "Lỗi khi gửi mail, có thể do lỗi hệ thống hoặc email không đúng. Hãy kiểm tra và submit lại!";
-                            }
+                        }
+                        else
+                        {
+                            echo 'Không thể xác thực, vui lòng thử lại';
                         }
                     }
                     else{
-                        echo "Vui lòng kiểm tra mail của bạn để tiếp tục!";
+                        echo 'Không thể xác thực, vui lòng thử lại';
                     }
                 }
             }
