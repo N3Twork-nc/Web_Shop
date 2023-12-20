@@ -14,7 +14,7 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                     }
                 return $images;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                return  "Lỗi";
             }
         }
 
@@ -60,7 +60,7 @@ include_once "./mvc/models/CartItemModel/CartItemObj.php";
                     }
                     return $arr;
                 } catch (PDOException $e) {
-                    return  $sql . "<br>" . $e->getMessage();
+                    return  "Lỗi";
                 }
         }
 

@@ -14,7 +14,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
 
                 return $sizes;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                return  "Lỗi";
             }
         }
 
@@ -30,7 +30,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     }
                 return $images;
             } catch (PDOException $e) {
-                return  $sql . "<br>" . $e->getMessage();
+                return  "Lỗi";
             }
         }
 
@@ -63,7 +63,7 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     }
                     return $arr;
                 } catch (PDOException $e) {
-                    return  $sql . "<br>" . $e->getMessage();
+                    return  "Lỗi";
                 }
         }
 
@@ -123,8 +123,11 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                     // Xử lý khi có lỗi SQLSTATE 42000
                     return "Bạn không có quyền làm thao tác này";
                 } else {
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
                     // Xử lý cho các lỗi khác
-                    //echo "Lỗi: " . $e->getMessage();
+                    //return "Lỗi: " . $e->getMessage();
                     return "Lỗi khi thêm sản phẩm";
                 }
             }
@@ -188,7 +191,9 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 // Xử lý khi có lỗi SQLSTATE 42000
                 return "Bạn không có quyền làm thao tác này";
             } else {
-                // Xử lý cho các lỗi khác
+                if($e->getCode() == '22001'){
+                    return "Dữ liệu quá dài";
+                }
                 //echo "Lỗi: " . $e->getMessage();
                 return "Lỗi khi sửa sản phẩm";
             }
@@ -255,7 +260,9 @@ include_once "./mvc/models/ProductModel/ProductObj.php";
                 // Xử lý khi có lỗi SQLSTATE 42000
                 return "Bạn không có quyền làm thao tác này";
             } else {
-                // Xử lý cho các lỗi khác
+                if($e->getCode() == '22001'){
+                    return "Dữ liệu quá dài";
+                }
                 //echo "Lỗi: " . $e->getMessage();
                 return "Lỗi khi xóa sản phẩm";
             }
