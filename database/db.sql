@@ -50,14 +50,6 @@ CREATE TABLE Customers (
   full_name NVARCHAR(150) NOT NULL,
   phone VARCHAR(20)
 );
-DROP TABLE IF EXISTS `CheckWrongPassword`;
-
-CREATE TABLE CheckWrongPassword (
-  ip VARCHAR(100) PRIMARY KEY,
-  count INT DEFAULT 0,
-  email VARCHAR(100),
-  FOREIGN KEY (`email`) REFERENCES `Customers`(`email`)
-);
 
 DROP TABLE IF EXISTS `Verify`;
 
