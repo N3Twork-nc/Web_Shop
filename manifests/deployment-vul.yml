@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: vul 
-          image: n3tregistry.azurecr.io/ntworkncwebshop
+          image: n3tregistry.azurecr.io/vul
           ports:
           - containerPort: 80
