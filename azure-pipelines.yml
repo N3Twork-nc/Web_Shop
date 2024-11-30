@@ -47,7 +47,7 @@ stages:
     displayName: Deploy
     pool:
       name: "Agent self-hosted"
-    environment: 'N3TWork.default'
+    environment: 'aks.dev'
     strategy:
       runOnce:
         deploy:
