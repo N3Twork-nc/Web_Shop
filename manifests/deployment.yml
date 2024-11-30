@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: ntworkncwebshop 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ntworkncwebshop
+  template:
+    metadata:
+      labels:
+        app: ntworkncwebshop 
+    spec:
+      containers:
+        - name: ntworkncwebshop 
+          image: n3tregistry.azurecr.io/ntworkncwebshop
+          ports:
+          - containerPort: 8090
