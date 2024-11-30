@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: workncwebshop 
-          image: n3tregistry.azurecr.io/workncwebshop:$(Build.BuildId)
+          image: n3tregistry.azurecr.io/workncwebshop
           ports:
           - containerPort: 80
           imagePullPolicy: Always
