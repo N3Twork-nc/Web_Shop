@@ -14,7 +14,7 @@ variables:
   imageRepository: 'workncwebshop'
   dockerfilePath: '$(Build.SourcesDirectory)/src/webshopping/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'n3tregistryda3e-auth'
+  imagePullSecret: 'n3tregistry123-auth'
 
 stages:
 - stage: Build
@@ -57,7 +57,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(REGISTRY_ENDPOINT)
+              dockerRegistryEndpoint: $(REGISTRY_IMAGE)
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
