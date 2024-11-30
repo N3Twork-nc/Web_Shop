@@ -69,5 +69,5 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+                $(n3tregistry.azurecr.io)/$(imageRepository):$(tag)
 
