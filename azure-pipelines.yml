@@ -18,10 +18,9 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'n3tregistryda3e-auth'
 
-
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build and push stage
   jobs:
   - job: Build
     displayName: Build
