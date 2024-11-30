@@ -57,7 +57,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(REGISTRY_IMAGE)
+              dockerRegistryEndpoint: "n3thub"
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
