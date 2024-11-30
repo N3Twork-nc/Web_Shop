@@ -3,7 +3,7 @@
 
 resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
-  name     = "ask_rg"
+  name     = "aks_rg"
 }
 
 resource "random_pet" "azurerm_kubernetes_cluster_name" {
