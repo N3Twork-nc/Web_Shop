@@ -11,9 +11,9 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '956b6ad8-a531-45b9-a1e0-4314d0a94dcd'
+  dockerRegistryServiceConnection: '38adfaaa-7d76-4ad6-98d2-97b219420c1a'
   imageRepository: 'ntworkncwebshop'
-  containerRegistry: 'n3tregistry.azurecr.io'
+  containerRegistry: 'n3thub.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/src/webshopping/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'n3tregistryda3e-auth'
