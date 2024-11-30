@@ -3,7 +3,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'src/webshopping/*'  
 
 resources:
 - repo: self
@@ -67,8 +72,8 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/manifests/deployment-app.yml
+                $(Pipeline.Workspace)/manifests/service-app.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
