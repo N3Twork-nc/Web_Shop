@@ -48,7 +48,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
-      vmImage: $(vmImageName)
+      name: "Agent self-hosted"
     environment: 'N3TworkncWebShop.dev'
     strategy:
       runOnce:
