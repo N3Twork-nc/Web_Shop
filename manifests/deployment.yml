@@ -12,8 +12,6 @@ spec:
       labels:
         app: workncwebshop 
     spec:
-      imagePullSecrets:
-        - name: n3tregistry123-auth
       containers:
         - name: workncwebshop 
           image: n3tregistry.azurecr.io/workncwebshop
