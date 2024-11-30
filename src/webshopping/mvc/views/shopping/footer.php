@@ -1,7 +1,7 @@
 <!--************* Register ***************-->
 <section class="register-container">
-        <h2>ĐĂNG KÝ BẢN TIN</h2>
-        <p>Đăng ký nhận bản tin PTIT để được cập nhật những mẫu thiết kế mới nhất</p>
+        <h2>ĐĂNG KÝ THÔNG TIN</h2>
+        <p>Đăng thông tin để N3TWork cập nhật những mẫu thiết kế mới nhất tới bạn!</p>
         <form class="contact-form">
             <input type="text" placeholder="Nhập email của bạn...">
             <button class="subscribe" type="submit">ĐĂNG KÝ</button>
@@ -34,10 +34,10 @@
             </li>
         </div>
 
-        <p>Công ty Cổ PTIT với số đăng ký kinh doanh: 01010101234<br> Địa chỉ đăng ký: Đường Man Thiện, Phường Hiệp Phú, Quận 9, TP. Hồ Chí Minh - 0203 041 9999 <br> Đặt hàng online: <span style="font-weight: bold;">0707 427 559</span> .
+        <p>Công ty cổ phần N3TWork với số đăng ký kinh doanh: 01010101234<br> Địa chỉ đăng ký: Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Hồ Chí Minh - 0203 041 9999 <br> Đặt hàng online: <span style="font-weight: bold;">0707 427 559</span> .
         </p>
 
         <div class="footer-bottom">
-            @PTIT All rights reserved
+            @N3TWork All rights reserved
         </div>
     </footer>

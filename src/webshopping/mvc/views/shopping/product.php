@@ -29,11 +29,6 @@
     <section class="product">
         <div class="container-product">
             <div class="product-top row">
-                <!-- <p>Trang chủ</p><span>&#10230; </span>
-                <p>Nữ</p> <span>&#10230; </span>
-                <p>Hàng nữ mới về</p> -->
-                <!-- <span>&#10230;</span>
-                <p>Áo thun Baby Tee</p> -->
             </div>
             <div class="product-content row">
                 <div class="product-content-left row">
