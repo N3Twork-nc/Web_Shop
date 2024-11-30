@@ -1,20 +1,20 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: ntworkncwebshop 
+  name: workncwebshop 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ntworkncwebshop
+      app: workncwebshop
   template:
     metadata:
       labels:
-        app: ntworkncwebshop 
+        app: workncwebshop 
     spec:
       containers:
-        - name: ntworkncwebshop 
-          image: n3tregistry.azurecr.io/workncwebshop
+        - name: workncwebshop 
+          image: n3tregistry.azurecr.io/workncwebshop:$(Build.BuildId)
           ports:
           - containerPort: 80
           imagePullPolicy: Always
