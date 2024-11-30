@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: webadmin
+    name: vul
 spec:
     type: LoadBalancer
     ports:
-    - port: 8092 
+    - port: 8090 
     selector:
-        app: webadmin
+        app: vul
