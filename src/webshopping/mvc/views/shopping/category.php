@@ -33,28 +33,6 @@
             <div class="category-fix row">
                 <div class="category-left">
                     <ul>
-                        <!-- <li class="category-left-li"><a href="#">NỮ</a>
-                            <ul>
-                                <li>
-                                    <a href=""></a>HÀNG NỮ MỚI VỀ</li>
-                                <li>
-                                    <a href=""></a>ÁO +</li>
-                                <li>
-                                    <a href=""></a>QUẦN +</li>
-                            </ul>
-                        </li>
-                        <li class="category-left-li"><a href="#">NAM</a>
-                            <ul>
-                                <li>
-                                    <a href=""></a>HÀNG NAM MỚI VỀ</li>
-                                <li>
-                                    <a href=""></a>ÁO +</li>
-                                <li>
-                                    <a href=""></a>QUẦN +</li>
-                            </ul>
-                        </li>
-                        <li class="category-left-li"><a href="#">TRẺ EM</a></li>
-                        <li class="category-left-li"><a href="#">SALE</a></li> -->
                     </ul>
                 </div>
                 <div class="category-right row">
