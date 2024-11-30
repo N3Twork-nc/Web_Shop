@@ -11,14 +11,18 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'af7746db-5759-4f29-bb4c-45726fa552d0'
   imageRepository: 'workncwebshop'
+  containerRegistry: 'n3tregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/src/webshopping/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'n3tregistry123-auth'
+  imagePullSecret: 'n3tregistry2cb9-auth'
+
+
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build stage
   jobs:
   - job: Build
     displayName: Build
@@ -31,7 +35,7 @@ stages:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
-        containerRegistry: $(REGISTRY_IMAGE)
+        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
 
@@ -47,7 +51,7 @@ stages:
     displayName: Deploy
     pool:
       name: "Agent self-hosted"
-    environment: 'aks.dev'
+    environment: 'N3TworkncWebShop-6397.dev'
     strategy:
       runOnce:
         deploy:
@@ -57,7 +61,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(REGISTRY_IMAGE)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
