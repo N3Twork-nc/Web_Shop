@@ -11,7 +11,6 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'af7746db-5759-4f29-bb4c-45726fa552d0'
   imageRepository: 'workncwebshop'
   containerRegistry: 'n3tregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/src/webshopping/Dockerfile'
