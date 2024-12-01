@@ -31,10 +31,3 @@ spec:
               value: db_password
             - name: TZ
               value: Asia/Ho_Chi_Minh
-          volumeMounts:
-            - name: shared-storage
-              mountPath: /var/www/html
-      volumes:
-      - name: shared-storage
-        persistentVolumeClaim:
-          claimName:  azure-disk
