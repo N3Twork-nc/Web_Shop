@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: db 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db 
+    spec:
+      containers:
+        - name: db 
+          image: n3tregistry.azurecr.io/db
+          ports:
+          - containerPort: 3306
