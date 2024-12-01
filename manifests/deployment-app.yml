@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOSTNAME
-              value: $MYSQL_HOSTNAME
+              value: $(MYSQL_HOSTNAME)
             - name: MYSQL_ROOT_PASSWORD
               value: $MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
