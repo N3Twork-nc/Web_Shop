@@ -20,14 +20,14 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOSTNAME
-              value: $(MYSQL_HOSTNAME)
+              value: n3tworkdb.mysql.database.azure.com
             - name: MYSQL_ROOT_PASSWORD
-              value: $MYSQL_ROOT_PASSWORD
+              value: n3twork@
             - name: MYSQL_DATABASE
               value: ptit_shop
             - name: MYSQL_USER
-              value: $MYSQL_USER
+              value: n3twork
             - name: MYSQL_PASSWORD
-              value: $MYSQL_PASSWORD
+              value: n3twork@
             - name: TZ
               value: Asia/Ho_Chi_Minh
