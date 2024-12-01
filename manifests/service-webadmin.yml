@@ -3,8 +3,9 @@ kind: Service
 metadata:
     name: webadmin
 spec:
-    type: LoadBalancer
+    type: clusterIP
     ports:
-    - port: 8092 
+    - port: 8092
+      targetPort: 80 
     selector:
         app: webadmin

@@ -4,9 +4,9 @@ metadata:
     name: vul
 spec:
   selector:
-    app: myapp
+    app: vul
   ports:
   - protocol: TCP
-    port: 80
-    nodePort: 32321
-  type: NodePort
+    port: 8090
+    targetPort: 80
+  type: clusterIP

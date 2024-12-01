@@ -20,13 +20,13 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOSTNAME
-              value: db
+              value: $(MYSQL_HOSTNAME)
             - name: MYSQL_ROOT_PASSWORD
               value: $(MYSQL_ROOT_PASSWORD)
             - name: MYSQL_DATABASE
               value: ptit_shop
             - name: MYSQL_USER
-              value: db_user
+              value: $(MYSQL_USER)
             - name: MYSQL_PASSWORD
               value: $(MYSQL_PASSWORD)
             - name: TZ
