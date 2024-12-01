@@ -66,6 +66,9 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          - script: |
+              envsubst < $(Pipeline.Workspace)/manifests/deployment-webadmin.yml > deployment-webadmin-processed.yml
+              envsubst < $(Pipeline.Workspace)/manifests/service-webadmin.yml > service-webadmin-processed.yml
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
