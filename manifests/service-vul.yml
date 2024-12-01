@@ -3,8 +3,10 @@ kind: Service
 metadata:
     name: vul
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 8090 
-    selector:
-        app: vul
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    nodePort: 32321
+  type: NodePort
