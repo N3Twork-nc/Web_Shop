@@ -17,12 +17,6 @@ spec:
           image: n3tregistry.azurecr.io/db
           ports:
           - containerPort: 3306
-          command:
-            - "mysqld"
-          args:
-            - "--initialize"
-            - "--character-set-server=utf8mb4"
-            - "--collation-server=utf8mb4_unicode_ci"
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: 45299417d86f231f6a58434488edb763
