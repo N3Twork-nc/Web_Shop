@@ -48,4 +48,4 @@ spec:
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
-          claimName:  pvc-blob-public
+          claimName:  azure-disk

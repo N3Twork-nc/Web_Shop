@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-blob-public
-  namespace: dev
+    name: azure-disk
+    namespace: default
 spec:
   accessModes:
-    - ReadWriteMany
+  - ReadWriteOnce
+  storageClassName: default
   resources:
     requests:
-      storage: 1Gi
-  volumeName: pv-blob-public
-  storageClassName: azureblob-fuse-premium
+      storage: 5Gi
