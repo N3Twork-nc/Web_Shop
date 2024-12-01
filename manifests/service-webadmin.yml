@@ -3,7 +3,7 @@ kind: Service
 metadata:
     name: webadmin
 spec:
-    type: clusterIP
+    type: ClusterIP
     ports:
     - port: 8092
       targetPort: 80 
