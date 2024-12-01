@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: shared-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany 
+  persistentVolumeReclaimPolicy: Retain
+  azureDisk:
+    diskName: my-azure-disk
+    diskURI: /subscriptions/24b215c2-b5ca-4272-a905-74a5acefe83a/resourceGroups/aks_rg/providers/Microsoft.Compute/disks/aks
+    kind: Managed

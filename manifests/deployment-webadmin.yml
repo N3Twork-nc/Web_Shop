@@ -42,3 +42,10 @@ spec:
               value: admin
             - name: MYSQL_ADMIN_PASSWORD
               value: day_la_admin_ptithcm
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /var/www/html/public/products
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: shared-pvc
