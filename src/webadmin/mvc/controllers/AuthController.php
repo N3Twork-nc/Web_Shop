@@ -142,7 +142,7 @@ class AuthController extends Controller
                     $data['email'] = $account_data['email'];
                     $data['fullname'] = $account_data['fullname'];
                     $data['subject'] = "Mã xác nhận cho SHOP N3TWork";
-                    $data['body'] = "Xin chào, " . $account_data['fullname'] . " <br> Bạn có đăng kí tài khoản tại trang web của chúng tôi, đây là mã xác nhận của bạn:
+                    $data['body'] = "Xin chào, " . $account_data['fullname'] . " <br> Bạn có đăng ký tài khoản tại trang web của chúng tôi, đây là mã xác nhận của bạn:
                     <div style='font-size:20px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#f2f2f2;border-left:1px solid #ccc;border-right:1px solid #ccc;border-top:1px solid #ccc;border-bottom:1px solid #ccc'>" . $verify_code . "</div>. Lưu ý mã sẽ hết hiệu lục sau 5 phút!";
                     $res = $this->SendMail($data);
 
