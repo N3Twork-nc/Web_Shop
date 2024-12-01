@@ -1,11 +1,15 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
-    name: azure-managed-disk
+  name: pv-hostpath
 spec:
+  capacity:
+    storage: 5Gi
   accessModes:
-  - ReadWriteOnce
-  storageClassName: managed-csi
-  resources:
-    requests:
-      storage: 1Gi
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: default
+  volumeMode: Filesystem
+  hostPath:
+    path: /mnt/disks/azure-disk 
+    type: DirectoryOrCreate

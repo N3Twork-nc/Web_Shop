@@ -44,7 +44,7 @@ spec:
               value: day_la_admin_ptithcm
           volumeMounts:
             - name: shared-storage
-              mountPath: /var/www/html/public/products
+              mountPath: /var/www/html/
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
