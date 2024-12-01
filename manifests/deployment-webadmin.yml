@@ -48,4 +48,4 @@ spec:
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
-          claimName: shared-pvc
+          claimName:  pvc-blob-public
