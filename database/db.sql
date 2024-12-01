@@ -231,7 +231,7 @@ GRANT EXECUTE ON PROCEDURE ptit_shop.GetImagesProduct TO 'staff'@'%';
 GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'manager'@'%';
 GRANT EXECUTE ON PROCEDURE ptit_shop.ResetStatus TO 'staff'@'%';
 
-CREATE USER 'customer'@'%' IDENTIFIED BY 'day_la_customer_ptithcm';
+CREATE USER 'customer'@'%' IDENTIFIED WITH mysql_native_password BY 'day_la_customer_ptithcm';
 GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.CartItems TO 'customer'@'%';
 GRANT SELECT ON ptit_shop.Categories TO 'customer'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON ptit_shop.Customers TO 'customer'@'%';
