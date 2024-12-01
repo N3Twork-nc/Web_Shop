@@ -55,7 +55,7 @@ stages:
     displayName: Deploy
     pool:
       name: "Agent self-hosted"
-    environment: 'N3TworkncWebShop-6397.dev'
+    environment: 'aks.dev'
     strategy:
       runOnce:
         deploy:
