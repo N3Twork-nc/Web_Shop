@@ -14,9 +14,6 @@ resources:
 - repo: self
 
 variables:
-
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'eb2d6dc8-806c-457a-8d43-3f62a374c112'
   imageRepository: 'webadmin'
   containerRegistry: 'n3tregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/src/webadmin/Dockerfile'
@@ -54,7 +51,7 @@ stages:
     displayName: Deploy
     pool:
       name: 'Agent self-hosted'
-    environment: 'N3TworkncWebShop-1242.dev'
+    environment: 'aks.dev'
     strategy:
       runOnce:
         deploy:
