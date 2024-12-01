@@ -20,11 +20,9 @@ spec:
           command:
             - "mysqld"
           args:
-            - "--initialize-insecure"
+            - "--initialize"
             - "--character-set-server=utf8mb4"
             - "--collation-server=utf8mb4_unicode_ci"
-            - "--authentication_policy=mysql_native_password"
-            - "--datadir=/var/lib/mysql"
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: 45299417d86f231f6a58434488edb763
