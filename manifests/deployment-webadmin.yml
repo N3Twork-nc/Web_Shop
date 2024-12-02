@@ -42,10 +42,3 @@ spec:
               value: admin
             - name: MYSQL_ADMIN_PASSWORD
               value: day_la_admin_ptithcm
-          volumeMounts:
-            - name: shared-storage
-              mountPath: /var/www/html/
-      volumes:
-      - name: shared-storage
-        persistentVolumeClaim:
-          claimName:  azure-disk
