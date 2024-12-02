@@ -19,15 +19,15 @@ spec:
           - containerPort: 80
           env:
             - name: MYSQL_HOSTNAME
-              value: db
+              value: n3tworkdb.mysql.database.azure.com
             - name: MYSQL_ROOT_PASSWORD
-              value: 45299417d86f231f6a584d1488edb763
+              value: n3twork@
             - name: MYSQL_DATABASE
               value: ptit_shop
             - name: MYSQL_USER
-              value: db_user
+              value: n3twork
             - name: MYSQL_PASSWORD
-              value: db_password
+              value: n3twork@
             - name: TZ
               value: Asia/Ho_Chi_Minh
             - name: MYSQL_STAFF
