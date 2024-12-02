@@ -8,9 +8,23 @@
         public function __construct() {
             //ini_set('display_errors', 'Off');
             $connectionString = "mysql:host=" . getenv('MYSQL_HOSTNAME') . ";dbname=" . getenv('MYSQL_DATABASE');
-            $conn = new \PDO($connectionString, $this->username, $this->password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::MYSQL_ATTR_SSL_CA => $this->sslCa, PDO::ERRMODE_EXCEPTION );
-            $this->conn = $conn;
+            try {
+                // Tạo kết nối PDO với cấu hình SSL
+                $conn = new \PDO(
+                    $connectionString,
+                    $this->username,
+                    $this->password,
+                    [
+                        PDO::MYSQL_ATTR_SSL_CA => $this->sslCa, // Cấu hình SSL
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION // Kích hoạt chế độ lỗi
+                    ]
+                );
+        
+                $this->conn = $conn;
+            } catch (\PDOException $e) {
+                // Xử lý lỗi nếu kết nối thất bại
+                die("Connection failed: " . $e->getMessage());
+            }
         }
         public function select($sql, $params = null)
         {
