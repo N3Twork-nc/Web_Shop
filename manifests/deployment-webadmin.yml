@@ -1,0 +1,44 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: webadmin 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webadmin
+  template:
+    metadata:
+      labels:
+        app: webadmin 
+    spec:
+      containers:
+        - name: webadmin 
+          image: n3tregistry.azurecr.io/webadmin
+          ports:
+          - containerPort: 80
+          env:
+            - name: MYSQL_HOSTNAME
+              value: n3tworkdb.mysql.database.azure.com
+            - name: MYSQL_ROOT_PASSWORD
+              value: n3twork@
+            - name: MYSQL_DATABASE
+              value: ptit_shop
+            - name: MYSQL_USER
+              value: n3twork
+            - name: MYSQL_PASSWORD
+              value: n3twork@
+            - name: TZ
+              value: Asia/Ho_Chi_Minh
+            - name: MYSQL_STAFF
+              value: staff
+            - name: MYSQL_STAFF_PASSWORD
+              value: day_la_staff_ptithcm
+            - name: MYSQL_MANAGER
+              value: manager
+            - name: MYSQL_MANAGER_PASSWORD
+              value: day_la_manager_ptithcm
+            - name: MYSQL_ADMIN
+              value: admin
+            - name: MYSQL_ADMIN_PASSWORD
+              value: day_la_admin_ptithcm

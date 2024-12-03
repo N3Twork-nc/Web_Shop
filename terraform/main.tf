@@ -3,7 +3,7 @@
 
 resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
-  name     = "ask_rg"
+  name     = "aks_rg"
 }
 
 resource "random_pet" "azurerm_kubernetes_cluster_name" {
@@ -48,4 +48,24 @@ resource "azurerm_container_registry" "acr" {
   location            = azurerm_resource_group.rg.location
   sku                 = "Standard"
   admin_enabled       = false
+}
+# Manages the MySQL Flexible Server
+resource "azurerm_mysql_flexible_server" "default" {
+  location                     = azurerm_resource_group.rg.location
+  name                         = "n3tworkdb"
+  resource_group_name          = azurerm_resource_group.rg.name
+  administrator_login          = "n3twork"
+  administrator_password       = "n3twork@"
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
+  sku_name                     = "B_Standard_B1ms"
+  version                      = "8.0.21"
+  storage {
+    iops    = 360
+    size_gb = 20
+  }
+  # provisioner "local-exec" {
+  #   command = "mysql -h ${self.fqdn} -u ${self.administrator_login} -p${self.administrator_password} < db.sql"
+  # }
+
 }

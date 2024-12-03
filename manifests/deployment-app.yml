@@ -1,0 +1,33 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: workncwebshop 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workncwebshop
+  template:
+    metadata:
+      labels:
+        app: workncwebshop 
+    spec:
+      containers:
+        - name: workncwebshop 
+          image: n3tregistry.azurecr.io/workncwebshop
+          ports:
+          - containerPort: 80
+          imagePullPolicy: Always
+          env:
+            - name: MYSQL_HOSTNAME
+              value: n3tworkdb.mysql.database.azure.com
+            - name: MYSQL_ROOT_PASSWORD
+              value: n3twork@
+            - name: MYSQL_DATABASE
+              value: ptit_shop
+            - name: MYSQL_USER
+              value: n3twork
+            - name: MYSQL_PASSWORD
+              value: n3twork@
+            - name: TZ
+              value: Asia/Ho_Chi_Minh

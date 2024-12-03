@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: vul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vul
+  template:
+    metadata:
+      labels:
+        app: vul
+    spec:
+      containers:
+        - name: vul 
+          image: n3tregistry.azurecr.io/vul
+          ports:
+          - containerPort: 80

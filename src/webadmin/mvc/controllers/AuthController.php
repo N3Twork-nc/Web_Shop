@@ -15,19 +15,27 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        // load category
+        // Load category
         $model = $this->model("Category");
         $data_category = $model->LoadCategories();
 
-        foreach ($data_category as $each) {
-            $key = $this->Str2Url($each->getName());
-            $parent_name = $this->Str2Url($each->getParent_category_name());
-            $each->setParent_category_name($parent_name);
-            $data[$key] = $each;
-        }
+        // Kiểm tra $data_category trước khi lặp
+        if (is_array($data_category) || is_iterable($data_category)) {
+            foreach ($data_category as $each) {
+                $key = $this->Str2Url($each->getName());
+                $parent_name = $this->Str2Url($each->getParent_category_name());
+                $each->setParent_category_name($parent_name);
+                $data[$key] = $each;
+            }
 
-        $this->categories = $data;
+            $this->categories = $data;
+        } else {
+            // Xử lý khi $data_category không hợp lệ
+            error_log('Invalid $data_category: ' . print_r($data_category, true));
+            $this->categories = [];
+        }
     }
+
 
     function Show()
     {
