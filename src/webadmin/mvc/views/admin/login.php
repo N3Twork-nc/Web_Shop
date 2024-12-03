@@ -12,7 +12,6 @@
     <link href="https://unpkg.com/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -33,7 +32,6 @@
                 <i class="fa fa-lock"></i>
             </div>
             <br>
-            <div style="margin-left: 10px;" class="g-recaptcha" data-sitekey="6Ld6ijcpAAAAAEI4AQfXqDAvLpDEMqEODbXnr3LT"></div>
             <button style="margin-top: 20px;" type="submit" class="btn">Login</button>
         </form>
     </div>
