@@ -14,6 +14,21 @@ resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
   prefix = "dns"
 }
 
+resource "azurerm_storage_account" "storage" {
+  name                     = "n3tworkstorage"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier              = "Standard"
+  account_replication_type = "LRS"
+}
+
+# Tạo Blob Container
+resource "azurerm_storage_container" "blob" {
+  name                  = "aks"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
+
 resource "azurerm_kubernetes_cluster" "k8s" {
   location            = azurerm_resource_group.rg.location
   name                = random_pet.azurerm_kubernetes_cluster_name.id
@@ -40,6 +55,12 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     network_plugin    = "kubenet"
     load_balancer_sku = "standard"
   }
+}
+# Gán quyền truy cập cho AKS vào Azure Blob Storage
+resource "azurerm_role_assignment" "aks_blob_access" {
+  scope                = azurerm_storage_account.storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_kubernetes_cluster.k8s.identity[0].principal_id
 }
 
 resource "azurerm_container_registry" "acr" {

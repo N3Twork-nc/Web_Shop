@@ -1,15 +1,22 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-hostpath
+  name: pv-blob
 spec:
   capacity:
-    storage: 5Gi
+    storage: 1Gi
   accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: default
-  volumeMode: Filesystem
-  hostPath:
-    path: /mnt/disks/azure-disk 
-    type: DirectoryOrCreate
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain  # If set as "Delete" container would be removed after pvc deletion
+  storageClassName: azureblob-nfs-premium
+  csi:
+    driver: blob.csi.azure.com
+    readOnly: false
+    # make sure volumeid is unique for every identical storage blob container in the cluster
+    # character `#` is reserved for internal use and cannot be used in volumehandle
+    volumeHandle: n3tworkstorage-aks
+    volumeAttributes:
+      resourceGroup: aks_rg
+      storageAccount: n3tworkstorage
+      containerName: aks
+      protocol: nfs
