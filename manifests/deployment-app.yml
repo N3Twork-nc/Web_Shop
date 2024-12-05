@@ -37,4 +37,4 @@ spec:
       volumes:
         - name: product-volume
           persistentVolumeClaim:
-            claimName:  pvc-blob
+            claimName:  azurefile-pvc
