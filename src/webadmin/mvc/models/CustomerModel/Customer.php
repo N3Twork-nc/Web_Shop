@@ -2,6 +2,25 @@
 include_once "./mvc/models/CustomerModel/CustomerObj.php";
     class Customer extends MiddleWare{
 
+        function checkAccount($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "select * from AdminAccounts where username=? and password=?";
+                $params = array($data[0],$data[1]);
+                $sth = $db->select($sql, $params);
+                if ($sth->rowCount() > 0) {
+                    $row = $sth->fetch();
+                    array_push($arr, $row['role']);
+                    array_push($arr, $row['status_expire']);
+                }
+
+                return $arr;
+            } catch (PDOException $e) {
+                return  "Lỗi";
+            }
+    }
+
         function LoadCustomers(){
                 try {
                     $db = new DB();

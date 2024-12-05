@@ -4,6 +4,14 @@ class AuthController extends Controller
 {
     private $categories;
     private $access = false;
+    public function Str2Url($string)
+    {
+        // Loại bỏ các ký tự không hợp lệ
+        $string = strtolower(trim($string));
+        $string = preg_replace('/[^a-z0-9-]+/', '-', $string);
+        return trim($string, '-');
+    }
+
 
     function CheckAccess()
     {
