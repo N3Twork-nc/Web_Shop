@@ -77,11 +77,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 # }
 
 # Gán quyền truy cập cho AKS vào Azure Blob Storage
-resource "azurerm_role_assignment" "aks_blob_access" {
-  scope                = azurerm_storage_account.storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
-}
+# resource "azurerm_role_assignment" "aks_blob_access" {
+#   scope                = azurerm_storage_account.storage.id
+#   role_definition_name = "Storage Blob Data Contributor"
+#   principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+# }
 
 resource "azurerm_container_registry" "acr" {
   name                = "N3TRegistry"

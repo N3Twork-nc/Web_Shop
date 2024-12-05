@@ -42,3 +42,10 @@ spec:
               value: admin
             - name: MYSQL_ADMIN_PASSWORD
               value: day_la_admin_ptithcm
+          volumeMounts:
+            - name: product-volume
+              mountPath: /var/www/html/public/products
+      volumes:
+        - name: product-volume
+          persistentVolumeClaim:
+            claimName:  azurefile-pvc

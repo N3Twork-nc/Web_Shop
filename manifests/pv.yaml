@@ -24,6 +24,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
+  namespace: dev
 spec:
   accessModes:
     - ReadWriteMany
