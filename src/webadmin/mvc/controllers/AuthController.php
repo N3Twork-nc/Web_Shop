@@ -50,6 +50,7 @@
             {
                 $message = 'Không thể xác thực, vui lòng thử lại';
             }
+        }
 
         public function Logout(){
 			// Hủy tất cả các biến session
