@@ -1,185 +1,178 @@
-<?php
+<?php 
 include_once "./mvc/models/AdminModel/AdminObj.php";
-class Admin extends MiddleWare
-{
+    class Admin extends MiddleWare{
+        
+        function checkAccount($data){
+                try {
+                    $arr = [];
+                    $db = new DB();
+                    $sql = "select * from AdminAccounts where username=? and password=?";
+                    $params = array($data[0],$data[1]);
+                    $sth = $db->select($sql, $params);
+                    if ($sth->rowCount() > 0) {
+                        $row = $sth->fetch();
+                        array_push($arr, $row['role']);
+                        array_push($arr, $row['status_expire']);
+                    }
 
-    function checkAccount($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "select * from AdminAccounts where username=? and password=?";
-            $params = array($data[0], $data[1]);
-            $sth = $db->select($sql, $params);
-            if ($sth->rowCount() > 0) {
-                $row = $sth->fetch();
-                array_push($arr, $row['role']);
-                array_push($arr, $row['status_expire']);
-            }
-
-            return $arr;
-        } catch (PDOException $e) {
-            return "Lỗi";
+                    return $arr;
+                } catch (PDOException $e) {
+                    return  "Lỗi";
+                }
         }
-    }
 
-    function LoadAdmins()
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "select * from AdminAccounts";
-            $sth = $db->select($sql);
-            $admin_from_DB = $sth->fetchAll();
-            foreach ($admin_from_DB as $row) {
-                // thêm obj vào mảng
+        function LoadAdmins(){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "select * from AdminAccounts";
+                $sth = $db->select($sql);
+                $admin_from_DB = $sth->fetchAll();
+                foreach ($admin_from_DB as $row) {
+                    // thêm obj vào mảng
+                    
+                    $obj = new AdminObj($row);
 
-                $obj = new AdminObj($row);
-
-                $arr[] = $obj;
+                    $arr[] = $obj;
+                }
+                return $arr;
+            } catch (PDOException $e) {
+                return  $sql . "<br>" . $e->getMessage();
             }
-            return $arr;
-        } catch (PDOException $e) {
-            return $sql . "<br>" . $e->getMessage();
         }
-    }
 
-    function FindAdmin($username)
-    {
-        try {
-            $db = new DB();
-            $sql = "select * from AdminAccounts WHERE username = ?";
-            $params = array($username);
-            $sth = $db->select($sql, $params);
-            $admin_from_DB = $sth->fetchAll();
-            foreach ($admin_from_DB as $row) {
-                // thêm obj vào mảng
+        function FindAdmin($username){
+            try {
+                $db = new DB();
+                $sql = "select * from AdminAccounts WHERE username = ?";
+                $params = array($username);
+                $sth = $db->select($sql, $params);
+                $admin_from_DB = $sth->fetchAll();
+                foreach ($admin_from_DB as $row) {
+                    // thêm obj vào mảng
+                    
+                    $obj = new AdminObj($row);
 
-                $obj = new AdminObj($row);
-
+                }
+                return $obj;
+            } catch (PDOException $e) {
+                // return  $sql . "<br>" . $e->getMessage();
+                return "Lỗi";
             }
-            return $obj;
-        } catch (PDOException $e) {
-            // return  $sql . "<br>" . $e->getMessage();
-            return "Lỗi";
         }
-    }
 
-    function AddStaff($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "INSERT INTO `AdminAccounts`(`username`, `password`, `role`) 
+        function AddStaff($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "INSERT INTO `AdminAccounts`(`username`, `password`, `role`) 
                 VALUES (?,?,?)";
-            $params = array($data['username'], $data['password'], $data['role']);
-            $db->execute($sql, $params);
+                $params = array($data['username'], $data['password'], $data['role']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                }
+                else if ($e->getCode() == '23000') {
+                    // Lỗi ràng buộc duy nhất
+                    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                        // Xử lý trường hợp giá trị bị trùng lặp
+                        return "Đã tồn tại username này";
+                    }
+                } 
+                else {
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
+                    return "Lỗi";
+                    //return "Lỗi khi thêm staff";
+                }
+            }
+        }
 
-            return "done";
-        } catch (PDOException $e) {
-            if ($e->getCode() == '42000') {
-                // Xử lý khi có lỗi SQLSTATE 42000
-                return "Bạn không có quyền làm thao tác này";
-            } else if ($e->getCode() == '23000') {
-                // Lỗi ràng buộc duy nhất
-                if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                    // Xử lý trường hợp giá trị bị trùng lặp
-                    return "Đã tồn tại username này";
+        function EditStaff($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "UPDATE `AdminAccounts` SET `role` = ?, `status_expire` = 1 WHERE username = ?";
+                $params = array($data['role'], $data['username']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
+                    return "Lỗi khi sửa thông tin staff";
+                    //return "Lỗi khi thêm staff";
                 }
-            } else {
-                if ($e->getCode() == '22001') {
-                    return "Dữ liệu quá dài";
+            }
+        }
+
+        function DeleteStaff($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "DELETE FROM `AdminAccounts` WHERE username = ?";
+                $params = array($data['username']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    // Xử lý cho các lỗi khác
+                    //return "Lỗi: " . $e->getMessage();
+                    return "Lỗi khi xóa";
                 }
+            }
+        }
+
+        function EditStatus($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "CALL ResetStatus(?)";
+                $params = array($data[0]);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                //return "Lỗi khi sửa trạng thái";
                 return "Lỗi";
-                //return "Lỗi khi thêm staff";
             }
         }
-    }
 
-    function EditStaff($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "UPDATE `AdminAccounts` SET `role` = ?, `status_expire` = 1 WHERE username = ?";
-            $params = array($data['role'], $data['username']);
-            $db->execute($sql, $params);
-
-            return "done";
-        } catch (PDOException $e) {
-            if ($e->getCode() == '42000') {
-                // Xử lý khi có lỗi SQLSTATE 42000
-                return "Bạn không có quyền làm thao tác này";
-            } else {
-                if ($e->getCode() == '22001') {
-                    return "Dữ liệu quá dài";
+        function ResetPassword($data){
+            try {
+                $arr = [];
+                $db = new DB();
+                $sql = "UPDATE `AdminAccounts` SET `password` = ?, `status_expire` = 1 WHERE username = ?";
+                $params = array($data['password'], $data['username']);
+                $db->execute($sql, $params);
+                
+                return "done";
+            } catch (PDOException $e) {
+                if ($e->getCode() == '42000') {
+                    // Xử lý khi có lỗi SQLSTATE 42000
+                    return "Bạn không có quyền làm thao tác này";
+                } else {
+                    if($e->getCode() == '22001'){
+                        return "Dữ liệu quá dài";
+                    }
+                    return "Lỗi";
+                    //return "Lỗi khi reset password";
                 }
-                return "Lỗi khi sửa thông tin staff";
-                //return "Lỗi khi thêm staff";
             }
         }
     }
-
-    function DeleteStaff($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "DELETE FROM `AdminAccounts` WHERE username = ?";
-            $params = array($data['username']);
-            $db->execute($sql, $params);
-
-            return "done";
-        } catch (PDOException $e) {
-            if ($e->getCode() == '42000') {
-                // Xử lý khi có lỗi SQLSTATE 42000
-                return "Bạn không có quyền làm thao tác này";
-            } else {
-                // Xử lý cho các lỗi khác
-                //return "Lỗi: " . $e->getMessage();
-                return "Lỗi khi xóa";
-            }
-        }
-    }
-
-    function EditStatus($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "CALL ResetStatus(?)";
-            $params = array($data[0]);
-            $db->execute($sql, $params);
-
-            return "done";
-        } catch (PDOException $e) {
-            //return "Lỗi khi sửa trạng thái";
-            return "Lỗi";
-        }
-    }
-
-    function ResetPassword($data)
-    {
-        try {
-            $arr = [];
-            $db = new DB();
-            $sql = "UPDATE `AdminAccounts` SET `password` = ?, `status_expire` = 1 WHERE username = ?";
-            $params = array($data['password'], $data['username']);
-            $db->execute($sql, $params);
-
-            return "done";
-        } catch (PDOException $e) {
-            if ($e->getCode() == '42000') {
-                // Xử lý khi có lỗi SQLSTATE 42000
-                return "Bạn không có quyền làm thao tác này";
-            } else {
-                if ($e->getCode() == '22001') {
-                    return "Dữ liệu quá dài";
-                }
-                return "Lỗi";
-                //return "Lỗi khi reset password";
-            }
-        }
-    }
-}
 ?>
