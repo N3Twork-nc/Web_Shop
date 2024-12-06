@@ -18,6 +18,10 @@ terraform {
       source  = "hashicorp/time"
       version = "0.9.1"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
   }
 }
 

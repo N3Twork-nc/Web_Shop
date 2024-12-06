@@ -31,3 +31,10 @@ spec:
               value: n3twork@
             - name: TZ
               value: Asia/Ho_Chi_Minh
+          volumeMounts:
+            - name: product-volume
+              mountPath: /var/www/html/public/products
+      volumes:
+        - name: product-volume
+          persistentVolumeClaim:
+            claimName:  azurefile-pvc

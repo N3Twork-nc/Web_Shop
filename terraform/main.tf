@@ -14,6 +14,21 @@ resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
   prefix = "dns"
 }
 
+resource "azurerm_storage_account" "storage" {
+  name                     = "n3tworkstorage"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier              = "Standard"
+  account_replication_type = "LRS"
+}
+
+# Tạo Blob Container
+resource "azurerm_storage_container" "blob" {
+  name                  = "aks"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
+
 resource "azurerm_kubernetes_cluster" "k8s" {
   location            = azurerm_resource_group.rg.location
   name                = random_pet.azurerm_kubernetes_cluster_name.id
@@ -41,6 +56,32 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     load_balancer_sku = "standard"
   }
 }
+
+# provider "kubernetes" {
+#   host                   = "https://${azurerm_kubernetes_cluster.k8s.kube_config[0].host}"
+#   client_certificate     = base64decode(azurerm_kubernetes_cluster.k8s.kube_config[0].client_certificate)
+#   client_key             = base64decode(azurerm_kubernetes_cluster.k8s.kube_config[0].client_key)
+#   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.k8s.kube_config[0].cluster_ca_certificate)
+# }
+
+# resource "kubectl_manifest" "some_name" {
+#   yaml_body = <<YAML
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: azure-blob-sc
+# provisioner: blob.csi.azure.com
+# reclaimPolicy: Retain
+# allowVolumeExpansion: true
+# YAML
+# }
+
+# Gán quyền truy cập cho AKS vào Azure Blob Storage
+# resource "azurerm_role_assignment" "aks_blob_access" {
+#   scope                = azurerm_storage_account.storage.id
+#   role_definition_name = "Storage Blob Data Contributor"
+#   principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+# }
 
 resource "azurerm_container_registry" "acr" {
   name                = "N3TRegistry"
