@@ -8,7 +8,7 @@
     <?php require_once './mvc/views/admin/libHeader.php'; ?>
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>PTITShop</title>
+    <title>AdminShop</title>
 </head>
 
 <body>
@@ -57,22 +57,21 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                    <?php if (!empty($data['categories']) && (is_array($data['categories']) || is_object($data['categories']))): ?>
-                    <?php foreach ($data['categories'] as $category): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($category->getCategory_id()); ?></td>
-                            <td><?php echo htmlspecialchars($category->getName()); ?></td>
-                            <td value="<?php echo htmlspecialchars($category->getParent_category_id() === null ? "none" : $category->getParent_category_id()); ?>">
-                                <?php echo htmlspecialchars($category->getParent_category_id() === null ? "none" : $category->getParent_category_name()); ?>
-                            </td>
-                            <td>
-                                <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'manager')): ?>
-                                    <i class="fa fa-trash"></i>
-                                    <i class="fa fa-pencil editBtn"></i>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                    <?php foreach($data['categories'] as $category): ?>
+                            <tr>
+                                <td><?php echo $category->getCategory_id(); ?></td>
+                                <td><?php echo $category->getName(); ?> </td>
+                                <td value="<?php echo $category->getParent_category_id() == null ? "none" : $category->getParent_category_id(); ?>">
+                                    <?php echo $category->getParent_category_id() == null ? "none" : $category->getParent_category_name(); ?>
+                                </td>
+                                <td>
+                                    <?php if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'): ?>
+                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-pencil editBtn"></i>
+                                    <?php endif; ?>
+                                </td> 
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
