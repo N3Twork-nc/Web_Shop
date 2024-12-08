@@ -22,11 +22,16 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type = "LRS"
 }
 
-# Tạo Blob Container
-resource "azurerm_storage_container" "blob" {
-  name                  = "aks"
-  storage_account_name  = azurerm_storage_account.storage.name
-  container_access_type = "private"
+# # Tạo Blob Container
+# resource "azurerm_storage_container" "blob" {
+#   name                  = "aks"
+#   storage_account_name  = azurerm_storage_account.storage.name
+#   container_access_type = "private"
+# }
+resource "azurerm_storage_share" "file_share" {
+  name                 = "aks"
+  storage_account_name = azurerm_storage_account.storage.name
+  quota                = 10  # Dung lượng tối đa cho File Share, tính bằng GB (tùy chỉnh theo nhu cầu)
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
