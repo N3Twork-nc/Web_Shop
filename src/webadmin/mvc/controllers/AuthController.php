@@ -17,7 +17,7 @@
                 $password = $_POST['password'];
             }
 
-            if(true)
+            if(isset($_POST['g-recaptcha-response']) )
             {
                   $secret = '6Ld6ijcpAAAAACKaMc5Aj023Y2LGsN2rqPZSHcpu'; //Thay thế bằng mã Secret Key của bạn
                   $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
