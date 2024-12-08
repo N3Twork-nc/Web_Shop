@@ -11,7 +11,7 @@
 
     $allowed_origins = array(
         'http://localhost:8090',
-        'http://localhost:8092',
+        'http://0.0.0.0:8092',
         'http://localhost:8091'
     );
     
