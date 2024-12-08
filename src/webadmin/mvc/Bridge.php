@@ -9,19 +9,19 @@
     //ini_set('session.sid_length_min', 64);
     ini_set('session.cookie_samesite','Strict');
 
-    $allowed_origins = array(
-        'http://localhost:8090',
-        'http://0.0.0.0:8092',
-        'http://localhost:8091'
-    );
+    // $allowed_origins = array(
+    //     'http://localhost:8090',
+    //     'http://0.0.0.0:8092',
+    //     'http://localhost:8091'
+    // );
     
-    $requested_origin = $_SERVER['HTTP_ORIGIN'];
-    if(!in_array($requested_origin, $allowed_origins)) {
-        if(!empty($requested_origin) || ($_SERVER['HTTP_SEC_FETCH_SITE'] != "none" && ($_SERVER['HTTP_SEC_FETCH_SITE'] != "same-origin" ))){
-            require_once "./mvc/views/403.php";
-            exit;
-        }
-    }
+    // $requested_origin = $_SERVER['HTTP_ORIGIN'];
+    // if(!in_array($requested_origin, $allowed_origins)) {
+    //     if(!empty($requested_origin) || ($_SERVER['HTTP_SEC_FETCH_SITE'] != "none" && ($_SERVER['HTTP_SEC_FETCH_SITE'] != "same-origin" ))){
+    //         require_once "./mvc/views/403.php";
+    //         exit;
+    //     }
+    // }
 
     // Thiết lập độ dài Session ID tối đa là 128 ký tự  
     //ini_set('session.sid_length_max', 128);
