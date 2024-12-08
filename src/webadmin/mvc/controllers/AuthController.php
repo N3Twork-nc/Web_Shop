@@ -44,7 +44,7 @@
                         $_SESSION['usr'] = $username;
                         $_SESSION['role'] = $result[0];
                         $_SESSION['status_expire'] = $result[1];
-                        //setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
+                        setcookie('session_id', session_id(), time() + 1800, "/", "", false, true); // HTTP Only
                         // sinh một id khác nhưng data vẫn giữ nguyên
                         session_regenerate_id(true);
                         header("Location: /Dashboard_home");
